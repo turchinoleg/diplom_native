@@ -1,0 +1,47 @@
+AddDefaultCharset utf-8
+php_flag magic_quotes_gpc Off
+ErrorDocument 404 /page404.html
+
+php_value session.gc_maxlifetime 604800
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^aversstyle.ru$ [NC]
+RewriteRule ^(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.aversstyle.ru$ [NC]
+RewriteRule ^(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^xn----7sbgmqs6aibk6i.xn--p1ai$ [NC]
+RewriteRule ^(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.xn----7sbgmqs6aibk6i.xn--p1ai$ [NC]
+RewriteRule ^(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.avers-style.ru$ [NC]
+RewriteRule ^(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+#RewriteRule %{HTTP_HOST}\/(.*)$ http://avers-style.ru/$1 [R=301,L]
+
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^page/(\d+)/?$ index.php?view=page&page_id=$1
+RewriteRule ^service/(\d+)/?$ index.php?view=service&service_id=$1
+RewriteRule ^dictionary/(\d+)/?$ index.php?view=dictionary&dictionary_id=$1
+RewriteRule ^(hits|new|sale|personal)/?$ index.php?view=$1
+RewriteRule ^category/(\d+)/?$ index.php?view=cat&category=$1
+RewriteRule ^category/(\d+)/page=(\d+)?/?$ index.php?view=cat&category=$1&page=$2
+RewriteRule ^personal/page=(\d+)?/?$ index.php?view=personal&page=$1
+RewriteRule ^category/(\d+)/order/([a-z]+)/page=(\d+)?/?$ index.php?view=cat&category=$1&order=$2&page=$3
+RewriteRule ^news/(\d+)/?$ index.php?view=news&news_id=$1
+RewriteRule ^archive/?$ index.php?view=archive
+RewriteRule ^archive/page=(\d+)?/?$ index.php?view=archive&page=$1
+RewriteRule ^informer/(\d+)/?$ index.php?view=informer&informer_id=$1
+RewriteRule ^product/(\d+)/?$ index.php?view=product&goods_id=$1
+RewriteRule ^addtocart/(\d+)/?$ index.php?view=addtocart&goods_id=$1
+RewriteRule ^reg/?$ index.php?view=reg
+RewriteRule ^recovery/?$ index.php?view=recovery
+RewriteRule ^cart/?$ index.php?view=cart
+RewriteRule ^cart/qty=(\d+)/id=(\d+)/?$ index.php?view=cart&qty=$1&id=$2
+php_value session.cookie_lifetime 604800
+php_value mbstring.func_overload 2
+php_value mbstring.default_charset UTF-8
