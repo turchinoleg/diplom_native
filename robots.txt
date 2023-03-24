@@ -1,0 +1,9 @@
+Allow *
+Disallow /admin/
+Disallow /model/
+Disallow /controller/
+Disallow /fancybox/
+Disallow /functions/
+Disallow /tmp/
+Disallow /views/
+Disallow /personal/
