@@ -160,7 +160,7 @@ function services(){
 
 /* ===Услуги, переменные=== */
 function services_vars(){
-	$query = "SELECT price, promo_price_1, promo_price_2, promo_price_3, promo_price_5, wideprint_price_1, wideprint_price_2, wideprint_price_3, textileprint_price_1, textileprint_price_2, textileprint_price_4, sign_price_1, sign_price_2, flags_price_1, badge_price_1, dodelka_price_1, dodelka_price_2, stand_price_1, oracal_price_1, magnitvinil_price_1, pockets, present_price_1, discount_price_1, bracers_price_1 FROM services";
+	$query = "SELECT price, silknet_price_1, promo_price_1, promo_price_2, promo_price_3, promo_price_5, wideprint_price_1, wideprint_price_2, wideprint_price_3, textileprint_price_1, textileprint_price_2, textileprint_price_4, sign_price_1, sign_price_2, flags_price_1, badge_price_1, dodelka_price_1, dodelka_price_2, stand_price_1, oracal_price_1, magnitvinil_price_1, pockets, present_price_1, discount_price_1, bracers_price_1 FROM services";
 	$res = mysql_query($query);
 
 	$services_vars = array();
@@ -272,7 +272,8 @@ function edit_services_vars(){
     $present_price_1 = (float)$_POST['present_price_1'];
     $discount_price_1 = (float)$_POST['discount_price_1'];
     $bracers_price_1 = (float)$_POST['bracers_price_1'];
-       
+    $silknet_price_1 = (float)$_POST['silknet_price_1'];
+    
     $query = "UPDATE services SET 
     			price= '$price', 
     			promo_price_1 = '$promo_price_1',
@@ -297,6 +298,7 @@ function edit_services_vars(){
                 pockets = '$pockets',
                 present_price_1 = '$present_price_1',
                 discount_price_1 = '$discount_price_1',
+                silknet_price_1 = '$silknet_price_1',
                 bracers_price_1 = '$bracers_price_1'";
     $res = mysql_query($query) or die(mysql_error());
     
