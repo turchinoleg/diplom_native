@@ -185,10 +185,8 @@
                 break;
         }
 
-        let z = (silknet / vars[2] + tpp4) * a * c * tt * cs * pp * pt + 10;
+        let z = (silknet / vars[2] + tpp4 * tt * cs * pp * pt) * a * c + 10;
         let full = z * vars[2];
-        console.log(z);
-        console.log(full);
 
         $('span#result_silk').text(z.toFixed(1));
         $('span#result_silk_full').text(full.toFixed(1));
