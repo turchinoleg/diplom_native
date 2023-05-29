@@ -182,7 +182,7 @@ switch($view){
 						);
 		if ($_GET['order']) {
             $order_get = clear($_GET['order']);
-        }// получаем возможный параметр сортировки
+        } // получаем возможный параметр сортировки
 		if(array_key_exists($order_get, $order_p)){
 			$order = $order_p[$order_get][0];
 			$order_db = $order_p[$order_get][1];
