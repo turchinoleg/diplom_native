@@ -8,9 +8,10 @@
     <?php 
 	$brand_id = $brand_name[1]['brand_id'];
 	$query = "SELECT * FROM brands WHERE brand_id = $brand_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     $brand = array();
-	$brand = mysql_fetch_assoc($res);
+	$brand = mysqli_fetch_assoc($res);
 	?>
     
 <?php elseif(count($brand_name) == 1): // если не дочерняя категория ?>

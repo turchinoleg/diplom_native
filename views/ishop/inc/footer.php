@@ -3,7 +3,7 @@
 			<div class="flogo">
 			<div><a href="/"><span>аверс-стиль</span></a></div>
             </div>  
-			<div class="copyrights"><p>Сopyright © 2018</p></div>
+			<div class="copyrights"><p>Сopyright © <?=date('Y')?></p></div>
 			<div class="fphone">
 <p>Телефон:</p>
 <p>+7 (347) 243-26-54</p>
@@ -60,7 +60,4 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
 	    <a href="javascript:;" onclick="$.fancybox.close();">Закрыть</a>
 	    <a href="/recovery/">Забыли пароль?</a>
 	</div>
-</div>
-<div id="metrica">
-    <!-- Yandex.Metrika informer --> <a href="https://metrika.yandex.ru/stat/?id=47336343&amp;from=informer" target="_blank" rel="nofollow"><img src="https://informer.yandex.ru/informer/47336343/3_1_FFFFFFFF_EFEFEFFF_0_pageviews" style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)" class="ym-advanced-informer" data-cid="47336343" data-lang="ru" /></a> <!-- /Yandex.Metrika informer --> <!-- Yandex.Metrika counter --> <script src="https://mc.yandex.ru/metrika/watch.js" type="text/javascript"></script> <script type="text/javascript" > try { var yaCounter47336343 = new Ya.Metrika({ id:47336343, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); } catch(e) { } </script> <noscript><div><img src="https://mc.yandex.ru/watch/47336343" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
 </div>

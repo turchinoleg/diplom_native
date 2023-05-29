@@ -30,16 +30,16 @@ define('GALLERYIMG', PATH.'userfiles/product_img/');
 define('SIZE', 1048576);
 
 // сервер БД
-define('HOST', 'mysql88.1gb.ru');
+define('HOST', 'localhost');
 
 // пользователь
-define('USER', 'gb_aversstil');
+define('USER', 'root');
 
 // пароль
-define('PASS', '312bddabeui');
+define('PASS', '');
 
 // БД
-define('DB', 'gb_aversstil');
+define('DB', 'Avers');
 
 // название магазина - хлебные крохи
 define('SITE_NAME', 'Заготовки и сувениры');
@@ -55,6 +55,9 @@ define('PERPAGE', 9);
 // папка шаблонов административной части
 define('ADMIN_TEMPLATE', 'templates/');
 
-mysql_connect(HOST, USER, PASS) or die('No connect to Server');
-mysql_select_db(DB) or die('No connect to DB');
-mysql_query("SET NAMES 'UTF8'") or die('Cant set charset');
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+
+global $con;
+$con=mysqli_connect(HOST, USER, PASS) or die('No connect to Server');
+mysqli_select_db($con,DB) or die('No connect to DB');
+mysqli_query($con,"SET NAMES 'UTF8'") or die('Cant set charset');

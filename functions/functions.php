@@ -11,8 +11,8 @@ function print_arr($arr){
 /* ===Распечатка массива=== */
 
 /* ===Фильтрация входящих данных=== */
-function clear($var){
-	$var = mysql_real_escape_string(strip_tags($var));
+function clear(string $var){
+	$var = mysqli_real_escape_string(strip_tags($var));
 	return $var;
 }
 /* ===Фильтрация входящих данных=== */
@@ -41,11 +41,12 @@ function check_favorites($goods_id,$customer_id = false){
 	
 	$query = "SELECT * FROM favorite_products WHERE goods_id = '$goods_id' AND customer_id = '$customer_id' LIMIT 1";
 	
-	$res = mysql_query($query) or die(mysql_error());
+	global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
 
 	//если совпадение есть, возвращаем айдишник записи
-	if(mysql_num_rows($res) == 1){
-		$row = mysql_fetch_assoc($res);
+	if(mysqli_num_rows($res) == 1){
+		$row = mysqli_fetch_assoc($res);
 		$result = $row['id'];
 	}else{
 		$result = false;
@@ -65,8 +66,9 @@ function add_to_favorites($goods_id,$customer_id = false){
 	
 	$query = "INSERT INTO favorite_products (customer_id,goods_id) VALUES ('$customer_id','$goods_id')";
 	
-	$res = mysql_query($query) or die(mysql_error());
-	if(mysql_affected_rows() > 0){
+	global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+	if(mysqli_affected_rows() > 0){
 		$result = true;
 	}else{
 		$result = false;
@@ -82,8 +84,9 @@ function remove_from_favorites($id){
 	   
 	$query = "DELETE FROM favorite_products WHERE id = '$id'";
 	
-	$res = mysql_query($query) or die(mysql_error());
-	if(mysql_affected_rows() > 0){
+	global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+	if(mysqli_affected_rows() > 0){
 		$result = true;
 	}else{
 		$result = false;

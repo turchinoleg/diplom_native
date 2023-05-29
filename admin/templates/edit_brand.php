@@ -11,9 +11,10 @@ if(isset($_SESSION['edit_brand']['res'])){
 <?php 
 
     $query = "SELECT * FROM brands WHERE brand_id = $brand_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     $brand = array();
-    $brand = mysql_fetch_assoc($res);
+    $brand = mysqli_fetch_assoc($res);
 
 ?>
 <form action="" method="post">

@@ -68,25 +68,8 @@ if ((!$_SESSION['auth']) && $view == 'personal'){
 						</div>
 					</div>
 					<div class="authoriz">
-						<div class="autoriz_block">
-							<?/* старый поиск*/?>
-							<form method="get" action="/">
-								<ul class="search-head">
-						            <input type="hidden" name="view" value="search">
-									<li><input type="text" name="search" id="quickquery" placeholder="Поиск по сайту" style="color: rgb(185, 185, 185);"></li>
-										<script type="text/javascript">
-											 //<![CDATA[
-											  placeholderSetup('quickquery');
-											  //]]>
-										</script>
-									<li><input class="search-btn" type="image" src="/views/ishop/images/searc-btn.png"></li>
-								</ul>
-							</form>
-							<?/**/?>
-												
-						</div>
 						<?php if(!$_SESSION['auth']['user']): ?>
-	                		<form method="post" action="">
+	                		<form method="post" action="" class="authoriz_form">
 								<div class="autoriz_block autoriz_login">
 									<span class="autoriz_label">Авторизация</span><br/>
 									<input type="text" name="login" id="login" />

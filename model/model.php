@@ -1,15 +1,16 @@
 <?php
 
-defined('ISHOP') or die('Access denied');
+global $con;
 
 /* ====Каталог - получение массива=== */
 function catalog(){
+    global $con;
     $query = "SELECT * FROM brands ORDER BY parent_id, position";
-    $res = mysql_query($query) or die(mysql_query());
+    $res = mysqli_query($con, $query) or die(mysqli_query());
     
     //массив категорий
     $cat = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         if(!$row['parent_id']){
             $cat[$row['brand_id']][] = $row['brand_name'];
         }else{
@@ -25,10 +26,11 @@ function catalog(){
 /* ===material=== */
 function material(){
     $query = "SELECT * FROM material";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $material = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $material[] = $row;
     }
     return $material;
@@ -38,10 +40,11 @@ function material(){
 /* ===izgotovlenie=== */
 function izgotovlenie(){
     $query = "SELECT * FROM izgotovlenie";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $izgotovlenie = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $izgotovlenie[] = $row;
     }
     return $izgotovlenie;
@@ -51,10 +54,11 @@ function izgotovlenie(){
 /* ===Страницы=== */
 function pages(){
     $query = "SELECT page_id, title FROM pages ORDER BY position";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $pages = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $pages[] = $row;
     }
     return $pages;
@@ -64,10 +68,11 @@ function pages(){
 /* ===Услуги=== */
 function services(){
     $query = "SELECT service_id, title FROM services ORDER BY position";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $services = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $services[] = $row;
     }
     return $services;
@@ -77,10 +82,11 @@ function services(){
 /* ===Словарь для чайников=== */
 function dictionaries(){
     $query = "SELECT * FROM dictionaries";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $dictionaries = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $dictionaries[] = $row;
     }
     return $dictionaries;
@@ -91,10 +97,10 @@ function dictionaries(){
 /* ===Главная страница=== */
 
     $query = "SELECT title, keywords, description, text FROM pages WHERE page_id = 1";
-    $res = mysql_query($query);
+    $res = mysqli_query($con, $query);
     
     $boss_page = array();
-    $boss_page = mysql_fetch_assoc($res);
+    $boss_page = mysqli_fetch_assoc($res);
     return $boss_page;
 
 /* ===Главная страница=== */
@@ -102,10 +108,11 @@ function dictionaries(){
 /* ===Отдельная страница=== */
 function get_page($page_id){
     $query = "SELECT title, keywords, description, text FROM pages WHERE page_id = $page_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $get_page = array();
-    $get_page = mysql_fetch_assoc($res);
+    $get_page = mysqli_fetch_assoc($res);
     return $get_page;
 }
 /* ===Отдельная страница=== */
@@ -113,10 +120,11 @@ function get_page($page_id){
 /* ===Отдельная услуга=== */
 function get_service($service_id){
     $query = "SELECT * FROM services WHERE service_id = $service_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $service = array();
-    $service = mysql_fetch_assoc($res);
+    $service = mysqli_fetch_assoc($res);
     
     return $service;
 }
@@ -125,10 +133,11 @@ function get_service($service_id){
 /* ===Отдельная страница для чайников=== */
 function get_dictionary($dictionary_id){
     $query = "SELECT * FROM dictionaries WHERE dictionary_id = $dictionary_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $dictionary = array();
-    $dictionary = mysql_fetch_assoc($res);
+    $dictionary = mysqli_fetch_assoc($res);
     
     return $dictionary;
 }
@@ -138,10 +147,11 @@ function get_dictionary($dictionary_id){
 /* ===Названия новостей=== */
 function get_title_news(){
     $query = "SELECT news_id, title, date FROM news ORDER BY date DESC LIMIT 2";
-    $res = mysql_query($query);
+    global $con;
+    $res = mysqli_query($con, $query);
     
     $news = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $news[] = $row;
     }
     return $news;
@@ -151,10 +161,11 @@ function get_title_news(){
 /* ===Отдельная новость=== */
 function get_news_text($news_id){
     $query = "SELECT title, text, date FROM news WHERE news_id = $news_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $news_text = array();
-    $news_text = mysql_fetch_assoc($res);
+    $news_text = mysqlifetch_assoc($res);
     return $news_text;
 }
 /* ===Отдельная новость=== */
@@ -162,10 +173,11 @@ function get_news_text($news_id){
 /* ===Архив новостей=== */
 function get_all_news($start_pos, $perpage){
     $query = "SELECT news_id, title, anons, date FROM news ORDER BY date DESC LIMIT $start_pos, $perpage";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $all_news = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $all_news[] = $row;
     }
     return $all_news;
@@ -175,9 +187,10 @@ function get_all_news($start_pos, $perpage){
 /* ===Количество новостей=== */
 function count_news(){
     $query = "SELECT COUNT(news_id) FROM news";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
-    $count_news = mysql_fetch_row($res);
+    $count_news = mysqli_fetch_row($res);
     return $count_news[0];
 }
 /* ===Количество новостей=== */
@@ -188,11 +201,12 @@ function informer(){
                 INNER JOIN informers ON
                     links.parent_informer = informers.informer_id
                         ORDER BY informer_position, links_position";
-    $res = mysql_query($query) or die(mysql_query());
+    global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_query());
     
     $informers = array();
     $name = ''; // флаг имени информера
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         if($row['informer_name'] != $name){ // если такого информера в массиве еще нет
             $informers[$row['informer_id']][] = $row['informer_name']; // добавляем информер в массив
             $name = $row['informer_name'];
@@ -209,10 +223,11 @@ function get_text_informer($informer_id){
                 FROM links
                     LEFT JOIN informers ON informers.informer_id = links.parent_informer
                         WHERE link_id = $informer_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $text_informer = array();
-    $text_informer = mysql_fetch_assoc($res);
+    $text_informer = mysqli_fetch_assoc($res);
     return $text_informer;
 }
 /* ===Получение текста информера=== */
@@ -221,10 +236,11 @@ function get_text_informer($informer_id){
 function eyestopper($eyestopper){
     $query = "SELECT * FROM goods
                 WHERE visible='1' AND $eyestopper='1' ORDER BY date_modified DESC, date DESC";
-    $res = mysql_query($query) or die(mysql_error());
+    global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
     
     $eyestoppers = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $eyestoppers[] = $row;
     }
     
@@ -244,9 +260,10 @@ function count_rows($category){
                 (
                     SELECT brand_id FROM brands WHERE parent_id = $category
                 ) AND visible='1')";
-    $res = mysql_query($query) or die(mysql_error());
+    global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
     
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         if($row['count_rows']) $count_rows = $row['count_rows'];
     }
     return $count_rows;
@@ -265,10 +282,11 @@ function products($category, $order_db, $start_pos, $perpage){
                 (
                     SELECT brand_id FROM brands WHERE parent_id = $category
                 ) AND visible='1') ORDER BY $order_db LIMIT $start_pos, $perpage";
-    $res = mysql_query($query) or die(mysql_error());
+    global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
     
     $products = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $products[] = $row;
     }
     
@@ -281,9 +299,10 @@ function favorites(){
     $user = isset($_SESSION['auth']['customer_id']) ? $_SESSION['auth']['customer_id'] : false;
     if ($user){
         $query = "SELECT goods_id FROM favorite_products WHERE customer_id = $user";
-        $res = mysql_query($query) or die($query);
+        global $con;
+	$res = mysqli_query($con, $query)  or die($query);
         $favorites = array();
-        while ($row = mysql_fetch_assoc($res)){
+        while ($row = mysqli_fetch_assoc($res)){
             $favorites[] = $row['goods_id'];
         }
 
@@ -307,9 +326,10 @@ function favorites_list($startpos, $perpage){
         #$query = "SELECT * FROM favorite_products,goods WHERE (favorite_products.goods_id = goods.goods_id AND favorite_products.customer_id = $user)";
                 #SELECT * FROM goods WHERE visible='1'";
 
-        $res = mysql_query($query) or die(mysql_error());
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
         $favorites = array();
-        while ($row = mysql_fetch_assoc($res)){
+        while ($row = mysqli_fetch_assoc($res)){
             $favorites[] = $row;
         }
 
@@ -329,9 +349,10 @@ function brand_name($category){
                 )
                 UNION
                     (SELECT brand_id, brand_name FROM brands WHERE brand_id = $category)";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     $brand_name = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $brand_name[] = $row;
     }
     return $brand_name;
@@ -405,9 +426,10 @@ function filter($material_1, $material_2, $material_3, $material_4, $material_5,
         $query = "SELECT *
                     FROM goods
                         WHERE $predicat1 ORDER BY name";
-        $res = mysql_query($query) or die(mysql_error());
-        if(mysql_num_rows($res) > 0){
-            while($row = mysql_fetch_assoc($res)){
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        if(mysqli_num_rows($res) > 0){
+            while($row = mysqli_fetch_assoc($res)){
                 $products[] = $row;
 				
             }
@@ -430,9 +452,10 @@ function total_sum($goods){
     $query = "SELECT goods_id, name, price, price_1, price_2, price_3, price_4, price_5, price_6, img, articul
                 FROM goods
                     WHERE goods_id IN ($str_goods)";
-    $res = mysql_query($query) or die(mysql_error());
+    global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
     
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
 		$_SESSION['cart'][$row['goods_id']]['articul'] = $row['articul'];
         $_SESSION['cart'][$row['goods_id']]['name'] = $row['name'];
         $_SESSION['cart'][$row['goods_id']]['price'] = $row['price'];
@@ -512,8 +535,9 @@ function registration(){
         // если все поля заполнены
         // проверяем нет ли такого юзера в БД
         $query = "SELECT customer_id FROM customers WHERE login = '" .clear($login). "' LIMIT 1";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_num_rows($res); // 1 - такой юзер есть, 0 - нет
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        $row = mysqli_num_rows($res); // 1 - такой юзер есть, 0 - нет
         if($row){
             // если такой логин уже есть
             $_SESSION['reg']['res'] = "<div class='error'>Пользователь с таким логином уже зарегистрирован на сайте. Введите другой логин.</div>";
@@ -531,12 +555,13 @@ function registration(){
             $pass = md5($pass);
             $query = "INSERT INTO customers (name, email, phone, address, login, password)
                         VALUES ('$name', '$email', '$phone', '$address', '$login', '$pass')";
-            $res = mysql_query($query) or die(mysql_error());
-            if(mysql_affected_rows() > 0){
+            global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+            if(mysqli_affected_rows() > 0){
                 // если запись добавлена
                 $_SESSION['reg']['res'] = "<div class='success'>Регистрация прошла успешно.</div>";
                 $_SESSION['auth']['user'] = $_POST['name'];
-                $_SESSION['auth']['customer_id'] = mysql_insert_id();
+                $_SESSION['auth']['customer_id'] = mysqli_insert_id();
                 $_SESSION['auth']['email'] = $email;
                 $_SESSION['auth']['login'] = $login;
                 $_SESSION['auth']['address'] = $address;
@@ -568,10 +593,11 @@ function recovery(){
     if (!empty($email)){
 
         $query = "SELECT * FROM customers WHERE email = '" .clear($email)."' ORDER BY customer_id DESC";
-        $res = mysql_query($query) or die(mysql_error());
-        if(mysql_affected_rows() > 0){
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        if(mysqli_affected_rows() > 0){
             $recovery = array();
-            while($row = mysql_fetch_assoc($res)){
+            while($row = mysqli_fetch_assoc($res)){
                 $recovery[] = $row;
             }
             foreach ($recovery as $key => $user) {
@@ -590,8 +616,9 @@ function recovery(){
                 $_SESSION['debug_p'] = $new_pass;
                 $query = "UPDATE customers SET password = '".md5($new_pass)."' WHERE customer_id = '".$user['customer_id']."'";
                 #die($query);
-                $res = mysql_query($query) or die(mysql_error());
-                if(mysql_affected_rows() > 0){
+                global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+                if(mysqli_affected_rows() > 0){
                     // если запись добавлена
                     $_SESSION['error'] = '<div class="success">Новый пароль был сгенерирован и выслан на '.$user["email"].'</div>';
                 }else{
@@ -635,8 +662,9 @@ function auth_edit(){
         // если все поля заполнены
         // проверяем нет ли такого юзера в БД
         $query = "SELECT customer_id FROM customers WHERE login = '" .clear($login). "' LIMIT 1";
-        $res = mysql_query($query) or die(mysql_error());
-        $row = mysql_num_rows($res); // 1 - такой юзер есть, 0 - нет
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        $row = mysqli_num_rows($res); // 1 - такой юзер есть, 0 - нет
         /*
         if($row){
             // если такой логин уже есть
@@ -655,12 +683,13 @@ function auth_edit(){
             $pass = md5($pass);
 
             $query = "UPDATE customers SET name = '$name', password = '$pass', email = '$email', phone = '$phone', address = '$address' WHERE customer_id = '".$_SESSION['auth']['customer_id']."'";
-            $res = mysql_query($query) or die(mysql_error());
-            if(mysql_affected_rows() > 0){
+            global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+            if(mysqli_affected_rows() > 0){
                 // если запись добавлена
                 $_SESSION['auth_edit']['res'] = "<div class='success'>Вы успешно изменили свои данные.</div>";
                 $_SESSION['auth']['user'] = $_POST['name'];
-                $_SESSION['auth']['customer_id'] = mysql_insert_id();
+                $_SESSION['auth']['customer_id'] = mysqli_insert_id();
                 $_SESSION['auth']['email'] = $email;
                 $_SESSION['auth']['address'] = $address;
                 $_SESSION['auth']['name'] = $name;
@@ -686,7 +715,7 @@ function auth_edit(){
 
 /* ===Авторизация=== */
 function authorization(){
-    $login = mysql_real_escape_string(trim($_POST['login']));
+    $login = mysqli_real_escape_string(trim($_POST['login']));
     $pass = trim($_POST['pass']);
     
     if(empty($login) OR empty($pass)){
@@ -697,10 +726,11 @@ function authorization(){
         $pass = md5($pass);
         
         $query = "SELECT * FROM customers WHERE login = '$login' AND password = '$pass' LIMIT 1";
-        $res = mysql_query($query) or die(mysql_error());
-        if(mysql_num_rows($res) == 1){
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        if(mysqli_num_rows($res) == 1){
             // если авторизация успешна
-            $row = mysql_fetch_row($res);
+            $row = mysqli_fetch_row($res);
             $_SESSION['auth']['customer_id'] = $row[0];
             $_SESSION['auth']['user'] = $row[1];
             $_SESSION['auth']['email'] = $row[2];
@@ -720,10 +750,11 @@ function authorization(){
 /* ===Способы доставки=== */
 function get_dostavka(){
     $query = "SELECT * FROM dostavka";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $dostavka = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $dostavka[] = $row;
     }
     
@@ -789,10 +820,11 @@ function add_customer($name, $email, $phone, $address){
     $address = clear($_POST['address']);
     $query = "INSERT INTO customers (name, email, phone, address)
                 VALUES ('$name', '$email', '$phone', '$address')";
-    $res = mysql_query($query);
-    if(mysql_affected_rows() > 0){
+    global $con;
+	$res = mysqli_query($con, $query) ;
+    if(mysqli_affected_rows() > 0){
         // если гость добавлен в заказчики - получаем его ID
-        return mysql_insert_id();
+        return mysqli_insert_id();
     }else{
         // если произошла ошибка при добавлении
         $_SESSION['order']['res'] = "<div class='error'>Произошла ошибка при регистрации заказа</div>";
@@ -811,14 +843,14 @@ function save_order($customer_id, $dostavka_id, $prim){
     $prim = clear($prim);
     $query = "INSERT INTO orders (`customer_id`, `date`, `dostavka_id`, `prim`)
                 VALUES ($customer_id, NOW(), $dostavka_id, '$prim')";
-    mysql_query($query) or die(mysql_error());
-    if(mysql_affected_rows() == -1){
+    mysqli_query($query) or die(mysqli_error());
+    if(mysqli_affected_rows() == -1){
         // если не получилось сохранить заказ - удаляем заказчика
-        mysql_query("DELETE FROM customers
+        mysqli_query("DELETE FROM customers
                         WHERE customer_id = $customer_id AND login = ''");
         return false;
     }
-    $order_id = mysql_insert_id(); // ID сохраненного заказа
+    $order_id = mysqli_insert_id(); // ID сохраненного заказа
     
     foreach($_SESSION['cart'] as $goods_id => $value){
 		 if($value['qty']<10){
@@ -866,11 +898,11 @@ function save_order($customer_id, $dostavka_id, $prim){
     
     $query = "INSERT INTO zakaz_tovar (orders_id, goods_id, quantity, name, price, articul)
         VALUES $val";
-    mysql_query($query) or die(mysql_error());
-    if(mysql_affected_rows() == -1){
+    mysqli_query($query) or die(mysqli_error());
+    if(mysqli_affected_rows() == -1){
         // если не выгрузился заказа - удаляем заказчика (customers) и заказ (orders)
-        mysql_query("DELETE FROM orders WHERE order_id = $order_id");
-        mysql_query("DELETE FROM customers
+        mysqli_query("DELETE FROM orders WHERE order_id = $order_id");
+        mysqli_query("DELETE FROM customers
                         WHERE customer_id = $customer_id AND login = ''");
         return false;
     }
@@ -927,10 +959,11 @@ function search(){
                     FROM goods
                         WHERE (name LIKE '%".$search."%' OR MATCH(name) AGAINST('*{$search}*' IN BOOLEAN MODE)) AND visible='1' AND articul != ''";
        # echo $query;
-        $res = mysql_query($query) or die(mysql_error());
+        global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
         
-        if(mysql_num_rows($res) > 0){
-            while($row_search = mysql_fetch_assoc($res)){
+        if(mysqli_num_rows($res) > 0){
+            while($row_search = mysqli_fetch_assoc($res)){
                 $result_search[] = $row_search;
             }
         }else{
@@ -945,10 +978,11 @@ function search(){
 /* ===Отдельный товар=== */
 function get_goods($goods_id){
     $query = "SELECT * FROM goods WHERE goods_id = $goods_id";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
     $goods = array();
-    $goods = mysql_fetch_assoc($res);
+    $goods = mysqli_fetch_assoc($res);
     if($goods['img_slide']){
         $goods['img_slide'] = explode("|", $goods['img_slide']);
     }
@@ -964,9 +998,10 @@ function orders($status, $start_pos, $perpage, $current_user){
                 LEFT JOIN customers
                     ON customers.customer_id = orders.customer_id".$status."
                 WHERE customers.customer_id = ".$current_user;
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     $orders = array();
-    while($row = mysql_fetch_assoc($res)){
+    while($row = mysqli_fetch_assoc($res)){
         $orders[] = $row;
     }
     foreach ($orders as $key => $order){
@@ -975,9 +1010,10 @@ function orders($status, $start_pos, $perpage, $current_user){
                     LEFT JOIN goods
                     ON zakaz_tovar.goods_id =  goods.goods_id
                     WHERE zakaz_tovar.orders_id = ".$order['order_id'];
-        $res = mysql_query($query);
+        global $con;
+	$res = mysqli_query($con, $query) ;
 
-        while($row = mysql_fetch_assoc($res)){
+        while($row = mysqli_fetch_assoc($res)){
             $orders[$key]['goods'][] = $row;
         }
     }
@@ -988,9 +1024,10 @@ function orders($status, $start_pos, $perpage, $current_user){
 /* ===Количество заказов=== */
 function count_orders($status){
     $query = "SELECT COUNT(order_id) FROM orders".$status;
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
-    $count_orders = mysql_fetch_row($res);
+    $count_orders = mysqli_fetch_row($res);
     return $count_orders[0];
 }
 /* ===Количество заказов=== */
@@ -998,9 +1035,10 @@ function count_orders($status){
 /* ===Количество избранных товаров=== */
 function count_favorites($user){
     $query = "SELECT COUNT(distinct(goods_id)) FROM favorite_products WHERE customer_id = '$user'";
-    $res = mysql_query($query);
+    global $con;
+	$res = mysqli_query($con, $query) ;
     
-    $count_favorites = mysql_fetch_row($res);
+    $count_favorites = mysqli_fetch_row($res);
     return $count_favorites[0];
 }
 /* ===Количество избранных товаров=== */

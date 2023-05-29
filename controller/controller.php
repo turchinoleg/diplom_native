@@ -1,6 +1,6 @@
 <?php
 
-defined('ISHOP') or die('Access denied');
+
 
 session_start();
 if($_SESSION['cart']){
@@ -180,7 +180,9 @@ switch($view){
 						'namea' => array('от А до Я', 'name ASC'),
 						'named' => array('от Я до А', 'name DESC')
 						);
-		$order_get = clear($_GET['order']); // получаем возможный параметр сортировки
+		if ($_GET['order']) {
+            $order_get = clear($_GET['order']);
+        }// получаем возможный параметр сортировки
 		if(array_key_exists($order_get, $order_p)){
 			$order = $order_p[$order_get][0];
 			$order_db = $order_p[$order_get][1];
