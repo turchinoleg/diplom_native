@@ -12,7 +12,8 @@ function print_arr($arr){
 
 /* ===Фильтрация входящих данных=== */
 function clear(string $var){
-	$var = mysqli_real_escape_string(strip_tags($var));
+    global $con;
+	$var = mysqli_real_escape_string($con, strip_tags($var));
 	return $var;
 }
 /* ===Фильтрация входящих данных=== */

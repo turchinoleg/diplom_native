@@ -17,5 +17,5 @@
 <div class="karkas">
 	<div class="head">
 		<a href="<?=PATH?>admin/"><img src="<?=ADMIN_TEMPLATE?>images/logoAdm.jpg" /></a>
-		<p><a href="<?=PATH?>" target="_blank">На сайт</a> | <a href="?view=edit_user&amp;user_id=<?=$_SESSION['auth']['user_id']?>"><?=$_SESSION['auth']['admin']?></a> | <a href="?do=logout"><strong>Выйти</strong></a></p>
+		<p><a href="<?=PATH?>" target="_blank">На сайт</a> | <?=$_SESSION['auth']['admin']?> | <a href="?do=logout"><strong>Выйти</strong></a></p>
 	</div> <!-- .head -->

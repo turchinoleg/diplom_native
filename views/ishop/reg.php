@@ -6,7 +6,7 @@
         <table class="zakaz-data" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td class="zakaz-txt">*Логин</td>
-                <td class="zakaz-inpt"><input type="text" name="login" value="<?=htmlspecialchars($_SESSION['reg']['login'])?>" /></td>
+                <td class="zakaz-inpt"><input type="text" name="login" value="" /></td>
                 <td class="zakaz-prim"></td>
             </tr>
             <tr>
@@ -16,22 +16,22 @@
             </tr>
             <tr>
                 <td class="zakaz-txt">*ФИО</td>
-                <td class="zakaz-inpt"><input type="text" name="name" value="<?=htmlspecialchars($_SESSION['reg']['name'])?>" /></td>
+                <td class="zakaz-inpt"><input type="text" name="name" value="" /></td>
                 <td class="zakaz-prim">Пример: Иванов Сергей Александрович</td>
             </tr>
             <tr>
                 <td class="zakaz-txt">*E-mail</td>
-                <td class="zakaz-inpt"><input type="text" name="email" value="<?=htmlspecialchars($_SESSION['reg']['email'])?>" /></td>
+                <td class="zakaz-inpt"><input type="text" name="email" value="" /></td>
                 <td class="zakaz-prim">Пример: test@mail.ru</td>
             </tr>
             <tr>
                 <td class="zakaz-txt">*Телефон</td>
-                <td class="zakaz-inpt"><input type="text" name="phone" value="<?=htmlspecialchars($_SESSION['reg']['phone'])?>" /></td>
+                <td class="zakaz-inpt"><input type="text" name="phone" value="" /></td>
                 <td class="zakaz-prim">Пример: 8 937 999 99 99</td>
             </tr>
             <tr>
                 <td class="zakaz-txt">*Адрес доставки</td>
-                <td class="zakaz-inpt"><input type="text" name="address" value="<?=htmlspecialchars($_SESSION['reg']['addres'])?>" /></td>
+                <td class="zakaz-inpt"><input type="text" name="address" value="" /></td>
                 <td class="zakaz-prim">Пример: г. Москва, пр. Мира, ул. Петра Великого д.19, кв 51.</td>
             </tr> 
             <tr>                

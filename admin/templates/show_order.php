@@ -36,7 +36,7 @@
 
 <h2>Общая цена заказа: <span style="color:#e35a0f;"><?=$total_sum?></span></h2>
 <h2>Дата заказа: <span style="color:#e35a0f;"><?=$item['date']?></span></h2>
-<h2>Способ доставки: <span style="color:#e35a0f;"><?=$item['sposob']?></span></h2>
+<!--<h2>Способ доставки: <span style="color:#e35a0f;">--><?//=$item['sposob']?><!--</span></h2>-->
 
 <h2>Данные покупателя:</h2>
             
@@ -55,12 +55,12 @@
     </tr>
 </table>
 
-<p>
-<a class="edit" href="?view=orders&amp;confirm=<?=$order_id?>">Подтвердить заказ</a> |
-
-<a class="rassmotrenie" href="?view=orders&amp;ozidanie=<?=$order_id?>">Заказ на рассмотрении</a> |
-<a class="del" href="?view=orders&amp;del_order=<?=$order_id?>">Удалить заказ</a>
-</p>
+<!--<p>-->
+<!--<a class="edit" href="?view=orders&amp;confirm=--><?//=$order_id?><!--">Подтвердить заказ</a> |-->
+<!---->
+<!--<a class="rassmotrenie" href="?view=orders&amp;ozidanie=--><?//=$order_id?><!--">Заказ на рассмотрении</a> |-->
+<!--<a class="del" href="?view=orders&amp;del_order=--><?//=$order_id?><!--">Удалить заказ</a>-->
+<!--</p>-->
 
 <?php else: ?>
 <div class="error">Заказа с таким номером нет</div>

@@ -203,7 +203,7 @@ function informer(){
                         ORDER BY informer_position, links_position";
     global $con;
 	$res = mysqli_query($con, $query)  or die(mysqli_query());
-    
+
     $informers = array();
     $name = ''; // флаг имени информера
     while($row = mysqli_fetch_assoc($res)){
@@ -715,7 +715,8 @@ function auth_edit(){
 
 /* ===Авторизация=== */
 function authorization(){
-    $login = mysqli_real_escape_string(trim($_POST['login']));
+    global $con;
+    $login = mysqli_real_escape_string($con, trim($_POST['login']));
     $pass = trim($_POST['pass']);
     
     if(empty($login) OR empty($pass)){
@@ -840,17 +841,16 @@ function add_customer($name, $email, $phone, $address){
 
 /* ===Сохранение заказа=== */
 function save_order($customer_id, $dostavka_id, $prim){
+    global $con;
     $prim = clear($prim);
-    $query = "INSERT INTO orders (`customer_id`, `date`, `dostavka_id`, `prim`)
-                VALUES ($customer_id, NOW(), $dostavka_id, '$prim')";
-    mysqli_query($query) or die(mysqli_error());
-    if(mysqli_affected_rows() == -1){
-        // если не получилось сохранить заказ - удаляем заказчика
-        mysqli_query("DELETE FROM customers
-                        WHERE customer_id = $customer_id AND login = ''");
-        return false;
-    }
-    $order_id = mysqli_insert_id(); // ID сохраненного заказа
+    $query = "INSERT INTO orders (`customer_id`, `date`, `dostavka_id`, `prim`) VALUES ($customer_id, NOW(), $dostavka_id, '$prim')";
+    mysqli_query($con, $query) or die(mysqli_error());
+//    if(mysqli_affected_rows() == -1){
+//        // если не получилось сохранить заказ - удаляем заказчика
+//        mysqli_query("DELETE FROM customers  WHERE customer_id = $customer_id AND login = ''");
+//        return false;
+//    }
+    $order_id = mysqli_insert_id($con); // ID сохраненного заказа
     
     foreach($_SESSION['cart'] as $goods_id => $value){
 		 if($value['qty']<10){
@@ -898,14 +898,13 @@ function save_order($customer_id, $dostavka_id, $prim){
     
     $query = "INSERT INTO zakaz_tovar (orders_id, goods_id, quantity, name, price, articul)
         VALUES $val";
-    mysqli_query($query) or die(mysqli_error());
-    if(mysqli_affected_rows() == -1){
-        // если не выгрузился заказа - удаляем заказчика (customers) и заказ (orders)
-        mysqli_query("DELETE FROM orders WHERE order_id = $order_id");
-        mysqli_query("DELETE FROM customers
-                        WHERE customer_id = $customer_id AND login = ''");
-        return false;
-    }
+    mysqli_query($con, $query) or die(mysqli_error());
+//    if(mysqli_affected_rows() == -1){
+//        // если не выгрузился заказа - удаляем заказчика (customers) и заказ (orders)
+//        mysqli_query($con, "DELETE FROM orders WHERE order_id = $order_id");
+//        mysqli_query($con, "DELETE FROM customers WHERE customer_id = $customer_id AND login = ''");
+//        return false;
+//    }
     
     if($_SESSION['auth']['email']) $email = $_SESSION['auth']['email'];
         else $email = $_SESSION['order']['email'];

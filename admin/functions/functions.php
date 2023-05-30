@@ -1601,7 +1601,7 @@ function confirm_order($order_id){
     $query = "UPDATE orders SET status = '1' WHERE order_id = $order_id";
     global $con;
 	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
+    if(mysqli_affected_rows($con) > 0){
         return true;
     }else{
         return false;
@@ -1614,7 +1614,7 @@ function ozidanie_order($order_id){
     $query = "UPDATE orders SET status = '2' WHERE order_id = $order_id";
     global $con;
 	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
+    if(mysqli_affected_rows($con) > 0){
         return true;
     }else{
         return false;
@@ -1625,9 +1625,10 @@ function ozidanie_order($order_id){
 
 /* ===Удаление заказа=== */
 function del_order($order_id){
-    mysqli_query("DELETE FROM orders WHERE order_id = $order_id");
-    mysqli_query("DELETE FROM zakaz_tovar WHERE orders_id = $order_id");
-    if(mysqli_affected_rows() > 0){
+    global $con;
+    mysqli_query($con,"DELETE FROM orders WHERE order_id = $order_id");
+    mysqli_query($con,"DELETE FROM zakaz_tovar WHERE orders_id = $order_id");
+    if(mysqli_affected_rows($con) > 0){
         return true;
     }else{
         return false;

@@ -273,31 +273,31 @@ switch($view){
 
 	case('personal'):
 
-		// товары категории
-		$category = abs((int)$_GET['category']);
-		
-		/* =====Сортировка===== */
-		// массив параметров сортировки
-		// ключи - то, что передаем GET-параметром
-		// значения - то, что показываем пользователю и часть SQL-запроса, который передаем в модель
-		$order_p = array(
-						'pricea' => array('от дешевых к дорогим', 'price ASC'),
-						'priced' => array('от дорогих к дешевым', 'price DESC'),
-						'datea' => array('по дате добавления - к последним', 'date ASC'),
-						'dated' => array('по дате добавления - с последних', 'date DESC'),
-						'namea' => array('от А до Я', 'name ASC'),
-						'named' => array('от Я до А', 'name DESC')
-						);
-		$order_get = clear($_GET['order']); // получаем возможный параметр сортировки
-		if(array_key_exists($order_get, $order_p)){
-			$order = $order_p[$order_get][0];
-			$order_db = $order_p[$order_get][1];
-		}else{
-			// по умолчанию сортировка по первому элементу массива order_p
-			$order = $order_p['dated'][0];
-			$order_db = $order_p['dated'][1];
-		}
-		/* =====Сортировка===== */
+//		// товары категории
+//		$category = abs((int)$_GET['category']);
+//
+//		/* =====Сортировка===== */
+//		// массив параметров сортировки
+//		// ключи - то, что передаем GET-параметром
+//		// значения - то, что показываем пользователю и часть SQL-запроса, который передаем в модель
+//		$order_p = array(
+//						'pricea' => array('от дешевых к дорогим', 'price ASC'),
+//						'priced' => array('от дорогих к дешевым', 'price DESC'),
+//						'datea' => array('по дате добавления - к последним', 'date ASC'),
+//						'dated' => array('по дате добавления - с последних', 'date DESC'),
+//						'namea' => array('от А до Я', 'name ASC'),
+//						'named' => array('от Я до А', 'name DESC')
+//						);
+//		$order_get = clear($_GET['order']); // получаем возможный параметр сортировки
+//		if(array_key_exists($order_get, $order_p)){
+//			$order = $order_p[$order_get][0];
+//			$order_db = $order_p[$order_get][1];
+//		}else{
+//			// по умолчанию сортировка по первому элементу массива order_p
+//			$order = $order_p['dated'][0];
+//			$order_db = $order_p['dated'][1];
+//		}
+//		/* =====Сортировка===== */
 
 		// личный кабинет
 				
@@ -325,107 +325,107 @@ switch($view){
 		$favorites_list = favorites_list($start_pos, $perpage);
 	break;
 	
-	case('search'):
-		// поиск
-		$result_search = search($order_db);
-		print_arr($order_db);
-		/* =====Сортировка===== */
-		// массив параметров сортировки
-		// ключи - то, что передаем GET-параметром
-		// значения - то, что показываем пользователю и часть SQL-запроса, который передаем в модель
-		$order_p = array(
-						'pricea' => array('от дешевых к дорогим', 'price ASC'),
-						'priced' => array('от дорогих к дешевым', 'price DESC'),
-						'datea' => array('по дате добавления - к последним', 'date ASC'),
-						'dated' => array('по дате добавления - с последних', 'date DESC'),
-						'namea' => array('от А до Я', 'name ASC'),
-						'named' => array('от Я до А', 'name DESC')
-						);
-		$order_get = clear($_GET['order']); // получаем возможный параметр сортировки
-		if(array_key_exists($order_get, $order_p)){
-			$order = $order_p[$order_get][0];
-			$order_db = $order_p[$order_get][1];
-		}else{
-			// по умолчанию сортировка по первому элементу массива order_p
-			$order = $order_p['namea'][0];
-			$order_db = $order_p['namea'][1];
-		}
-		/* =====Сортировка===== */
-		
-		// параметры для навигации
-		$perpage = 9; // кол-во товаров на страницу
-		if(isset($_GET['page'])){
-			$page = (int)$_GET['page'];
-			if($page < 1) $page = 1;
-		}else{
-			$page = 1;
-		}
-		$count_rows = count($result_search); // общее кол-во товаров
-		$pages_count = ceil($count_rows / $perpage); // кол-во страниц
-		if(!$pages_count) $pages_count = 1; // минимум 1 страница
-		if($page > $pages_count) $page = $pages_count; // если запрошенная страница больше максимума
-		$start_pos = ($page - 1) * $perpage; // начальная позиция для запроса
-		$endpos = $start_pos + $perpage; // до какого товара будет вывод на странице
-		if($endpos > $count_rows) $endpos = $count_rows;
-	break;
-	
-	case('filter'):
-		// выбор по параметрам
-		$startprice = (int)$_GET['startprice'];
-		$endprice = (int)$_GET['endprice'];
-		if($_GET['material_1']){
-			$material_1 = $_GET['material_1'];
-		}
-		if($_GET['material_2']){
-			$material_2 = $_GET['material_2'];
-		}
-		if($_GET['material_3']){
-			$material_3 = $_GET['material_3'];
-		}
-		if($_GET['material_4']){
-			$material_4 = $_GET['material_4'];
-		}
-		if($_GET['material_5']){
-			$material_5 = $_GET['material_5'];
-		}
-		if($_GET['material_6']){
-			$material_6 = $_GET['material_6'];
-		}
-		if($_GET['material_7']){
-			$material_7 = $_GET['material_7'];
-		}if($_GET['material_8']){
-			$material_8 = $_GET['material_8'];
-	   
-		}if($_GET['izgotovlenie_1']){
-			$izgotovlenie_1 = $_GET['izgotovlenie_1'];
-	   
-		}if($_GET['izgotovlenie_1']){
-			$izgotovlenie_1 = $_GET['izgotovlenie_1'];
-	   
-		}if($_GET['izgotovlenie_2']){
-			$izgotovlenie_2 = $_GET['izgotovlenie_2'];
-	   
-		}if($_GET['izgotovlenie_3']){
-			$izgotovlenie_3 = $_GET['izgotovlenie_3'];
-	   
-		}if($_GET['izgotovlenie_4']){
-			$izgotovlenie_4 = $_GET['izgotovlenie_4'];
-	   
-		}if($_GET['izgotovlenie_5']){
-			$izgotovlenie_5 = $_GET['izgotovlenie_5'];
-	   
-		}if($_GET['izgotovlenie_6']){
-			$izgotovlenie_6 = $_GET['izgotovlenie_6'];
-	   
-		}if($_GET['izgotovlenie_7']){
-			$izgotovlenie_7 = $_GET['izgotovlenie_7'];
-	   
-		}
-		
-		
-		  
-		$products = filter($material_1, $material_2, $material_3, $material_4, $material_5,$material_6,$material_7,$material_8,   $izgotovlenie_1, $izgotovlenie_2, $izgotovlenie_3, $izgotovlenie_4, $izgotovlenie_5, $izgotovlenie_6, $izgotovlenie_7, $startprice, $endprice);
-	break;
+//	case('search'):
+//		// поиск
+//		$result_search = search($order_db);
+//		print_arr($order_db);
+//		/* =====Сортировка===== */
+//		// массив параметров сортировки
+//		// ключи - то, что передаем GET-параметром
+//		// значения - то, что показываем пользователю и часть SQL-запроса, который передаем в модель
+//		$order_p = array(
+//						'pricea' => array('от дешевых к дорогим', 'price ASC'),
+//						'priced' => array('от дорогих к дешевым', 'price DESC'),
+//						'datea' => array('по дате добавления - к последним', 'date ASC'),
+//						'dated' => array('по дате добавления - с последних', 'date DESC'),
+//						'namea' => array('от А до Я', 'name ASC'),
+//						'named' => array('от Я до А', 'name DESC')
+//						);
+//		$order_get = clear($_GET['order']); // получаем возможный параметр сортировки
+//		if(array_key_exists($order_get, $order_p)){
+//			$order = $order_p[$order_get][0];
+//			$order_db = $order_p[$order_get][1];
+//		}else{
+//			// по умолчанию сортировка по первому элементу массива order_p
+//			$order = $order_p['namea'][0];
+//			$order_db = $order_p['namea'][1];
+//		}
+//		/* =====Сортировка===== */
+//
+//		// параметры для навигации
+//		$perpage = 9; // кол-во товаров на страницу
+//		if(isset($_GET['page'])){
+//			$page = (int)$_GET['page'];
+//			if($page < 1) $page = 1;
+//		}else{
+//			$page = 1;
+//		}
+//		$count_rows = count($result_search); // общее кол-во товаров
+//		$pages_count = ceil($count_rows / $perpage); // кол-во страниц
+//		if(!$pages_count) $pages_count = 1; // минимум 1 страница
+//		if($page > $pages_count) $page = $pages_count; // если запрошенная страница больше максимума
+//		$start_pos = ($page - 1) * $perpage; // начальная позиция для запроса
+//		$endpos = $start_pos + $perpage; // до какого товара будет вывод на странице
+//		if($endpos > $count_rows) $endpos = $count_rows;
+//	break;
+//
+//	case('filter'):
+//		// выбор по параметрам
+//		$startprice = (int)$_GET['startprice'];
+//		$endprice = (int)$_GET['endprice'];
+//		if($_GET['material_1']){
+//			$material_1 = $_GET['material_1'];
+//		}
+//		if($_GET['material_2']){
+//			$material_2 = $_GET['material_2'];
+//		}
+//		if($_GET['material_3']){
+//			$material_3 = $_GET['material_3'];
+//		}
+//		if($_GET['material_4']){
+//			$material_4 = $_GET['material_4'];
+//		}
+//		if($_GET['material_5']){
+//			$material_5 = $_GET['material_5'];
+//		}
+//		if($_GET['material_6']){
+//			$material_6 = $_GET['material_6'];
+//		}
+//		if($_GET['material_7']){
+//			$material_7 = $_GET['material_7'];
+//		}if($_GET['material_8']){
+//			$material_8 = $_GET['material_8'];
+//
+//		}if($_GET['izgotovlenie_1']){
+//			$izgotovlenie_1 = $_GET['izgotovlenie_1'];
+//
+//		}if($_GET['izgotovlenie_1']){
+//			$izgotovlenie_1 = $_GET['izgotovlenie_1'];
+//
+//		}if($_GET['izgotovlenie_2']){
+//			$izgotovlenie_2 = $_GET['izgotovlenie_2'];
+//
+//		}if($_GET['izgotovlenie_3']){
+//			$izgotovlenie_3 = $_GET['izgotovlenie_3'];
+//
+//		}if($_GET['izgotovlenie_4']){
+//			$izgotovlenie_4 = $_GET['izgotovlenie_4'];
+//
+//		}if($_GET['izgotovlenie_5']){
+//			$izgotovlenie_5 = $_GET['izgotovlenie_5'];
+//
+//		}if($_GET['izgotovlenie_6']){
+//			$izgotovlenie_6 = $_GET['izgotovlenie_6'];
+//
+//		}if($_GET['izgotovlenie_7']){
+//			$izgotovlenie_7 = $_GET['izgotovlenie_7'];
+//
+//		}
+//
+//
+//
+//		$products = filter($material_1, $material_2, $material_3, $material_4, $material_5,$material_6,$material_7,$material_8,   $izgotovlenie_1, $izgotovlenie_2, $izgotovlenie_3, $izgotovlenie_4, $izgotovlenie_5, $izgotovlenie_6, $izgotovlenie_7, $startprice, $endprice);
+//	break;
 	
 	case('product'):
 		

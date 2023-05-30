@@ -71,14 +71,14 @@
 	  </tr>
 	  
 	</table>
-    <img class="pereshetl" src="<?=TEMPLATE?>images/perechetl.jpg" />
+<!--    <img class="pereshetl" src="--><?//=TEMPLATE?><!--images/perechetl.jpg" />-->
 	
-	<div class="sposob-dostavki">
-		<h4>Способы доставки:</h4>
-        <?php foreach($dostavka as $item): ?>
-        <p><input type="radio" name="dostavka" value="<?=$item['dostavka_id']?>" /><?=$item['name']?> <span id="coment"><?=$item['anons']?></span></p>
-        <?php endforeach; ?>
-	</div>		
+<!--	<div class="sposob-dostavki">-->
+<!--		<h4>Способы доставки:</h4>-->
+<!--        --><?php //foreach($dostavka as $item): ?>
+<!--        <p><input type="radio" name="dostavka" value="--><?//=$item['dostavka_id']?><!--" />--><?//=$item['name']?><!-- <span id="coment">--><?//=$item['anons']?><!--</span></p>-->
+<!--        --><?php //endforeach; ?>
+<!--	</div>		-->
 	
 	
 	<h3>Информация для доставки:</h3>
