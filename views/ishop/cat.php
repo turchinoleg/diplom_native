@@ -18,22 +18,7 @@
     <a href="<?=PATH?>"><?=SITE_NAME?></a> / <span><?=$brand_name[0]['brand_name']?></span>
 <?php endif; ?>
 	</div> <!-- .kroshka -->
-    <div class="vid-sort">
-		Вид: 
-			<a href="#" id="grid" class="grid_list"><img src="<?=TEMPLATE?>images/vid-tabl.gif" alt="табличный вид" /></a> 
-			<a href="#" id="list" class="grid_list"><img src="<?=TEMPLATE?>images/vid-line.gif" alt="линейный вид" /></a>  
-			&nbsp;&nbsp;           
-		Сортировать по:&nbsp;   
-            <a id="param_order" class="sort-top"><?=$order?></a>
-                <div class="sort-wrap">
-                    <?php foreach($order_p as $key => $value): ?>
-                        <?php if($value[0] == $order) continue; ?>
-<a href="<?=PATH?>category/<?=$category?>/order/<?=$key?>/page=<?=$page?>" class="sort-bot"><?=$value[0]?></a>                        
-                    <?php endforeach; ?>
-                </div> 
-                
-                
-	</div> <!-- .vid-sort -->
+<!--   <!-- .vid-sort -->-->
 <div id="anons"><?php if(isset($brand['anons'])) echo $brand['anons']; ?></div>
 <?php if($products): // если получены товары категории ?>
 <?php foreach($products as $product): ?>

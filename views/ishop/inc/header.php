@@ -57,10 +57,7 @@ if ((!$_SESSION['auth']) && $view == 'personal'){
 						<div class="newbasket-inner">
 							<div class="newbasket">
 					            <?php if($_SESSION['total_quantity']): ?>
-					            	<?/*
-					            	<span><span><?=$_SESSION['total_quantity']?></span> товар на сумму <span><?=$_SESSION['total_sum']?></span> руб.
-					                </span>
-					                */?>
+
 					                <div class="total_quantity"><?=$_SESSION['total_quantity']?></div>
 					            <?php endif; ?> 
 					        </div>
@@ -86,69 +83,28 @@ if ((!$_SESSION['auth']) && $view == 'personal'){
 		                <?php else: ?>
 		                	<div class="autoriz_block autoriz_block_answer">
 		                		<noindex><div id="customer" data-id="<?=$_SESSION['auth']['customer_id']?>"></div></noindex>
-			                    <p><a href="/personal/">Личный кабинет<?#=htmlspecialchars($_SESSION['auth']['user'])?></a></p>
-			                    <?/* убрали выход, перенести внутрь личного кабинета 05.01.2019
-			                    <a href="<?=PATH?>?do=logout">Выход</a>
-			                    */?>
+			                    <p><a href="/personal/">Личный кабинет</a></p>
+
 		                	</div>
 		                <?php endif; ?>
 					</div>
 				</div>
 			</div>
-	      	<?/*
-	      	<a  href="http://xn----7sbbfas9a5cvak3e.xn--p1ai/"><div class="header_avers"></div></a>
-	      	<a  href="http://aversstyle.ru/"><div class="header_viviska"></div> </a>  		
-	      	*/?>
+
 		</div>
       
-      <?/* СТАРЫЙ ХЕДЕР
-      <!--img src="<?=TEMPLATE?>images/header.jpg" class="header_img" />
-      <a  href="/"><div class="header_logo"><h1>аверс-стиль</h1></div></a>
-      <a  href="http://xn----7sbbfas9a5cvak3e.xn--p1ai/"><div class="header_avers"></div></a>
-      <a  href="http://avers-style.ru/"><div class="header_viviska"></div> </a-->  
-		*/?>
 
-    <?php /*?>
-		<a href="/"><img class="logo" src="<?=TEMPLATE?>images/logo.jpg" alt="Интернет магазин сотовых телефонов" /></a>
-		<img class="slogan" src="<?=TEMPLATE?>images/slogan.jpg" alt="Интернет-магазин Сотовых телефонов" />
-		<div class="head-contact">
-		<p><strong>Телефон:</strong><br />
-		<span>8 (800) 700-00-01</span></p>
-		<p><strong>Режим работы:</strong><br />
-		Будние дни: с 9:00 до 18:00<br />  
-		Суббота, Воскресенье - выходные</p>  
-		</div>
-      <?php */?>  
-        
-        
-        <?/*
-		<form method="get" action="<?=PATH?>">
-		<ul class="search-head">
-            <input type="hidden" name="view" value="search" />
-			<li><input type="text" name="search" id="quickquery" placeholder="Что вы хотите купить?" /></li>
-				<script type="text/javascript">
-					 //<![CDATA[
-					  placeholderSetup('quickquery');
-					  //]]>
-				</script>
-			<li><input class="search-btn" type="image" src="<?=TEMPLATE?>images/searc-btn.png" /></li>
-		</ul>
-		</form>	*/?>
 	</div>
-	<? /*
-	<div style="display:none;"><pre><?print_r($get_page)?></pre></div>
-	*/ ?>
-	<?#print_arr($pages);?>
-	<ul class="menu">
-		
-        <?php if($pages): ?>
-            <?php foreach($pages as $item): ?>
-            	<?if ($item['page_id']==1) continue;?>
-            	<?if ($item['page_id']==7):?>
-                	<li><a href="<?=PATH?>archive/"><?=$item['title']?></a></li>
-            	<?else:?>
-                	<li><a href="<?=PATH?>page/<?=$item['page_id']?>"><?=$item['title']?></a></li>
-                <?endif;?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-	</ul>
+<!--	<ul class="menu">-->
+<!--		-->
+<!--        --><?php //if($pages): ?>
+<!--            --><?php //foreach($pages as $item): ?>
+<!--            	--><?//if ($item['page_id']==1) continue;?>
+<!--            	--><?//if ($item['page_id']==7):?>
+<!--                	<li><a href="--><?//=PATH?><!--archive/">--><?//=$item['title']?><!--</a></li>-->
+<!--            	--><?//else:?>
+<!--                	<li><a href="--><?//=PATH?><!--page/--><?//=$item['page_id']?><!--">--><?//=$item['title']?><!--</a></li>-->
+<!--                --><?//endif;?>
+<!--            --><?php //endforeach; ?>
+<!--        --><?php //endif; ?>
+<!--	</ul>-->
