@@ -18,7 +18,7 @@
     <a href="<?=PATH?>"><?=SITE_NAME?></a> / <span><?=$brand_name[0]['brand_name']?></span>
 <?php endif; ?>
 	</div> <!-- .kroshka -->
-<!--   <!-- .vid-sort -->-->
+<!--  .vid-sort -->
 <div id="anons"><?php if(isset($brand['anons'])) echo $brand['anons']; ?></div>
 <?php if($products): // если получены товары категории ?>
 <?php foreach($products as $product): ?>
@@ -47,11 +47,7 @@ if($product['zakaz']==0){
 		<a href="<?=PATH?>product/<?=$product['goods_id']?>"><img src="<?=PRODUCTIMG?><?=$product['img']?>" alt="" /></a>
 		<div> <!-- Иконки -->
 
-    		<div class="product-favorite<?=$is_favorite ? ' active' : ''?>"<?
-    			if ($_SESSION['auth']['customer_id']){
-    				echo "data-customer-id='".$_SESSION['auth']['customer_id']."'";
-    			}?>>
-    		</div>
+
             <?php if($product['hits']) echo '<img src="' .TEMPLATE. 'images/ico-cat-lider.png" alt="лидеры продаж" />'; ?>
             <?php if($product['new']) echo '<img src="' .TEMPLATE. 'images/ico-cat-new.png" alt="новинка" />'; ?>
             <?php if($product['sale']) echo '<img src="' .TEMPLATE. 'images/ico-cat-sale.png" alt="распродажа" />'; ?>							

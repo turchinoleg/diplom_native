@@ -574,8 +574,9 @@
 			];
 		
 		var a,d,e;
+        a=20;
 
-
+		<?$get_goods = get_goods(1020);?>
 		<?$get_goods = get_goods(1020);?>
 
 		a = <?=$get_goods['price_4']?>;

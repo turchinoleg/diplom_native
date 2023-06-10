@@ -103,64 +103,64 @@ if(isset($_SESSION['edit_product']['res'])){
 </script>
 		</td>
 	  </tr>
-      <tr>
-        <td>Картинки галереи: <br />
-        <span class="small">Для удаления картинки кликните по ней</span></td>
-        <td class="slideimg"><?=$imgslide?></td>
-      </tr> 
-      <tr>
-        <td>
-            <div id="butUpload">Выбрать файл</div>
-        </td>
-        <td>
-            <div id="filesUpload"></div>
-        </td>
-      </tr>
-      <tr>
-		<td class="add-edit-txt">Материал:</td>
-        <td>
-		    
-              <input type="checkbox" name="material_1" value="1" <?php if(($get_product['material_1'])>0) echo 'checked=""'; ?> /> Акрил <br />
-              <input type="checkbox" name="material_2" value="1" <?php if(($get_product['material_2'])>0) echo 'checked=""'; ?> /> Дерево <br />
-              <input type="checkbox" name="material_3" value="1" <?php if(($get_product['material_3'])>0) echo 'checked=""'; ?> /> Керамика-фарфор-стекло  <br />
-              <input type="checkbox" name="material_4" value="1" <?php if(($get_product['material_4'])>0) echo 'checked=""'; ?> /> Металл <br />
-              <input type="checkbox" name="material_5" value="1" <?php if(($get_product['material_5'])>0) echo 'checked=""'; ?> /> Магнитный винил <br />
-              <input type="checkbox" name="material_6" value="1" <?php if(($get_product['material_6'])>0) echo 'checked=""'; ?> /> Текстиль <br />
-              <input type="checkbox" name="material_7" value="1" <?php if(($get_product['material_7'])>0) echo 'checked=""'; ?> /> Пластик <br />
-              <input type="checkbox" name="material_8" value="1" <?php if(($get_product['material_8'])>0) echo 'checked=""'; ?> /> Прочее <br />
-        </td>
-	  </tr>
-       <tr>
-		<td class="add-edit-txt">Способ изготовления:</td>
-		<td>
-        	
-              <input type="checkbox" name="izgotovlenie_1" value="1" <?php if($get_product['izgotovlenie_1']>0) echo 'checked=""';?> /> Полиграфическая вставка <br />
-              <input type="checkbox" name="izgotovlenie_2" value="1" <?php if($get_product['izgotovlenie_2']>0) echo 'checked=""';?> /> Заливка смолой <br />
-              <input type="checkbox" name="izgotovlenie_3" value="1" <?php if($get_product['izgotovlenie_3']>0) echo 'checked=""';?> /> Сублимация <br />
-              <input type="checkbox" name="izgotovlenie_4" value="1" <?php if($get_product['izgotovlenie_4']>0) echo 'checked=""';?> /> Тампопечать <br />
-              <input type="checkbox" name="izgotovlenie_5" value="1" <?php if($get_product['izgotovlenie_5']>0) echo 'checked=""';?> /> Шелкография <br />
-              <input type="checkbox" name="izgotovlenie_6" value="1" <?php if($get_product['izgotovlenie_6']>0) echo 'checked=""';?> /> Термоперенос <br />
-              <input type="checkbox" name="izgotovlenie_7" value="1" <?php if($get_product['izgotovlenie_7']>0) echo 'checked=""';?> /> Гравировка <br />
-        </td>
-	  </tr>
-      <tr>
-        <td>Отметить как:</td>
-        <td><input type="checkbox" name="new" value="1" <?php if($get_product['new']) echo 'checked=""'; ?> /> Новинка <br />
-        	<input type="checkbox" name="hits" value="1" <?php if($get_product['hits']) echo 'checked=""'; ?> /> Лидер продаж <br />
-            <input type="checkbox" name="sale" value="1" <?php if($get_product['sale']) echo 'checked=""'; ?> /> Распродажа <br /></td>
-      </tr>
-      </tr>
-      <tr>
-        <td>В наличии/Под заказ:</td>
-        <td><input type="radio" name="zakaz" value="0" <?php if($get_product['zakaz'] == 0) echo 'checked=""'; ?> /> В наличии <br />
-        <input type="radio" name="zakaz" value="1"<?php if($get_product['zakaz']==1) echo 'checked=""'; ?> /> под заказ, 1-2 дня<br />
-        <input type="radio" name="zakaz" value="2"<?php if($get_product['zakaz']==2) echo 'checked=""'; ?> /> под заказ, 7-10 дней</td>
-      </tr>
-      <tr>
-        <td>Показывать:</td>
-        <td><input type="radio" name="visible" value="1" <?php if($get_product['visible']) echo 'checked=""'; ?> /> Да <br />
-        <input type="radio" name="visible" value="0" <?php if(!$get_product['visible']) echo 'checked=""'; ?> /> Нет</td>
-      </tr>  
+<!--      <tr>-->
+<!--        <td>Картинки галереи: <br />-->
+<!--        <span class="small">Для удаления картинки кликните по ней</span></td>-->
+<!--        <td class="slideimg">--><?//=$imgslide?><!--</td>-->
+<!--      </tr> -->
+<!--      <tr>-->
+<!--        <td>-->
+<!--            <div id="butUpload">Выбрать файл</div>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <div id="filesUpload"></div>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--		<td class="add-edit-txt">Материал:</td>-->
+<!--        <td>-->
+<!--		    -->
+<!--              <input type="checkbox" name="material_1" value="1" --><?php //if(($get_product['material_1'])>0) echo 'checked=""'; ?><!-- /> Акрил <br />-->
+<!--              <input type="checkbox" name="material_2" value="1" --><?php //if(($get_product['material_2'])>0) echo 'checked=""'; ?><!-- /> Дерево <br />-->
+<!--              <input type="checkbox" name="material_3" value="1" --><?php //if(($get_product['material_3'])>0) echo 'checked=""'; ?><!-- /> Керамика-фарфор-стекло  <br />-->
+<!--              <input type="checkbox" name="material_4" value="1" --><?php //if(($get_product['material_4'])>0) echo 'checked=""'; ?><!-- /> Металл <br />-->
+<!--              <input type="checkbox" name="material_5" value="1" --><?php //if(($get_product['material_5'])>0) echo 'checked=""'; ?><!-- /> Магнитный винил <br />-->
+<!--              <input type="checkbox" name="material_6" value="1" --><?php //if(($get_product['material_6'])>0) echo 'checked=""'; ?><!-- /> Текстиль <br />-->
+<!--              <input type="checkbox" name="material_7" value="1" --><?php //if(($get_product['material_7'])>0) echo 'checked=""'; ?><!-- /> Пластик <br />-->
+<!--              <input type="checkbox" name="material_8" value="1" --><?php //if(($get_product['material_8'])>0) echo 'checked=""'; ?><!-- /> Прочее <br />-->
+<!--        </td>-->
+<!--	  </tr>-->
+<!--       <tr>-->
+<!--		<td class="add-edit-txt">Способ изготовления:</td>-->
+<!--		<td>-->
+<!--        	-->
+<!--              <input type="checkbox" name="izgotovlenie_1" value="1" --><?php //if($get_product['izgotovlenie_1']>0) echo 'checked=""';?><!-- /> Полиграфическая вставка <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_2" value="1" --><?php //if($get_product['izgotovlenie_2']>0) echo 'checked=""';?><!-- /> Заливка смолой <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_3" value="1" --><?php //if($get_product['izgotovlenie_3']>0) echo 'checked=""';?><!-- /> Сублимация <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_4" value="1" --><?php //if($get_product['izgotovlenie_4']>0) echo 'checked=""';?><!-- /> Тампопечать <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_5" value="1" --><?php //if($get_product['izgotovlenie_5']>0) echo 'checked=""';?><!-- /> Шелкография <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_6" value="1" --><?php //if($get_product['izgotovlenie_6']>0) echo 'checked=""';?><!-- /> Термоперенос <br />-->
+<!--              <input type="checkbox" name="izgotovlenie_7" value="1" --><?php //if($get_product['izgotovlenie_7']>0) echo 'checked=""';?><!-- /> Гравировка <br />-->
+<!--        </td>-->
+<!--	  </tr>-->
+<!--      <tr>-->
+<!--        <td>Отметить как:</td>-->
+<!--        <td><input type="checkbox" name="new" value="1" --><?php //if($get_product['new']) echo 'checked=""'; ?><!-- /> Новинка <br />-->
+<!--        	<input type="checkbox" name="hits" value="1" --><?php //if($get_product['hits']) echo 'checked=""'; ?><!-- /> Лидер продаж <br />-->
+<!--            <input type="checkbox" name="sale" value="1" --><?php //if($get_product['sale']) echo 'checked=""'; ?><!-- /> Распродажа <br /></td>-->
+<!--      </tr>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>В наличии/Под заказ:</td>-->
+<!--        <td><input type="radio" name="zakaz" value="0" --><?php //if($get_product['zakaz'] == 0) echo 'checked=""'; ?><!-- /> В наличии <br />-->
+<!--        <input type="radio" name="zakaz" value="1"--><?php //if($get_product['zakaz']==1) echo 'checked=""'; ?><!-- /> под заказ, 1-2 дня<br />-->
+<!--        <input type="radio" name="zakaz" value="2"--><?php //if($get_product['zakaz']==2) echo 'checked=""'; ?><!-- /> под заказ, 7-10 дней</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>Показывать:</td>-->
+<!--        <td><input type="radio" name="visible" value="1" --><?php //if($get_product['visible']) echo 'checked=""'; ?><!-- /> Да <br />-->
+<!--        <input type="radio" name="visible" value="0" --><?php //if(!$get_product['visible']) echo 'checked=""'; ?><!-- /> Нет</td>-->
+<!--      </tr>  -->
 	</table>
 	
 	<input type="image" src="<?=ADMIN_TEMPLATE?>images/save_btn.jpg" /> 

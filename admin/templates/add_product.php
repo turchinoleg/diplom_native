@@ -46,10 +46,7 @@ if(isset($_SESSION['add_product']['res'])){
 		<td class="add-edit-txt">Цена(более 1000):</td>
 		<td><input class="head-text" type="text" name="price_6" value="<?=$_SESSION['add_product']['price_6']?>" /></td>
 	  </tr>
-       <tr>
-		<td class="add-edit-txt">Ключевые слова</td>
-		<td><input class="head-text" type="text" name="keywords" value="<?=$_SESSION['add_product']['keywords']?>" /></td>
-	  </tr>
+
       <tr>
 		<td class="add-edit-txt">Описание:</td>
 		<td><input class="head-text" type="text" name="description" value="<?=$_SESSION['add_product']['description']?>" /></td>
@@ -101,66 +98,8 @@ if(isset($_SESSION['add_product']['res'])){
 </script>
 		</td>
 	  </tr>
-      <tr>
-        <td>Картинки галереи:</td>
-        <td></td>
-      </tr> 
-      <tr>
-        <td id="btnimg">
-            <div><input type="file" name="galleryimg[]" /></div>
-        </td>
-      </tr>
-      <tr>
-        <td>
-            <input type="button" id="add" value="Добавить поле" />
-            <input type="button" id="del" value="Удалить поле" />
-        </td>
-      </tr>
-             <tr>
-		<td class="add-edit-txt">Материал:</td>
-        <td>
-		    
-              <input type="checkbox" name="material_1" value="1"  /> Акрил <br />
-              <input type="checkbox" name="material_2" value="1"  /> Дерево <br />
-              <input type="checkbox" name="material_3" value="1"  /> Керамика-фарфор-стекло  <br />
-              <input type="checkbox" name="material_4" value="1"  /> Металл <br />
-              <input type="checkbox" name="material_5" value="1"  /> Магнитный винил <br />
-              <input type="checkbox" name="material_6" value="1"  /> Текстиль <br />
-              <input type="checkbox" name="material_7" value="1"  /> Пластик <br />
-              <input type="checkbox" name="material_8" value="1"  /> Прочее <br />
-        </td>
-	  </tr>
-       <tr>
-		<td class="add-edit-txt">Способ изготовления:</td>
-		<td>
-        	
-              <input type="checkbox" name="izgotovlenie_1" value="1" /> Полиграфическая вставка <br />
-              <input type="checkbox" name="izgotovlenie_2" value="1" /> Заливка смолой <br />
-              <input type="checkbox" name="izgotovlenie_3" value="1" /> Сублимация <br />
-              <input type="checkbox" name="izgotovlenie_4" value="1" /> Тампопечать <br />
-              <input type="checkbox" name="izgotovlenie_5" value="1" /> Шелкография <br />
-              <input type="checkbox" name="izgotovlenie_6" value="1" /> Термоперенос <br />
-              <input type="checkbox" name="izgotovlenie_7" value="1" /> Гравировка <br />
-        </td>
-	  </tr>
-      <tr>
-        <td>Отметить как:</td>
-        <td><input type="checkbox" name="new" value="1" /> Новинка <br />
-        	<input type="checkbox" name="hits" value="1" /> Лидер продаж <br />
-            <input type="checkbox" name="sale" value="1" /> Распродажа <br /></td>
-      </tr>
-      </tr>
-      <tr>
-        <td>В наличии/Под заказ:</td>
-        <td><input type="radio" name="zakaz" value="0" checked="" /> В наличии <br />
-        <input type="radio" name="zakaz" value="1" /> под заказ, 1-2 дня <br />
-        <input type="radio" name="zakaz" value="2" /> Под заказ, 7-10</td>
-      </tr>
-      <tr>
-        <td>Показывать:</td>
-        <td><input type="radio" name="visible" value="1" checked="" /> Да <br />
-        <input type="radio" name="visible" value="0" /> Нет</td>
-      </tr>  
+
+
 	</table>
 	
 	<input type="image" src="<?=ADMIN_TEMPLATE?>images/save_btn.jpg" /> 

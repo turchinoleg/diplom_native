@@ -2,7 +2,8 @@
 
 /* ===Фильтрация входящих данных из админки=== */
 function clear_admin($var){
-    $var = mysqli_real_escape_string($var);
+    global $con;
+    $var = mysqli_real_escape_string($con, $var);
     return $var;
 }
 /* ===Фильтрация входящих данных из админки=== */
@@ -20,64 +21,64 @@ function active_url($str = 'view=pages'){
 }
 /* ===Подсвечивание активного пункта меню=== */
 
-/* ===Ресайз картинок=== */
-function resize($target, $dest, $wmax, $hmax, $ext){
-    /*
-    $target - путь к оригинальному файлу
-    $dest - путь сохранения обработанного файла
-    $wmax - максимальная ширина
-    $hmax - максимальная высота
-    $ext - расширение файла
-    */
-    list($w_orig, $h_orig) = getimagesize($target);
-    $ratio = $w_orig / $h_orig; // =1 - квадрат, <1 - альбомная, >1 - книжная
-
-    if(($wmax / $hmax) > $ratio){
-        $wmax = $hmax * $ratio;
-    }else{
-        $hmax = $wmax / $ratio;
-    }
-    
-    $img = "";
-    // imagecreatefromjpeg | imagecreatefromgif | imagecreatefrompng
-    switch($ext){
-        case("gif"):
-            $img = imagecreatefromgif($target);
-            break;
-        case("png"):
-            $img = imagecreatefrompng($target);
-            break;
-        default:
-            $img = imagecreatefromjpeg($target);    
-    }
-    $newImg = imagecreatetruecolor($wmax, $hmax); // создаем оболочку для новой картинки
-    
-    if($ext == "png"){
-        imagesavealpha($newImg, true); // сохранение альфа канала
-        $transPng = imagecolorallocatealpha($newImg,0,0,0,127); // добавляем прозрачность
-        imagefill($newImg, 0, 0, $transPng); // заливка  
-    }
-    
-    imagecopyresampled($newImg, $img, 0, 0, 0, 0, $wmax, $hmax, $w_orig, $h_orig); // копируем и ресайзим изображение
-    switch($ext){
-        case("gif"):
-            imagegif($newImg, $dest);
-            break;
-        case("png"):
-            imagepng($newImg, $dest);
-            break;
-        default:
-            imagejpeg($newImg, $dest);    
-    }
-    imagedestroy($newImg);
-}
-/* ===Ресайз картинок=== */
+///* ===Ресайз картинок=== */
+//function resize($target, $dest, $wmax, $hmax, $ext){
+//    /*
+//    $target - путь к оригинальному файлу
+//    $dest - путь сохранения обработанного файла
+//    $wmax - максимальная ширина
+//    $hmax - максимальная высота
+//    $ext - расширение файла
+//    */
+//    list($w_orig, $h_orig) = getimagesize($target);
+//    $ratio = $w_orig / $h_orig; // =1 - квадрат, <1 - альбомная, >1 - книжная
+//
+//    if(($wmax / $hmax) > $ratio){
+//        $wmax = $hmax * $ratio;
+//    }else{
+//        $hmax = $wmax / $ratio;
+//    }
+//
+//    $img = "";
+//    // imagecreatefromjpeg | imagecreatefromgif | imagecreatefrompng
+//    switch($ext){
+//        case("gif"):
+//            $img = imagecreatefromgif($target);
+//            break;
+//        case("png"):
+//            $img = imagecreatefrompng($target);
+//            break;
+//        default:
+//            $img = imagecreatefromjpeg($target);
+//    }
+//    $newImg = imagecreatetruecolor($wmax, $hmax); // создаем оболочку для новой картинки
+//
+//    if($ext == "png"){
+//        imagesavealpha($newImg, true); // сохранение альфа канала
+//        $transPng = imagecolorallocatealpha($newImg,0,0,0,127); // добавляем прозрачность
+//        imagefill($newImg, 0, 0, $transPng); // заливка
+//    }
+//
+//    imagecopyresampled($newImg, $img, 0, 0, 0, 0, $wmax, $hmax, $w_orig, $h_orig); // копируем и ресайзим изображение
+//    switch($ext){
+//        case("gif"):
+//            imagegif($newImg, $dest);
+//            break;
+//        case("png"):
+//            imagepng($newImg, $dest);
+//            break;
+//        default:
+//            imagejpeg($newImg, $dest);
+//    }
+//    imagedestroy($newImg);
+//}
+///* ===Ресайз картинок=== */
 
 /* ====Каталог - получение массива=== */
 function catalog(){
-    $query = "SELECT * FROM brands ORDER BY parent_id, position";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT * FROM brands ORDER BY parent_id, position";
+    $res = mysqli_query($con, $query);
     
     //массив категорий
     $cat = array();
@@ -96,9 +97,10 @@ function catalog(){
 
 /* ===Материалы=== */
 function material(){
-    $query = "SELECT * FROM material";
     global $con;
-	$res = mysqli_query($con, $query) ;
+
+    $query = "SELECT * FROM material";
+    $res = mysqli_query($con, $query);
     
     $material = array();
     while($row = mysqli_fetch_assoc($res)){
@@ -110,9 +112,9 @@ function material(){
 
 /* ===Изготовление=== */
 function izgotovlenie(){
-    $query = "SELECT * FROM izgotovlenie";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT * FROM izgotovlenie";
+    $res = mysqli_query($con, $query);
     
     $izgotovlenie = array();
     while($row = mysqli_fetch_assoc($res)){
@@ -124,9 +126,9 @@ function izgotovlenie(){
 
 /* ===Страницы=== */
 function pages(){
-    $query = "SELECT page_id, title, position FROM pages ORDER BY position";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT page_id, title, position FROM pages ORDER BY position";
+    $res = mysqli_query($con, $query);
     
     $pages = array();
     while($row = mysqli_fetch_assoc($res)){
@@ -136,828 +138,796 @@ function pages(){
 }
 /* ===Страницы=== */
 
-/* ===Словарь для чайников=== */
-function dictionaries(){
-    $query = "SELECT * FROM dictionaries ORDER BY date_modified";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $dictionaries = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $dictionaries[] = $row;
-    }
-    return $dictionaries;
-}
-/* ===Словарь для чайников=== */
+///* ===Словарь для чайников=== */
+//function dictionaries(){
+//    $query = "SELECT * FROM dictionaries ORDER BY date_modified";
+//    $res = mysqli_query($query);
+//
+//    $dictionaries = array();
+//    while($row = mysqli_fetch_assoc($res)){
+//        $dictionaries[] = $row;
+//    }
+//    return $dictionaries;
+//}
+///* ===Словарь для чайников=== */
 
-/* ===Услуги=== */
-function services(){
-    $query = "SELECT service_id, title, position, price, img_path FROM services ORDER BY position";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $services = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $services[] = $row;
-    }
-    return $services;
-}
+///* ===Услуги=== */
+//function services(){
+//    $query = "SELECT service_id, title, position, price, img_path FROM services ORDER BY position";
+//    $res = mysqli_query($query);
+//
+//    $services = array();
+//    while($row = mysqli_fetch_assoc($res)){
+//        $services[] = $row;
+//    }
+//    return $services;
+//}
 /* ===Услуги=== */
 
-/* ===Услуги, переменные=== */
-function services_vars(){
-	$query = "SELECT price, uf_square_price, uf_price_min, silknet_price_1, promo_price_1, promo_price_2, promo_price_3, promo_price_5, wideprint_price_1, wideprint_price_2, wideprint_price_3, textileprint_price_1, textileprint_price_2, textileprint_price_4, sign_price_1, sign_price_2, flags_price_1, badge_price_1, dodelka_price_1, dodelka_price_2, stand_price_1, oracal_price_1, magnitvinil_price_1, pockets, present_price_1, discount_price_1, bracers_price_1 FROM services";
-	global $con;
-	$res = mysqli_query($con, $query) ;
-
-	$services_vars = array();
-	while ($row = mysqli_fetch_assoc($res)){
-		$services_vars[] = $row;
-	}
-	return $services_vars;
-}
-/* ===Услуги, переменные=== */
-
-
-/* ===Отдельная страница=== */
-function get_page($page_id){
-    $query = "SELECT * FROM pages WHERE page_id = $page_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $page = array();
-    $page = mysqli_fetch_assoc($res);
-    
-    return $page;
-}
-/* ===Отдельная страница=== */
-
-/* ===Отдельная услуга=== */
-function get_service($service_id){
-    $query = "SELECT * FROM services WHERE service_id = $service_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $service = array();
-    $service = mysqli_fetch_assoc($res);
-    
-    return $service;
-}
-/* ===Отдельная услуга=== */
-
-/* ===Отдельная страница словаря=== */
-function get_dictionary($dictionary_id){
-    $query = "SELECT * FROM dictionaries WHERE dictionary_id = $dictionary_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $dictionary = array();
-    $dictionary = mysqli_fetch_assoc($res);
-    
-    return $dictionary;
-}
-/* ===Отдельная страница словаря=== */
-
-/* ===Редактирование страницы=== */
-function edit_page($page_id){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $position = (int)$_POST['position'];
-    $text = trim($_POST['text']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['edit_page']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        
-        $query = "UPDATE pages SET
-                    title = '$title',
-                    keywords = '$keywords',
-                    description = '$description',
-                    position = $position,
-                    text = '$text'
-                        WHERE page_id = $page_id";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_page']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование страницы=== */
-
-/* ===Редактирование переменных в услугах=== */
-function edit_services_vars(){
-    $price = (float)$_POST['price'];
-    $promo_price_1 = (float)$_POST['promo_price_1'];
-    $promo_price_2 = (float)$_POST['promo_price_2'];
-    $promo_price_3 = (float)$_POST['promo_price_3'];
-    $promo_price_5 = (float)$_POST['promo_price_5'];
-    $wideprint_price_1 = (float)$_POST['wideprint_price_1'];
-    $wideprint_price_2 = (float)$_POST['wideprint_price_2'];
-    $wideprint_price_3 = (float)$_POST['wideprint_price_3'];
-    $textileprint_price_1 = (float)$_POST['textileprint_price_1'];
-    $textileprint_price_2 = (float)$_POST['textileprint_price_2'];
-    $textileprint_price_4 = (float)$_POST['textileprint_price_4'];
-    $sign_price_1 = (float)$_POST['sign_price_1'];
-    $sign_price_2 = (float)$_POST['sign_price_2'];
-    $flags_price_1 = (float)$_POST['flags_price_1'];
-    $badge_price_1 = (float)$_POST['badge_price_1'];
-    $dodelka_price_1 = (float)$_POST['dodelka_price_1'];
-    $dodelka_price_2 = (float)$_POST['dodelka_price_2'];
-    $stand_price_1 = (float)$_POST['stand_price_1'];
-    $oracal_price_1 = (float)$_POST['oracal_price_1'];
-    $magnitvinil_price_1 = (float)$_POST['magnitvinil_price_1'];
-    $pockets = (float)$_POST['pockets'];
-    $present_price_1 = (float)$_POST['present_price_1'];
-    $discount_price_1 = (float)$_POST['discount_price_1'];
-    $bracers_price_1 = (float)$_POST['bracers_price_1'];
-    $silknet_price_1 = (float)$_POST['silknet_price_1'];
-    $uf_price_min = (float)$_POST['uf_price_min'];
-	$uf_square_price = (float)$_POST['uf_square_price'];
-    
-    $query = "UPDATE services SET 
-    			price= '$price', 
-    			promo_price_1 = '$promo_price_1',
-    			promo_price_2 = '$promo_price_2',
-    			promo_price_3 = '$promo_price_3',
-    			promo_price_5 = '$promo_price_5',
-    			wideprint_price_1 = '$wideprint_price_1',
-    			wideprint_price_2 = '$wideprint_price_2',
-    			wideprint_price_3 = '$wideprint_price_3',
-    			textileprint_price_1 = '$textileprint_price_1',
-    			textileprint_price_4 = '$textileprint_price_4',
-    			textileprint_price_2 = '$textileprint_price_2',
-    			sign_price_1 = '$sign_price_1',
-    			sign_price_2 = '$sign_price_2',
-    			flags_price_1 = '$flags_price_1',
-    			badge_price_1 = '$badge_price_1',
-                dodelka_price_1 = '$dodelka_price_1',
-                dodelka_price_2 = '$dodelka_price_2',
-                stand_price_1 = '$stand_price_1',
-                oracal_price_1 = '$oracal_price_1',
-                magnitvinil_price_1 = '$magnitvinil_price_1',
-                pockets = '$pockets',
-                present_price_1 = '$present_price_1',
-                discount_price_1 = '$discount_price_1',
-                silknet_price_1 = '$silknet_price_1',
-                uf_price_min = '$uf_price_min',
-                uf_square_price = '$uf_square_price',
-                bracers_price_1 = '$bracers_price_1'";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-    
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['services_vars']['res'] = "<div class='success'>Страница обновлена!</div>";
-        return true;
-    }else{
-        $_SESSION['services_vars']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
-        return false;
-    }
-}
-/* ===Редактирование переменных в услугах=== */
+///* ===Услуги, переменные=== */
+//function services_vars(){
+//	$query = "SELECT price, uf_square_price, uf_price_min, silknet_price_1, promo_price_1, promo_price_2, promo_price_3, promo_price_5, wideprint_price_1, wideprint_price_2, wideprint_price_3, textileprint_price_1, textileprint_price_2, textileprint_price_4, sign_price_1, sign_price_2, flags_price_1, badge_price_1, dodelka_price_1, dodelka_price_2, stand_price_1, oracal_price_1, magnitvinil_price_1, pockets, present_price_1, discount_price_1, bracers_price_1 FROM services";
+//	$res = mysqli_query($query);
+//
+//	$services_vars = array();
+//	while ($row = mysqli_fetch_assoc($res)){
+//		$services_vars[] = $row;
+//	}
+//	return $services_vars;
+//}
+///* ===Услуги, переменные=== */
 
 
-/* ===Редактирование услуги=== */
-function edit_service($service_id){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $position = (int)$_POST['position'];
-    $text = trim($_POST['text']);
-    $img_path = trim($_POST['img_path']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['edit_service']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        $img_path = clear_admin($img_path);
-        
-        $query = "UPDATE services SET
-                    title = '$title',
-                    keywords = '$keywords',
-                    description = '$description',
-                    position = $position,
-                    text = '$text',
-                    img_path = '$img_path'
-                        WHERE service_id = $service_id";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_service']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование услуги=== */
+///* ===Отдельная страница=== */
+//function get_page($page_id){
+//    $query = "SELECT * FROM pages WHERE page_id = $page_id";
+//    $res = mysqli_query($query);
+//
+//    $page = array();
+//    $page = mysqli_fetch_assoc($res);
+//
+//    return $page;
+//}
+///* ===Отдельная страница=== */
 
-/* ===Редактирование страницы словаря=== */
-function edit_dictionary($dictionary_id){
-    $text = trim($_POST['text']);
-    $title = trim($_POST['title']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['edit_dictionary']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        return false;
-    }else{
-        $text = clear_admin($text);
-        
-        $query = "UPDATE dictionaries SET
-                    name = '$title',
-                    content = '$text'
-                        WHERE dictionary_id = '$dictionary_id'";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_dictionary']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование страницы словаря=== */
+///* ===Отдельная услуга=== */
+//function get_service($service_id){
+//    $query = "SELECT * FROM services WHERE service_id = $service_id";
+//    $res = mysqli_query($query);
+//
+//    $service = array();
+//    $service = mysqli_fetch_assoc($res);
+//
+//    return $service;
+//}
+///* ===Отдельная услуга=== */
+//
+///* ===Отдельная страница словаря=== */
+//function get_dictionary($dictionary_id){
+//    $query = "SELECT * FROM dictionaries WHERE dictionary_id = $dictionary_id";
+//    $res = mysqli_query($query);
+//
+//    $dictionary = array();
+//    $dictionary = mysqli_fetch_assoc($res);
+//
+//    return $dictionary;
+//}
+///* ===Отдельная страница словаря=== */
+//
+///* ===Редактирование страницы=== */
+//function edit_page($page_id){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $position = (int)$_POST['position'];
+//    $text = trim($_POST['text']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['edit_page']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//
+//        $query = "UPDATE pages SET
+//                    title = '$title',
+//                    keywords = '$keywords',
+//                    description = '$description',
+//                    position = $position,
+//                    text = '$text'
+//                        WHERE page_id = $page_id";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_page']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование страницы=== */
+//
+///* ===Редактирование переменных в услугах=== */
+//function edit_services_vars(){
+//    $price = (float)$_POST['price'];
+//    $promo_price_1 = (float)$_POST['promo_price_1'];
+//    $promo_price_2 = (float)$_POST['promo_price_2'];
+//    $promo_price_3 = (float)$_POST['promo_price_3'];
+//    $promo_price_5 = (float)$_POST['promo_price_5'];
+//    $wideprint_price_1 = (float)$_POST['wideprint_price_1'];
+//    $wideprint_price_2 = (float)$_POST['wideprint_price_2'];
+//    $wideprint_price_3 = (float)$_POST['wideprint_price_3'];
+//    $textileprint_price_1 = (float)$_POST['textileprint_price_1'];
+//    $textileprint_price_2 = (float)$_POST['textileprint_price_2'];
+//    $textileprint_price_4 = (float)$_POST['textileprint_price_4'];
+//    $sign_price_1 = (float)$_POST['sign_price_1'];
+//    $sign_price_2 = (float)$_POST['sign_price_2'];
+//    $flags_price_1 = (float)$_POST['flags_price_1'];
+//    $badge_price_1 = (float)$_POST['badge_price_1'];
+//    $dodelka_price_1 = (float)$_POST['dodelka_price_1'];
+//    $dodelka_price_2 = (float)$_POST['dodelka_price_2'];
+//    $stand_price_1 = (float)$_POST['stand_price_1'];
+//    $oracal_price_1 = (float)$_POST['oracal_price_1'];
+//    $magnitvinil_price_1 = (float)$_POST['magnitvinil_price_1'];
+//    $pockets = (float)$_POST['pockets'];
+//    $present_price_1 = (float)$_POST['present_price_1'];
+//    $discount_price_1 = (float)$_POST['discount_price_1'];
+//    $bracers_price_1 = (float)$_POST['bracers_price_1'];
+//    $silknet_price_1 = (float)$_POST['silknet_price_1'];
+//    $uf_price_min = (float)$_POST['uf_price_min'];
+//	$uf_square_price = (float)$_POST['uf_square_price'];
+//
+//    $query = "UPDATE services SET
+//    			price= '$price',
+//    			promo_price_1 = '$promo_price_1',
+//    			promo_price_2 = '$promo_price_2',
+//    			promo_price_3 = '$promo_price_3',
+//    			promo_price_5 = '$promo_price_5',
+//    			wideprint_price_1 = '$wideprint_price_1',
+//    			wideprint_price_2 = '$wideprint_price_2',
+//    			wideprint_price_3 = '$wideprint_price_3',
+//    			textileprint_price_1 = '$textileprint_price_1',
+//    			textileprint_price_4 = '$textileprint_price_4',
+//    			textileprint_price_2 = '$textileprint_price_2',
+//    			sign_price_1 = '$sign_price_1',
+//    			sign_price_2 = '$sign_price_2',
+//    			flags_price_1 = '$flags_price_1',
+//    			badge_price_1 = '$badge_price_1',
+//                dodelka_price_1 = '$dodelka_price_1',
+//                dodelka_price_2 = '$dodelka_price_2',
+//                stand_price_1 = '$stand_price_1',
+//                oracal_price_1 = '$oracal_price_1',
+//                magnitvinil_price_1 = '$magnitvinil_price_1',
+//                pockets = '$pockets',
+//                present_price_1 = '$present_price_1',
+//                discount_price_1 = '$discount_price_1',
+//                silknet_price_1 = '$silknet_price_1',
+//                uf_price_min = '$uf_price_min',
+//                uf_square_price = '$uf_square_price',
+//                bracers_price_1 = '$bracers_price_1'";
+//    $res = mysqli_query($query) or die(mysqli_error());
+//
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['services_vars']['res'] = "<div class='success'>Страница обновлена!</div>";
+//        return true;
+//    }else{
+//        $_SESSION['services_vars']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
+//        return false;
+//    }
+//}
+///* ===Редактирование переменных в услугах=== */
+//
+//
+///* ===Редактирование услуги=== */
+//function edit_service($service_id){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $position = (int)$_POST['position'];
+//    $text = trim($_POST['text']);
+//    $img_path = trim($_POST['img_path']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['edit_service']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//        $img_path = clear_admin($img_path);
+//
+//        $query = "UPDATE services SET
+//                    title = '$title',
+//                    keywords = '$keywords',
+//                    description = '$description',
+//                    position = $position,
+//                    text = '$text',
+//                    img_path = '$img_path'
+//                        WHERE service_id = $service_id";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_service']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование услуги=== */
+//
+///* ===Редактирование страницы словаря=== */
+//function edit_dictionary($dictionary_id){
+//    $text = trim($_POST['text']);
+//    $title = trim($_POST['title']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['edit_dictionary']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        return false;
+//    }else{
+//        $text = clear_admin($text);
+//
+//        $query = "UPDATE dictionaries SET
+//                    name = '$title',
+//                    content = '$text'
+//                        WHERE dictionary_id = '$dictionary_id'";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница обновлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_dictionary']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование страницы словаря=== */
+//
+///* ===Добавление страницы=== */
+//function add_page(){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $position = (int)$_POST['position'];
+//    $text = trim($_POST['text']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['add_page']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        $_SESSION['add_page']['keywords'] = $keywords;
+//        $_SESSION['add_page']['description'] = $description;
+//        $_SESSION['add_page']['position'] = $position;
+//        $_SESSION['add_page']['text'] = $text;
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//
+//        $query = "INSERT INTO pages (title, keywords, description, position, text)
+//                    VALUES ('$title', '$keywords', '$description', $position, '$text')";
+//        $res = mysqli_query($query);
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_page']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление страницы=== */
+//
+///* ===Добавление услуги=== */
+//function add_service(){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $position = (int)$_POST['position'];
+//    $text = trim($_POST['text']);
+//    $price = (float)($_POST['text']);
+//    $promo_price_1 = (int)($_POST['promo_price_1']);
+//    $promo_price_2 = (int)($_POST['promo_price_2']);
+//    $promo_price_3 = (int)($_POST['promo_price_3']);
+//    $promo_price_5 = (int)($_POST['promo_price_5']);
+//    $img_path = trim($_POST['text']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['add_service']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        $_SESSION['add_service']['keywords'] = $keywords;
+//        $_SESSION['add_service']['description'] = $description;
+//        $_SESSION['add_service']['position'] = $position;
+//        $_SESSION['add_service']['text'] = $text;
+//        $_SESSION['add_service']['price'] = $price;
+//        $_SESSION['add_service']['promo_price_1'] = $promo_price_1;
+//        $_SESSION['add_service']['promo_price_2'] = $promo_price_2;
+//        $_SESSION['add_service']['promo_price_3'] = $promo_price_3;
+//        $_SESSION['add_service']['promo_price_5'] = $promo_price_5;
+//        $_SESSION['add_service']['img_path'] = $img_path;
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//        $price = clear_admin($price);
+//        $promo_price_1 = clear_admin($promo_price_1);
+//        $promo_price_2 = clear_admin($promo_price_2);
+//        $promo_price_3 = clear_admin($promo_price_3);
+//        $promo_price_4 = clear_admin($promo_price_4);
+//        $promo_price_5 = clear_admin($promo_price_5);
+//        $img_path = clear_admin($img_path);
+//
+//        $query = "INSERT INTO services (title, keywords, description, position, text, price, img_path, promo_price_1, promo_price_2, promo_price_3, promo_price_4, promo_price_5)
+//                    VALUES ('$title', '$keywords', '$description', $position, '$text','$price','$img_path', '$promo_price_1', '$promo_price_2','$promo_price_3','$promo_price_4','$promo_price_5')";
+//        $res = mysqli_query($query);
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_service']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление услуги=== */
+//
+///* ===Добавление страницы словаря=== */
+//function add_dictionary(){
+//    $text = trim($_POST['text']);
+//    $title = trim($_POST['title']);
+//
+//    if(empty($title)){
+//         $_SESSION['add_dictionary']['res'] = "<div class='error'>Должно быть название страницы!</div>".print_r($_POST,true);
+//         return false;
+//    }else{
+//        $text = clear_admin($text);
+//
+//        $query = "INSERT INTO dictionaries (name, content, date)
+//                    VALUES ('$title','$text','".time()."')";
+//        $res = mysqli_query($query);
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_dictionary']['res'] = "<div class='error'>Ошибка при добавлении страницы!".mysqli_error()."</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление страницы словаря=== */
+//
+///* ===Удаление страницы=== */
+//function del_page($page_id){
+//    $query = "DELETE FROM pages WHERE page_id = $page_id";
+//    $res = mysqli_query($query);
+//
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
+//        return true;
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
+//        return false;
+//    }
+//}
+///* ===Удаление страницы=== */
+//
+///* ===Удаление услуги=== */
+//function del_service($service_id){
+//    $query = "DELETE FROM services WHERE service_id = $service_id";
+//    $res = mysqli_query($query);
+//
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
+//        return true;
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
+//        return false;
+//    }
+//}
+///* ===Удаление услуги=== */
+//
+///* ===Удаление страницы словаря=== */
+//function del_dictionary($dictionary_id){
+//    $query = "DELETE FROM dictionaries WHERE dictionary_id = $dictionary_id";
+//    $res = mysqli_query($query);
+//
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
+//        return true;
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
+//        return false;
+//    }
+//}
+///* ===Удаление страницы словаря=== */
+//
+///* ===Количество новостей=== */
+//function count_news(){
+//    $query = "SELECT COUNT(news_id) FROM news";
+//    $res = mysqli_query($query);
+//
+//    $count_news = mysqli_fetch_row($res);
+//    return $count_news[0];
+//}
+///* ===Количество новостей=== */
+//
+///* ===Архив новостей=== */
+//function get_all_news($start_pos, $perpage){
+//    $query = "SELECT news_id, title, anons, date FROM news ORDER BY date DESC LIMIT $start_pos, $perpage";
+//    $res = mysqli_query($query);
+//
+//    $all_news = array();
+//    while($row = mysqli_fetch_assoc($res)){
+//        $all_news[] = $row;
+//    }
+//    return $all_news;
+//}
+///* ===Архив новостей=== */
+//
+///* ===Добавление новости=== */
+//function add_news(){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $anons = trim($_POST['anons']);
+//    $text = trim($_POST['text']);
+//
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['add_news']['res'] = "<div class='error'>Должно быть название новости!</div>";
+//        $_SESSION['add_news']['keywords'] = $keywords;
+//        $_SESSION['add_news']['description'] = $description;
+//        $_SESSION['add_news']['anons'] = $anons;
+//        $_SESSION['add_news']['text'] = $text;
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $anons = clear_admin($anons);
+//        $text = clear_admin($text);
+//        $date = date("Y-m-d");
+//
+//        $query = "INSERT INTO news (title, keywords, description, date, anons, text)
+//                    VALUES ('$title', '$keywords', '$description', '$date', '$anons', '$text')";
+//        $res = mysqli_query($query);
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Новость добавлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_news']['res'] = "<div class='error'>Ошибка при добавлении новости!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление новости=== */
+//
+///* ===Отдельная новость=== */
+//function get_news($news_id){
+//    $query = "SELECT * FROM news WHERE news_id = $news_id";
+//    $res = mysqli_query($query);
+//
+//    $news = array();
+//    $news = mysqli_fetch_assoc($res);
+//
+//    return $news;
+//}
+///* ===Отдельная новость=== */
+//
+///* ===Редактирование новости=== */
+//function edit_news($news_id){
+//    $title = trim($_POST['title']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $date = trim($_POST['date']);
+//    $anons = trim($_POST['anons']);
+//    $text = trim($_POST['text']);
+//    echo "<script>alert('success');</script>";
+//    if(empty($title)){
+//        // если нет названия
+//        $_SESSION['edit_news']['res'] = "<div class='error'>Должно быть название новости!</div>";
+//        return false;
+//    }else{
+//        $title = clear_admin($title);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $date = clear_admin($date);
+//        $anons = clear_admin($anons);
+//        $text = clear_admin($text);
+//
+//        $query = "UPDATE news SET
+//                    title = '$title',
+//                    keywords = '$keywords',
+//                    description = '$description',
+//                    date = '$date',
+//                    anons = '$anons',
+//                    text = '$text'
+//                        WHERE news_id = $news_id";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//
+//        $types = array("image/gif", "image/png", "image/jpeg", "image/pjpeg", "image/x-png"); // массив допустимых расширений
+//
+//        if($_FILES['baseimg']['name']){
+//            $baseimgExt = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES['baseimg']['name'])); // расширение картинки
+//            $baseimgName = "{$news_id}.{$baseimgExt}"; // новое имя картинки
+//            $baseimgTmpName = $_FILES['baseimg']['tmp_name']; // временное имя файла
+//            $baseimgSize = $_FILES['baseimg']['size']; // вес файла
+//            $baseimgType = $_FILES['baseimg']['type']; // тип файла
+//            $baseimgError = $_FILES['baseimg']['error']; // 0 - OK, иначе - ошибка
+//
+//            $error = "";
+//            if(!in_array($baseimgType, $types)) $error .= "Допустимые расширения - .gif, .jpg, .png <br />";
+//            if($baseimgSize > SIZE) $error .= "Максимальный вес файла - 1 Мб";
+//            if($baseimgError) $error .= "Ошибка при загрузке файла. Возможно, файл слишком большой";
+//
+//            if(!empty($error)) $_SESSION['answer'] = "<div class='error'>Ошибка при загрузке картинки товара! <br /> {$error}</div>";
+//
+//            // если нет ошибок
+//            if(empty($error)){
+//                if(@move_uploaded_file($baseimgTmpName, "../userfiles/news_img/tmp/$baseimgName")){
+//                    resize("../userfiles/news_img/tmp/$baseimgName", "../userfiles/news_img/baseimg/$baseimgName", 120, 185, $baseimgExt);
+//                    @unlink("../userfiles/news_img/tmp/$baseimgName");
+//                    mysqli_query("UPDATE news SET img = '$baseimgName' WHERE news_id = $news_id");
+//                }else{
+//                    $_SESSION['answer'] .= "<div class='error'>Не удалось переместить загруженную картинку. Проверьте права на папки в каталоге /userfiles/news_img/</div>";
+//                }
+//            }
+//        }
+//
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Новость обновлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_news']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование новости=== */
+//
+///* ===Удаление новости=== */
+//function del_news($news_id){
+//    $query = "DELETE FROM news WHERE news_id = $news_id";
+//    $res = mysqli_query($query);
+//
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Новость удалена.</div>";
+//        return true;
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка удаления новости!</div>";
+//        return false;
+//    }
+//}
+///* ===Удаление новости=== */
 
-/* ===Добавление страницы=== */
-function add_page(){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $position = (int)$_POST['position'];
-    $text = trim($_POST['text']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['add_page']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        $_SESSION['add_page']['keywords'] = $keywords;
-        $_SESSION['add_page']['description'] = $description;
-        $_SESSION['add_page']['position'] = $position;
-        $_SESSION['add_page']['text'] = $text;
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        
-        $query = "INSERT INTO pages (title, keywords, description, position, text)
-                    VALUES ('$title', '$keywords', '$description', $position, '$text')";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
-            return true;
-        }else{
-            $_SESSION['add_page']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
-            return false;
-        }
-    }
-}
-/* ===Добавление страницы=== */
-
-/* ===Добавление услуги=== */
-function add_service(){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $position = (int)$_POST['position'];
-    $text = trim($_POST['text']);
-    $price = (float)($_POST['text']);
-    $promo_price_1 = (int)($_POST['promo_price_1']);
-    $promo_price_2 = (int)($_POST['promo_price_2']);
-    $promo_price_3 = (int)($_POST['promo_price_3']);
-    $promo_price_5 = (int)($_POST['promo_price_5']);
-    $img_path = trim($_POST['text']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['add_service']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        $_SESSION['add_service']['keywords'] = $keywords;
-        $_SESSION['add_service']['description'] = $description;
-        $_SESSION['add_service']['position'] = $position;
-        $_SESSION['add_service']['text'] = $text;
-        $_SESSION['add_service']['price'] = $price;
-        $_SESSION['add_service']['promo_price_1'] = $promo_price_1;
-        $_SESSION['add_service']['promo_price_2'] = $promo_price_2;
-        $_SESSION['add_service']['promo_price_3'] = $promo_price_3;
-        $_SESSION['add_service']['promo_price_5'] = $promo_price_5;
-        $_SESSION['add_service']['img_path'] = $img_path;
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        $price = clear_admin($price);
-        $promo_price_1 = clear_admin($promo_price_1);
-        $promo_price_2 = clear_admin($promo_price_2);
-        $promo_price_3 = clear_admin($promo_price_3);
-        $promo_price_4 = clear_admin($promo_price_4);
-        $promo_price_5 = clear_admin($promo_price_5);
-        $img_path = clear_admin($img_path);
-        
-        $query = "INSERT INTO services (title, keywords, description, position, text, price, img_path, promo_price_1, promo_price_2, promo_price_3, promo_price_4, promo_price_5)
-                    VALUES ('$title', '$keywords', '$description', $position, '$text','$price','$img_path', '$promo_price_1', '$promo_price_2','$promo_price_3','$promo_price_4','$promo_price_5')";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
-            return true;
-        }else{
-            $_SESSION['add_service']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
-            return false;
-        }
-    }
-}
-/* ===Добавление услуги=== */
-
-/* ===Добавление страницы словаря=== */
-function add_dictionary(){
-    $text = trim($_POST['text']);
-    $title = trim($_POST['title']);
-    
-    if(empty($title)){
-         $_SESSION['add_dictionary']['res'] = "<div class='error'>Должно быть название страницы!</div>".print_r($_POST,true);
-         return false;
-    }else{
-        $text = clear_admin($text);
-        
-        $query = "INSERT INTO dictionaries (name, content, date)
-                    VALUES ('$title','$text','".time()."')";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница добавлена!</div>";
-            return true;
-        }else{
-            $_SESSION['add_dictionary']['res'] = "<div class='error'>Ошибка при добавлении страницы!".mysqli_error()."</div>";
-            return false;
-        }
-    }    
-}
-/* ===Добавление страницы словаря=== */
-
-/* ===Удаление страницы=== */
-function del_page($page_id){
-    $query = "DELETE FROM pages WHERE page_id = $page_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
-        return true;
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
-        return false;
-    }
-}
-/* ===Удаление страницы=== */
-
-/* ===Удаление услуги=== */
-function del_service($service_id){
-    $query = "DELETE FROM services WHERE service_id = $service_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
-        return true;
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
-        return false;
-    }
-}
-/* ===Удаление услуги=== */
-
-/* ===Удаление страницы словаря=== */
-function del_dictionary($dictionary_id){
-    $query = "DELETE FROM dictionaries WHERE dictionary_id = $dictionary_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Страница удалена.</div>";
-        return true;
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка удаления страницы!</div>";
-        return false;
-    }
-}
-/* ===Удаление страницы словаря=== */
-
-/* ===Количество новостей=== */
-function count_news(){
-    $query = "SELECT COUNT(news_id) FROM news";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $count_news = mysqli_fetch_row($res);
-    return $count_news[0];
-}
-/* ===Количество новостей=== */
-
-/* ===Архив новостей=== */
-function get_all_news($start_pos, $perpage){
-    $query = "SELECT news_id, title, anons, date FROM news ORDER BY date DESC LIMIT $start_pos, $perpage";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $all_news = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $all_news[] = $row;
-    }
-    return $all_news;
-}
-/* ===Архив новостей=== */
-
-/* ===Добавление новости=== */
-function add_news(){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $anons = trim($_POST['anons']);
-    $text = trim($_POST['text']);
-    
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['add_news']['res'] = "<div class='error'>Должно быть название новости!</div>";
-        $_SESSION['add_news']['keywords'] = $keywords;
-        $_SESSION['add_news']['description'] = $description;
-        $_SESSION['add_news']['anons'] = $anons;
-        $_SESSION['add_news']['text'] = $text;
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $anons = clear_admin($anons);
-        $text = clear_admin($text);
-        $date = date("Y-m-d");
-        
-        $query = "INSERT INTO news (title, keywords, description, date, anons, text)
-                    VALUES ('$title', '$keywords', '$description', '$date', '$anons', '$text')";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Новость добавлена!</div>";
-            return true;
-        }else{
-            $_SESSION['add_news']['res'] = "<div class='error'>Ошибка при добавлении новости!</div>";
-            return false;
-        }
-    }
-}
-/* ===Добавление новости=== */
-
-/* ===Отдельная новость=== */
-function get_news($news_id){
-    $query = "SELECT * FROM news WHERE news_id = $news_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $news = array();
-    $news = mysqli_fetch_assoc($res);
-    
-    return $news;
-}
-/* ===Отдельная новость=== */
-
-/* ===Редактирование новости=== */
-function edit_news($news_id){
-    $title = trim($_POST['title']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $date = trim($_POST['date']);
-    $anons = trim($_POST['anons']);
-    $text = trim($_POST['text']);
-    echo "<script>alert('success');</script>";
-    if(empty($title)){
-        // если нет названия
-        $_SESSION['edit_news']['res'] = "<div class='error'>Должно быть название новости!</div>";
-        return false;
-    }else{
-        $title = clear_admin($title);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $date = clear_admin($date);
-        $anons = clear_admin($anons);
-        $text = clear_admin($text);
-        
-        $query = "UPDATE news SET
-                    title = '$title',
-                    keywords = '$keywords',
-                    description = '$description',
-                    date = '$date',
-                    anons = '$anons',
-                    text = '$text'
-                        WHERE news_id = $news_id";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-
-        $types = array("image/gif", "image/png", "image/jpeg", "image/pjpeg", "image/x-png"); // массив допустимых расширений
-
-        if($_FILES['baseimg']['name']){
-            $baseimgExt = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES['baseimg']['name'])); // расширение картинки
-            $baseimgName = "{$news_id}.{$baseimgExt}"; // новое имя картинки
-            $baseimgTmpName = $_FILES['baseimg']['tmp_name']; // временное имя файла
-            $baseimgSize = $_FILES['baseimg']['size']; // вес файла
-            $baseimgType = $_FILES['baseimg']['type']; // тип файла
-            $baseimgError = $_FILES['baseimg']['error']; // 0 - OK, иначе - ошибка
-            
-            $error = "";
-            if(!in_array($baseimgType, $types)) $error .= "Допустимые расширения - .gif, .jpg, .png <br />";
-            if($baseimgSize > SIZE) $error .= "Максимальный вес файла - 1 Мб";
-            if($baseimgError) $error .= "Ошибка при загрузке файла. Возможно, файл слишком большой";
-            
-            if(!empty($error)) $_SESSION['answer'] = "<div class='error'>Ошибка при загрузке картинки товара! <br /> {$error}</div>";
-            
-            // если нет ошибок
-            if(empty($error)){
-                if(@move_uploaded_file($baseimgTmpName, "../userfiles/news_img/tmp/$baseimgName")){
-                    resize("../userfiles/news_img/tmp/$baseimgName", "../userfiles/news_img/baseimg/$baseimgName", 120, 185, $baseimgExt);
-                    @unlink("../userfiles/news_img/tmp/$baseimgName");
-                    mysqli_query("UPDATE news SET img = '$baseimgName' WHERE news_id = $news_id");
-                }else{
-                    $_SESSION['answer'] .= "<div class='error'>Не удалось переместить загруженную картинку. Проверьте права на папки в каталоге /userfiles/news_img/</div>";
-                }
-            }
-        }
-        
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Новость обновлена!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_news']['res'] = "<div class='error'>Ошибка или Вы ничего не меняли!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование новости=== */
-
-/* ===Удаление новости=== */
-function del_news($news_id){
-    $query = "DELETE FROM news WHERE news_id = $news_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Новость удалена.</div>";
-        return true;
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка удаления новости!</div>";
-        return false;
-    }
-}
-/* ===Удаление новости=== */
-
-/* ===Информеры - получение массива=== */
-function informer(){
-    $query = "SELECT * FROM links
-                RIGHT JOIN informers ON
-                    links.parent_informer = informers.informer_id
-                        ORDER BY informer_position, links_position";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_query());
-    
-    $informers = array();
-    $name = ''; // флаг имени информера
-    while($row = mysqli_fetch_assoc($res)){
-        if($row['informer_name'] != $name){ // если такого информера в массиве еще нет
-            $informers[$row['informer_id']][] = $row['informer_name']; // добавляем информер в массив
-            $informers[$row['informer_id']]['position'] = $row['informer_position'];
-            $informers[$row['informer_id']]['informer_id'] = $row['informer_id'];
-            $name = $row['informer_name'];
-        }
-        if($informers[$row['parent_informer']])
-        $informers[$row['parent_informer']]['sub'][$row['link_id']] = $row['link_name']; // заносим страницы в информер
-    }
-    return $informers;
-}
-/* ===Информеры - получение массива=== */
-
-/* ===Массив информеров для списка=== */
-function get_informers(){
-    $query = "SELECT * FROM informers";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $informers = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $informers[] = $row; 
-    }
-    
-    return $informers;
-}
-/* ===Массив информеров для списка=== */
-
-/* ===Добавление страницы информера=== */
-function add_link(){
-    $link_name = trim($_POST['link_name']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $parent_informer = (int)$_POST['parent_informer'];
-    $links_position = (int)$_POST['links_position'];
-    $text = trim($_POST['text']);
-    
-    if(empty($link_name)){
-        // если нет названия
-        $_SESSION['add_link']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        $_SESSION['add_link']['keywords'] = $keywords;
-        $_SESSION['add_link']['description'] = $description;
-        $_SESSION['add_link']['links_position'] = $links_position;
-        $_SESSION['add_link']['text'] = $text;
-        return false;
-    }else{
-        $link_name = clear_admin($link_name);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        
-        $query = "INSERT INTO links (link_name, keywords, description, parent_informer, links_position, text)
-                    VALUES ('$link_name', '$keywords', '$description', $parent_informer, $links_position, '$text')";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница информера добавлена!</div>";
-            return true;
-        }else{
-            $_SESSION['add_link']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
-            return false;
-        }            
-    }
-}
-/* ===Добавление страницы информера=== */
-
-/* ===Получение данных страницы информера=== */
-function get_link($link_id){
-    $query = "SELECT * FROM links WHERE link_id = $link_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $link = array();
-    $link = mysqli_fetch_assoc($res);
-    return $link;
-}
-/* ===Получение данных страницы информера=== */
-
-/* ===Редактирование страницы информера=== */
-function edit_link($link_id){
-    $link_name = trim($_POST['link_name']);
-    $keywords = trim($_POST['keywords']);
-    $description = trim($_POST['description']);
-    $parent_informer = (int)$_POST['parent_informer'];
-    $links_position = (int)$_POST['links_position'];
-    $text = trim($_POST['text']);
-    
-    if(empty($link_name)){
-        // если нет названия
-        $_SESSION['edit_link']['res'] = "<div class='error'>Должно быть название страницы!</div>";
-        return false;
-    }else{
-        $link_name = clear_admin($link_name);
-        $keywords = clear_admin($keywords);
-        $description = clear_admin($description);
-        $text = clear_admin($text);
-        
-        $query = "UPDATE links SET
-                    link_name = '$link_name',
-                    keywords = '$keywords',
-                    description = '$description',
-                    parent_informer = $parent_informer,
-                    links_position = $links_position,
-                    text = '$text'
-                        WHERE link_id = $link_id";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Страница информера обновлена!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_link']['res'] = "<div class='error'>Ошибка при редактировании страницы!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование страницы информера=== */
-
-/* ===Удаление страницы информера=== */
-function del_link($link_id){
-    $query = "DELETE FROM links WHERE link_id = $link_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Страница информера удалена!</div>";
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка!</div>";
-    }
-}
-/* ===Удаление страницы информера=== */
-
-/* ===Добавление информера=== */
-function add_informer(){
-    $informer_name = clear_admin(trim($_POST['informer_name']));
-    $informer_position = (int)$_POST['informer_position'];
-    
-    if(empty($informer_name)){
-        $_SESSION['add_informer']['res'] = "<div class='error'>У информера должно быть название</div>";
-        return false;
-    }else{
-        $query = "INSERT INTO informers (informer_name, informer_position)
-                    VALUES ('$informer_name', $informer_position)";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Информер добавлен!</div>";
-            return true;
-        }else{
-            $_SESSION['add_informer']['res'] = "<div class='error'>Ошибка добавления информера!</div>";
-            return false;
-        }
-    }
-}
-/* ===Добавление информера=== */
-
-/* ===Удаление информера=== */
-function del_informer($informer_id){
-    // удаляем страницы информера
-    mysqli_query("DELETE FROM links WHERE parent_informer = $informer_id");
-    
-    // удаляем информер
-    $query = "DELETE FROM informers WHERE informer_id = $informer_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
-        $_SESSION['answer'] = "<div class='success'>Информер удален!</div>";
-    }else{
-        $_SESSION['answer'] = "<div class='error'>Ошибка!</div>";
-    } 
-}
-/* ===Удаление информера=== */
-
-/* ===Получение данных информера=== */
-function get_informer($informer_id){
-    $query = "SELECT * FROM informers WHERE informer_id = $informer_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $informers = array();
-    $informers = mysqli_fetch_assoc($res);
-    return $informers;
-}
-/* ===Получение данных информера=== */
-
-/* ===Редактирование информера=== */
-function edit_informer($informer_id){
-    $informer_name = clear_admin(trim($_POST['informer_name']));
-    $informer_position = (int)$_POST['informer_position'];
-    
-    if(empty($informer_name)){
-        $_SESSION['edit_informer']['res'] = "<div class='error'>У информера должно быть название</div>";
-        return false;
-    }else{
-        $query = "UPDATE informers SET
-                    informer_name = '$informer_name',
-                    informer_position = $informer_position
-                        WHERE informer_id = $informer_id";
-        global $con;
-	$res = mysqli_query($con, $query) ;
-        if(mysqli_affected_rows() > 0){
-            $_SESSION['answer'] = "<div class='success'>Информер обновлен!</div>";
-            return true;
-        }else{
-            $_SESSION['edit_informer']['res'] = "<div class='error'>Ошибка обновления информера!</div>";
-            return false;
-        }
-    }
-}
-/* ===Редактирование информера=== */
+///* ===Информеры - получение массива=== */
+//function informer(){
+//    $query = "SELECT * FROM links
+//                RIGHT JOIN informers ON
+//                    links.parent_informer = informers.informer_id
+//                        ORDER BY informer_position, links_position";
+//    $res = mysqli_query($query) or die(mysqli_query());
+//
+//    $informers = array();
+//    $name = ''; // флаг имени информера
+//    while($row = mysqli_fetch_assoc($res)){
+//        if($row['informer_name'] != $name){ // если такого информера в массиве еще нет
+//            $informers[$row['informer_id']][] = $row['informer_name']; // добавляем информер в массив
+//            $informers[$row['informer_id']]['position'] = $row['informer_position'];
+//            $informers[$row['informer_id']]['informer_id'] = $row['informer_id'];
+//            $name = $row['informer_name'];
+//        }
+//        if($informers[$row['parent_informer']])
+//        $informers[$row['parent_informer']]['sub'][$row['link_id']] = $row['link_name']; // заносим страницы в информер
+//    }
+//    return $informers;
+//}
+///* ===Информеры - получение массива=== */
+//
+///* ===Массив информеров для списка=== */
+//function get_informers(){
+//    $query = "SELECT * FROM informers";
+//    $res = mysqli_query($query);
+//
+//    $informers = array();
+//    while($row = mysqli_fetch_assoc($res)){
+//        $informers[] = $row;
+//    }
+//
+//    return $informers;
+//}
+///* ===Массив информеров для списка=== */
+//
+///* ===Добавление страницы информера=== */
+//function add_link(){
+//    $link_name = trim($_POST['link_name']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $parent_informer = (int)$_POST['parent_informer'];
+//    $links_position = (int)$_POST['links_position'];
+//    $text = trim($_POST['text']);
+//
+//    if(empty($link_name)){
+//        // если нет названия
+//        $_SESSION['add_link']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        $_SESSION['add_link']['keywords'] = $keywords;
+//        $_SESSION['add_link']['description'] = $description;
+//        $_SESSION['add_link']['links_position'] = $links_position;
+//        $_SESSION['add_link']['text'] = $text;
+//        return false;
+//    }else{
+//        $link_name = clear_admin($link_name);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//
+//        $query = "INSERT INTO links (link_name, keywords, description, parent_informer, links_position, text)
+//                    VALUES ('$link_name', '$keywords', '$description', $parent_informer, $links_position, '$text')";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница информера добавлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_link']['res'] = "<div class='error'>Ошибка при добавлении страницы!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление страницы информера=== */
+//
+///* ===Получение данных страницы информера=== */
+//function get_link($link_id){
+//    $query = "SELECT * FROM links WHERE link_id = $link_id";
+//    $res = mysqli_query($query);
+//
+//    $link = array();
+//    $link = mysqli_fetch_assoc($res);
+//    return $link;
+//}
+///* ===Получение данных страницы информера=== */
+//
+///* ===Редактирование страницы информера=== */
+//function edit_link($link_id){
+//    $link_name = trim($_POST['link_name']);
+//    $keywords = trim($_POST['keywords']);
+//    $description = trim($_POST['description']);
+//    $parent_informer = (int)$_POST['parent_informer'];
+//    $links_position = (int)$_POST['links_position'];
+//    $text = trim($_POST['text']);
+//
+//    if(empty($link_name)){
+//        // если нет названия
+//        $_SESSION['edit_link']['res'] = "<div class='error'>Должно быть название страницы!</div>";
+//        return false;
+//    }else{
+//        $link_name = clear_admin($link_name);
+//        $keywords = clear_admin($keywords);
+//        $description = clear_admin($description);
+//        $text = clear_admin($text);
+//
+//        $query = "UPDATE links SET
+//                    link_name = '$link_name',
+//                    keywords = '$keywords',
+//                    description = '$description',
+//                    parent_informer = $parent_informer,
+//                    links_position = $links_position,
+//                    text = '$text'
+//                        WHERE link_id = $link_id";
+//        $res = mysqli_query($query) or die(mysqli_error());
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Страница информера обновлена!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_link']['res'] = "<div class='error'>Ошибка при редактировании страницы!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование страницы информера=== */
+//
+///* ===Удаление страницы информера=== */
+//function del_link($link_id){
+//    $query = "DELETE FROM links WHERE link_id = $link_id";
+//    $res = mysqli_query($query);
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Страница информера удалена!</div>";
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка!</div>";
+//    }
+//}
+///* ===Удаление страницы информера=== */
+//
+///* ===Добавление информера=== */
+//function add_informer(){
+//    $informer_name = clear_admin(trim($_POST['informer_name']));
+//    $informer_position = (int)$_POST['informer_position'];
+//
+//    if(empty($informer_name)){
+//        $_SESSION['add_informer']['res'] = "<div class='error'>У информера должно быть название</div>";
+//        return false;
+//    }else{
+//        $query = "INSERT INTO informers (informer_name, informer_position)
+//                    VALUES ('$informer_name', $informer_position)";
+//        $res = mysqli_query($query);
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Информер добавлен!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['add_informer']['res'] = "<div class='error'>Ошибка добавления информера!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Добавление информера=== */
+//
+///* ===Удаление информера=== */
+//function del_informer($informer_id){
+//    // удаляем страницы информера
+//    mysqli_query("DELETE FROM links WHERE parent_informer = $informer_id");
+//
+//    // удаляем информер
+//    $query = "DELETE FROM informers WHERE informer_id = $informer_id";
+//    $res = mysqli_query($query);
+//    if(mysqli_affected_rows() > 0){
+//        $_SESSION['answer'] = "<div class='success'>Информер удален!</div>";
+//    }else{
+//        $_SESSION['answer'] = "<div class='error'>Ошибка!</div>";
+//    }
+//}
+///* ===Удаление информера=== */
+//
+///* ===Получение данных информера=== */
+//function get_informer($informer_id){
+//    $query = "SELECT * FROM informers WHERE informer_id = $informer_id";
+//    $res = mysqli_query($query);
+//
+//    $informers = array();
+//    $informers = mysqli_fetch_assoc($res);
+//    return $informers;
+//}
+///* ===Получение данных информера=== */
+//
+///* ===Редактирование информера=== */
+//function edit_informer($informer_id){
+//    $informer_name = clear_admin(trim($_POST['informer_name']));
+//    $informer_position = (int)$_POST['informer_position'];
+//
+//    if(empty($informer_name)){
+//        $_SESSION['edit_informer']['res'] = "<div class='error'>У информера должно быть название</div>";
+//        return false;
+//    }else{
+//        $query = "UPDATE informers SET
+//                    informer_name = '$informer_name',
+//                    informer_position = $informer_position
+//                        WHERE informer_id = $informer_id";
+//        $res = mysqli_query($query);
+//        if(mysqli_affected_rows() > 0){
+//            $_SESSION['answer'] = "<div class='success'>Информер обновлен!</div>";
+//            return true;
+//        }else{
+//            $_SESSION['edit_informer']['res'] = "<div class='error'>Ошибка обновления информера!</div>";
+//            return false;
+//        }
+//    }
+//}
+///* ===Редактирование информера=== */
 
 /* ===Добавление категории=== */
 function add_brand(){
@@ -972,16 +942,14 @@ function add_brand(){
     }else{
         // проверяем нет ли такой категории на одном уровне
         $query = "SELECT brand_id FROM brands WHERE brand_name = '$brand_name' AND parent_id = $parent_id";
-        global $con;
-	$res = mysqli_query($con, $query) ;
+        $res = mysqli_query($query);
         if(mysqli_num_rows($res) > 0){
             $_SESSION['add_brand']['res'] = "<div class='error'>Категория с таким названием уже есть</div>";
             return false;
         }else{
             $query = "INSERT INTO brands (brand_name, parent_id, position, anons)
                         VALUES ('$brand_name', $parent_id , $brand_position, '$anons')";
-            global $con;
-	$res = mysqli_query($con, $query) ;
+            $res = mysqli_query($query);
             if(mysqli_affected_rows() > 0){
                 $_SESSION['answer'] = "<div class='success'>Категория добавлена!</div>";
                 return true;
@@ -1011,8 +979,7 @@ function edit_brand($brand_id){
 						position = $brand_position,
 						anons = '$anons'
                             WHERE brand_id = $brand_id";
-            global $con;
-	$res = mysqli_query($con, $query) ;
+            $res = mysqli_query($query);
             if(mysqli_affected_rows() > 0){
                 $_SESSION['answer'] = "<div class='success'>Категория обновлена!</div>";
                 return true;
@@ -1028,8 +995,7 @@ function edit_brand($brand_id){
 /* ===Удаление категории=== */
 function del_brand($brand_id){
     $query = "SELECT COUNT(*) FROM brands WHERE parent_id = $brand_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($query);
     $row = mysqli_fetch_row($res);
     if($row[0]){
         $_SESSION['answer'] = "<div class='error'>Категория имеет подкатегории! Удалите сначала их или переместите в другую категорию.</div>";
@@ -1043,6 +1009,7 @@ function del_brand($brand_id){
 
 /* ===Получение кол-ва товаров для навигации=== */
 function count_rows($category){
+    global $con;
     $query = "(SELECT COUNT(goods_id) as count_rows
                  FROM goods
                      WHERE goods_brandid = $category)
@@ -1053,8 +1020,7 @@ function count_rows($category){
                 (
                     SELECT brand_id FROM brands WHERE parent_id = $category
                 ))";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+    $res = mysqli_query($con, $query) or die(mysqli_error());
     
     while($row = mysqli_fetch_assoc($res)){
         if($row['count_rows']) $count_rows = $row['count_rows'];
@@ -1065,14 +1031,14 @@ function count_rows($category){
 
 /* ===Получение названий для хлебных крох=== */
 function brand_name($category){
+    global $con;
     $query = "(SELECT brand_id, brand_name FROM brands
                 WHERE brand_id = 
                     (SELECT parent_id FROM brands WHERE brand_id = $category)
                 )
                 UNION
                     (SELECT brand_id, brand_name FROM brands WHERE brand_id = $category)";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con,$query);
     $brand_name = array();
     while($row = mysqli_fetch_assoc($res)){
         $brand_name[] = $row;
@@ -1083,6 +1049,8 @@ function brand_name($category){
 
 /* ===Получение массива товаров по категории=== */
 function products($category, $start_pos, $perpage){
+    global $con;
+
     $query = "(SELECT *
                  FROM goods
                      WHERE goods_brandid = $category)
@@ -1094,8 +1062,7 @@ function products($category, $start_pos, $perpage){
                     SELECT brand_id FROM brands WHERE parent_id = $category
                 )
                ) LIMIT $start_pos, $perpage";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+    $res = mysqli_query($con, $query) or die(mysqli_error());
     
     $products = array();
     while($row = mysqli_fetch_assoc($res)){
@@ -1108,6 +1075,7 @@ function products($category, $start_pos, $perpage){
 
 /* ===Редактирование товара=== */
 function edit_product($id){
+    global $con;
     $name = trim($_POST['name']);
 	$articul = trim($_POST['articul']);
     $price = round(floatval(preg_replace("#,#", ".", $_POST['price'])),2);
@@ -1126,22 +1094,22 @@ function edit_product($id){
     $hits = (int)$_POST['hits'];
     $sale = (int)$_POST['sale'];
     $visible = (int)$_POST['visible'];
-	$izgotovlenie_1 = trim($_POST['izgotovlenie_1']);
-	$izgotovlenie_2 = trim($_POST['izgotovlenie_2']);
-    $izgotovlenie_3 = trim($_POST['izgotovlenie_3']);
-    $izgotovlenie_4 = trim($_POST['izgotovlenie_4']);
-	$izgotovlenie_5 = trim($_POST['izgotovlenie_5']);
-    $izgotovlenie_6 = trim($_POST['izgotovlenie_6']);
-    $izgotovlenie_7 = trim($_POST['izgotovlenie_7']);
-	$material_1 = trim($_POST['material_1']);
-	$material_2 = trim($_POST['material_2']);
-	$material_3 = trim($_POST['material_3']);
-	$material_4 = trim($_POST['material_4']);
-	$material_5 = trim($_POST['material_5']);
-	$material_6 = trim($_POST['material_6']);
-	$material_7 = trim($_POST['material_7']);
-	$material_8 = trim($_POST['material_8']);
-	$zakaz = (int)$_POST['zakaz'];
+//	$izgotovlenie_1 = trim($_POST['izgotovlenie_1']);
+//	$izgotovlenie_2 = trim($_POST['izgotovlenie_2']);
+//    $izgotovlenie_3 = trim($_POST['izgotovlenie_3']);
+//    $izgotovlenie_4 = trim($_POST['izgotovlenie_4']);
+//	$izgotovlenie_5 = trim($_POST['izgotovlenie_5']);
+//    $izgotovlenie_6 = trim($_POST['izgotovlenie_6']);
+//    $izgotovlenie_7 = trim($_POST['izgotovlenie_7']);
+//	$material_1 = trim($_POST['material_1']);
+//	$material_2 = trim($_POST['material_2']);
+//	$material_3 = trim($_POST['material_3']);
+//	$material_4 = trim($_POST['material_4']);
+//	$material_5 = trim($_POST['material_5']);
+//	$material_6 = trim($_POST['material_6']);
+//	$material_7 = trim($_POST['material_7']);
+//	$material_8 = trim($_POST['material_8']);
+//	$zakaz = (int)$_POST['zakaz'];
 	
     
     if(empty($name)){
@@ -1172,27 +1140,10 @@ function edit_product($id){
 					price_5 = $price_5,
 					price_6 = $price_6,
                     visible = '$visible',
-					izgotovlenie_1 = '$izgotovlenie_1',
-					izgotovlenie_2 = '$izgotovlenie_2',
-					izgotovlenie_3 = '$izgotovlenie_3',
-					izgotovlenie_4 = '$izgotovlenie_4',
-					izgotovlenie_5 = '$izgotovlenie_5',
-					izgotovlenie_6 = '$izgotovlenie_6',
-					izgotovlenie_7 = '$izgotovlenie_7',
-					material_1 = '$material_1',
-					material_2 = '$material_2',
-					material_3 = '$material_3',
-					material_4 = '$material_4',
-					material_5 = '$material_5',
-					material_6 = '$material_6',
-					material_7 = '$material_7',
-					material_8 = '$material_8',
-					zakaz = $zakaz,
 					articul = '$articul'
 					
                         WHERE goods_id = $id";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        $res = mysqli_query($con, $query) or die(mysqli_error());
         /* базовая картинка */
         $types = array("image/gif", "image/png", "image/jpeg", "image/pjpeg", "image/x-png"); // массив допустимых расширений
         if($_FILES['baseimg']['name']){
@@ -1230,11 +1181,10 @@ function edit_product($id){
 
 /* ===Удаление товара=== */
 function del_product($goods_id){
- 
-    $query = "DELETE FROM goods WHERE goods_id = $goods_id";
     global $con;
-	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
+    $query = "DELETE FROM goods WHERE goods_id = $goods_id";
+    $res = mysqli_query($con, $query);
+    if(mysqli_affected_rows($con) > 0){
         $_SESSION['answer'] = "<div class='success'>Товар удален!</div>";
     }else{
         $_SESSION['answer'] = "<div class='error'>Ошибка!</div>";
@@ -1245,6 +1195,7 @@ function del_product($goods_id){
 
 /* ===Добавление товара=== */
 function add_product(){
+    global $con;
     $name = trim($_POST['name']);
     $price = round(floatval(preg_replace("#,#", ".", $_POST['price'])),2);
 	$price_1 = round(floatval(preg_replace("#,#", ".", $_POST['price_1'])),2);
@@ -1253,33 +1204,33 @@ function add_product(){
 	$price_4 = round(floatval(preg_replace("#,#", ".", $_POST['price_4'])),2);
 	$price_5 = round(floatval(preg_replace("#,#", ".", $_POST['price_5'])),2);
 	$price_6 = round(floatval(preg_replace("#,#", ".", $_POST['price_6'])),2);
-    $keywords = trim($_POST['keywords']);
+//    $keywords = trim($_POST['keywords']);
     $description = trim($_POST['description']);
     $goods_brandid = (int)$_POST['category'];
     $anons = trim($_POST['anons']);
     $content = trim($_POST['content']);
-	$material_1 = trim($_POST['material_1']);
-	$material_2 = trim($_POST['material_2']);
-	$material_3 = trim($_POST['material_3']);
-	$material_4 = trim($_POST['material_4']);
-	$material_5 = trim($_POST['material_5']);
-	$material_6 = trim($_POST['material_6']);
-	$material_7 = trim($_POST['material_7']);
-	$material_8 = trim($_POST['material_8']);
-	$izgotovlenie_1 = trim($_POST['izgotovlenie_1']);
-	$izgotovlenie_2 = trim($_POST['izgotovlenie_2']);
-	$izgotovlenie_3 = trim($_POST['izgotovlenie_3']);
-	$izgotovlenie_4 = trim($_POST['izgotovlenie_4']);
-	$izgotovlenie_5 = trim($_POST['izgotovlenie_5']);
-	$izgotovlenie_6 = trim($_POST['izgotovlenie_6']);
-	$izgotovlenie_7 = trim($_POST['izgotovlenie_7']);
+//	$material_1 = trim($_POST['material_1']);
+//	$material_2 = trim($_POST['material_2']);
+//	$material_3 = trim($_POST['material_3']);
+//	$material_4 = trim($_POST['material_4']);
+//	$material_5 = trim($_POST['material_5']);
+//	$material_6 = trim($_POST['material_6']);
+//	$material_7 = trim($_POST['material_7']);
+//	$material_8 = trim($_POST['material_8']);
+//	$izgotovlenie_1 = trim($_POST['izgotovlenie_1']);
+//	$izgotovlenie_2 = trim($_POST['izgotovlenie_2']);
+//	$izgotovlenie_3 = trim($_POST['izgotovlenie_3']);
+//	$izgotovlenie_4 = trim($_POST['izgotovlenie_4']);
+//	$izgotovlenie_5 = trim($_POST['izgotovlenie_5']);
+//	$izgotovlenie_6 = trim($_POST['izgotovlenie_6']);
+//	$izgotovlenie_7 = trim($_POST['izgotovlenie_7']);
     $new = (int)$_POST['new'];
     $hits = (int)$_POST['hits'];
     $sale = (int)$_POST['sale'];
     $visible = (int)$_POST['visible'];
     $date = date("Y-m-d");
 	$articul = trim($_POST['articul']);
-	$zakaz = trim($_POST['zakaz']);
+//	$zakaz = trim($_POST['zakaz']);
     
     if(empty($name)){
         $_SESSION['add_product']['res'] = "<div class='error'>У товара должно быть название</div>";
@@ -1307,10 +1258,9 @@ function add_product(){
 	    $izgotovlenie = clear_admin($izgotovlenie);
 		$articul = clear_admin($articul);
         
-        $query = "INSERT INTO goods (name, keywords, description, goods_brandid, anons, content, hits, new, sale, price, price_1, price_2, price_3, price_4, price_5, price_6, date, visible, material_1, material_2, material_3, material_4, material_5, material_6, material_7, material_8, izgotovlenie_1,izgotovlenie_2, izgotovlenie_3, izgotovlenie_4, izgotovlenie_5, izgotovlenie_6, izgotovlenie_7,  zakaz, articul)
-                    VALUES ('$name', '$keywords', '$description', $goods_brandid, '$anons', '$content', '$hits', '$new', '$sale', $price, $price_1, $price_2, $price_3, $price_4, $price_5, $price_6, '$date', '$visible','$material_1', '$material_2', '$material_3', '$material_4', '$material_5', '$material_6', '$material_7', '$material_8', '$izgotovlenie_1', '$izgotovlenie_2', '$izgotovlenie_3', '$izgotovlenie_4', '$izgotovlenie_5', '$izgotovlenie_6', '$izgotovlenie_7','$zakaz','$articul')";        
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        $query = "INSERT INTO goods (name, keywords, description, goods_brandid, anons, content, price, price_1, price_2, price_3, price_4, price_5, price_6, date,  articul)
+                    VALUES ('$name', '$keywords', '$description', $goods_brandid, '$anons', '$content',, $price, $price_1, $price_2, $price_3, $price_4, $price_5, $price_6, '$date','$articul')";
+        $res = mysqli_query($con, $query) or die(mysqli_error());
         
         if(mysqli_affected_rows() > 0){
             $id = mysqli_insert_id(); // ID сохраненного товара
@@ -1407,11 +1357,11 @@ function add_product(){
 
 /* ===Получение данных товара=== */
 function get_product($goods_id){
+    global $con;
     $query = "SELECT * FROM goods WHERE goods_id = $goods_id";
 
 
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con, $query);
     
     $product = array();
     $product = mysqli_fetch_assoc($res);
@@ -1453,8 +1403,7 @@ function upload_gallery_img($id){
     }
     
     $query = "SELECT img_slide FROM goods WHERE goods_id = $id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($query);
     $row = mysqli_fetch_assoc($res);
     if($row['img_slide']){
         // если есть картинки в галерее
@@ -1504,8 +1453,7 @@ function del_img(){
     }else{
         // если удаляется картинка галереи
         $query = "SELECT img_slide FROM goods WHERE goods_id = $goods_id";
-        global $con;
-	$res = mysqli_query($con, $query) ;
+        $res = mysqli_query($query);
         $row = mysqli_fetch_assoc($res);
         // получаем картинки в массив
         $images = explode("|", $row['img_slide']);
@@ -1532,23 +1480,23 @@ function del_img(){
 
 /* ===Получение количества необработанных заказов=== */
 function count_new_orders(){
-    $query = "SELECT COUNT(*) AS count FROM orders WHERE status = '0'";
     global $con;
-	$res = mysqli_query($con, $query) ;
-    $row = mysqli_fetch_assoc($res);
+    $query = "SELECT COUNT(*) AS count FROM orders WHERE status = '0'";
+    $res = mysqli_query($con, $query);
+    $row = mysqli_fetch_assoc( $res);
     return $row['count'];
 }
 /* ===Получение количества необработанных заказов=== */
 
 /* ===Получение заказов=== */
 function orders($status, $start_pos, $perpage){
+    global $con;
     $query = "SELECT orders.order_id, orders.date, orders.status, customers.name
                 FROM orders
                 LEFT JOIN customers
                     ON customers.customer_id = orders.customer_id".$status." 
                 LIMIT $start_pos, $perpage";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con,$query);
     $orders = array();
     while($row = mysqli_fetch_assoc($res)){
         $orders[] = $row;
@@ -1559,9 +1507,9 @@ function orders($status, $start_pos, $perpage){
 
 /* ===Количество заказов=== */
 function count_orders($status){
-    $query = "SELECT COUNT(order_id) FROM orders".$status;
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT COUNT(order_id) FROM orders".$status;
+    $res = mysqli_query($con,$query);
     
     $count_orders = mysqli_fetch_row($res);
     return $count_orders[0];
@@ -1570,6 +1518,7 @@ function count_orders($status){
 
 /* ===Просмотр заказа=== */
 function show_order($order_id){
+    global $con;
     // zakaz_tovar: name, articul, price, quantity
     // orders: date, prim
     // customers: name, email, phone, address
@@ -1586,8 +1535,7 @@ function show_order($order_id){
             LEFT JOIN dostavka
                 ON dostavka.dostavka_id = orders.dostavka_id
                     WHERE zakaz_tovar.orders_id = $order_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con, $query);
     $show_order = array();
     while($row = mysqli_fetch_assoc($res)){
         $show_order[] = $row;
@@ -1598,9 +1546,9 @@ function show_order($order_id){
 
 /* ===Подтверждение заказа=== */
 function confirm_order($order_id){
-    $query = "UPDATE orders SET status = '1' WHERE order_id = $order_id";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "UPDATE orders SET status = '1' WHERE order_id = $order_id";
+    $res = mysqli_query($con, $query);
     if(mysqli_affected_rows($con) > 0){
         return true;
     }else{
@@ -1611,9 +1559,9 @@ function confirm_order($order_id){
 /* ===Подтверждение заказа=== */
 /* ===Заказ на рассмотрениии=== */
 function ozidanie_order($order_id){
-    $query = "UPDATE orders SET status = '2' WHERE order_id = $order_id";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "UPDATE orders SET status = '2' WHERE order_id = $order_id";
+    $res = mysqli_query($con, $query);
     if(mysqli_affected_rows($con) > 0){
         return true;
     }else{
@@ -1638,9 +1586,9 @@ function del_order($order_id){
 
 /* ===Количество пользователей=== */
 function count_users(){
-    $query = "SELECT COUNT(login) FROM customers";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT COUNT(login) FROM customers";
+    $res = mysqli_query($con, $query);
     
     $count_users = mysqli_fetch_row($res);
     return $count_users[0];
@@ -1649,13 +1597,13 @@ function count_users(){
 
 /* ===Получение списка пользователей=== */
 function get_users($start_pos, $perpage){
+    global $con;
     $query = "SELECT customer_id, name, login, email, name_role
                 FROM customers
                 LEFT JOIN roles
                     ON customers.id_role = roles.id_role
                 WHERE login IS NOT NULL LIMIT $start_pos, $perpage";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con, $query);
     $users = array();
     while($row = mysqli_fetch_assoc($res)){
         $users[] = $row;
@@ -1666,9 +1614,9 @@ function get_users($start_pos, $perpage){
 
 /* ===Получение списка ролей пользователей=== */
 function get_roles(){
-    $query = "SELECT id_role, name_role FROM roles";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT id_role, name_role FROM roles";
+    $res = mysqli_query($con, $query);
     $roles = array();
     while($row = mysqli_fetch_assoc($res)){
         $roles[] = $row;
@@ -1696,8 +1644,7 @@ function add_user(){
         // если все поля заполнены
         // проверяем нет ли такого юзера в БД
         $query = "SELECT customer_id FROM customers WHERE login = '" .clear($login). "' LIMIT 1";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+        $res = mysqli_query($query) or die(mysqli_error());
         $row = mysqli_num_rows($res); // 1 - такой юзер есть, 0 - нет
         if($row){
             // если такой логин уже есть
@@ -1715,8 +1662,7 @@ function add_user(){
             
             $query = "INSERT INTO customers (name, email, login, password, id_role)
                         VALUES ('$name', '$email', '$login', '$pass', $id_role)";
-            global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
+            $res = mysqli_query($query) or die(mysqli_error());
             if(mysqli_affected_rows() > 0){
                 // если запись добавлена
                 $_SESSION['answer'] = "<div class='success'>Пользователь добавлен.</div>";
@@ -1808,9 +1754,9 @@ function sort_informers($post) {
 
 /* ===Получение данных пользователя=== */
 function get_user($user_id){
-    $query = "SELECT name, email, phone, address, login, id_role FROM customers WHERE customer_id = $user_id";
     global $con;
-	$res = mysqli_query($con, $query) ;
+    $query = "SELECT name, email, phone, address, login, id_role FROM customers WHERE customer_id = $user_id";
+    $res = mysqli_query($con, $query);
     $user = array();
     $user = mysqli_fetch_assoc($res);
     return $user;
@@ -1819,6 +1765,7 @@ function get_user($user_id){
 
 /* ===Редактирование пользователя=== */
 function edit_user($user_id){
+    global $con;
     foreach($_POST as $key => $val){
         if($key == "x" OR $key == "y") continue;
         if($key == "password"){
@@ -1842,9 +1789,8 @@ function edit_user($user_id){
     }
     $str = substr($str, 0, -1);
     $query = "UPDATE customers SET {$str} WHERE customer_id = $user_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
+    $res = mysqli_query($con, $query);
+    if(mysqli_affected_rows($con) > 0){
         $_SESSION['answer'] = "<div class='success'>Данные обновлены</div>";
         if($user_id == $_SESSION['auth']['user_id']){
             $_SESSION['auth']['admin'] = htmlspecialchars($_POST['name']);

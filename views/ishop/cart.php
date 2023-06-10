@@ -86,27 +86,27 @@
 	<table class="zakaz-data" border="0" cellspacing="0" cellpadding="0">
 	  <tr class="notauth">
 		<td class="zakaz-txt">*ФИО</td>
-		<td class="zakaz-inpt"><input type="text" name="name" value="<?=htmlspecialchars($_SESSION['order']['name'])?>" /></td>
+		<td class="zakaz-inpt"><input type="text" name="name" value="" /></td>
 		<td class="zakaz-prim">Пример: Иванов Сергей Александрович</td>
 	  </tr>
 	  <tr class="notauth">
 		<td class="zakaz-txt">*Е-маил</td>
-		<td class="zakaz-inpt"><input type="text" name="email" value="<?=htmlspecialchars($_SESSION['order']['email'])?>" /></td>
+		<td class="zakaz-inpt"><input type="text" name="email" value="" /></td>
 		<td class="zakaz-prim">Пример: test@mail.ru</td>
 	  </tr>
 	  <tr class="notauth">
 		<td class="zakaz-txt">*Телефон</td>
-		<td class="zakaz-inpt"><input type="text" name="phone" value="<?=htmlspecialchars($_SESSION['order']['phone'])?>" /></td>
+		<td class="zakaz-inpt"><input type="text" name="phone" value="" /></td>
 		<td class="zakaz-prim">Пример: 8 937 999 99 99</td>
 	  </tr>
 	  <tr class="notauth">
 		<td class="zakaz-txt">*Адрес доставки</td>
-		<td class="zakaz-inpt"><input type="text" name="address" value="<?=htmlspecialchars($_SESSION['order']['addres'])?>" /></td>
+		<td class="zakaz-inpt"><input type="text" name="address" value="" /></td>
 		<td class="zakaz-prim">Пример: г. Москва, пр. Мира, ул. Петра Великого д.19, кв 51.</td>
 	  </tr>
 	  <tr>
 		<td class="zakaz-txt" style="vertical-align:top;">Комментарии к заказу </td>
-		<td class="zakaz-txtarea"><textarea name="prim"><?=htmlspecialchars($_SESSION['order']['prim'])?></textarea></td>
+		<td class="zakaz-txtarea"><textarea name="prim"></textarea></td>
 		<td class="zakaz-prim" style="vertical-align:top;">Пример: Магнит марка - прозрачный, значок на цанге - 21 мм, перед доставкой обязательно позвонить за 1 час </td>
 	  </tr>
 	  <tr>

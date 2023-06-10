@@ -11,8 +11,7 @@ if(isset($_SESSION['edit_brand']['res'])){
 <?php 
 
     $query = "SELECT * FROM brands WHERE brand_id = $brand_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($query);
     $brand = array();
     $brand = mysqli_fetch_assoc($res);
 
