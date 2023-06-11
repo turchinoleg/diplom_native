@@ -928,7 +928,57 @@ function pages(){
 //    }
 //}
 ///* ===Редактирование информера=== */
+function resize($target, $dest, $wmax, $hmax, $ext){
+    /*
+    $target - путь к оригинальному файлу
+    $dest - путь сохранения обработанного файла
+    $wmax - максимальная ширина
+    $hmax - максимальная высота
+    $ext - расширение файла
+    */
+    list($w_orig, $h_orig) = getimagesize($target);
+    $ratio = $w_orig / $h_orig; // =1 - квадрат, <1 - альбомная, >1 - книжная
 
+    if(($wmax / $hmax) > $ratio){
+        $wmax = $hmax * $ratio;
+    }else{
+        $hmax = $wmax / $ratio;
+    }
+
+    $img = "";
+    // imagecreatefromjpeg | imagecreatefromgif | imagecreatefrompng
+    switch($ext){
+        case("gif"):
+            $img = imagecreatefromgif($target);
+            break;
+        case("png"):
+            $img = imagecreatefrompng($target);
+            break;
+        default:
+            $img = imagecreatefromjpeg($target);
+    }
+    $newImg = imagecreatetruecolor($wmax, $hmax); // создаем оболочку для новой картинки
+
+    if($ext == "png"){
+        imagesavealpha($newImg, true); // сохранение альфа канала
+        $transPng = imagecolorallocatealpha($newImg,0,0,0,127); // добавляем прозрачность
+        imagefill($newImg, 0, 0, $transPng); // заливка
+    }
+
+    imagecopyresampled($newImg, $img, 0, 0, 0, 0, $wmax, $hmax, $w_orig, $h_orig); // копируем и ресайзим изображение
+    switch($ext){
+        case("gif"):
+            imagegif($newImg, $dest);
+            break;
+        case("png"):
+            imagepng($newImg, $dest);
+            break;
+        default:
+            imagejpeg($newImg, $dest);
+    }
+    imagedestroy($newImg);
+}
+/* ===Ресайз картинок=== */
 /* ===Добавление категории=== */
 function add_brand(){
     $brand_name = clear_admin(trim($_POST['brand_name']));
@@ -1163,12 +1213,13 @@ function edit_product($id){
             
             // если нет ошибок
             if(empty($error)){
+                global $con;
                 if(@move_uploaded_file($baseimgTmpName, "../userfiles/product_img/tmp/$baseimgName")){
                     resize("../userfiles/product_img/tmp/$baseimgName", "../userfiles/product_img/baseimg/$baseimgName", 120, 185, $baseimgExt);
                     @unlink("../userfiles/product_img/tmp/$baseimgName");
-                    mysqli_query("UPDATE goods SET img = '$baseimgName' WHERE goods_id = $id");
+                    mysqli_query($con,"UPDATE goods SET img = '$baseimgName' WHERE goods_id = $id");
                 }else{
-                    $_SESSION['answer'] .= "<div class='error'>Не удалось переместить загруженную картинку. Проверьте права на папки в каталоге /userfiles/product_img/</div>";
+                    $_SESSION['answer'] .= "<div class='error'>Не удалось переместить загруженную картинку. </div>";
                 }
             }
         }
@@ -1246,24 +1297,42 @@ function add_product(){
         $_SESSION['add_product']['anons'] = $anons;
         $_SESSION['add_product']['content'] = $content;
 		$_SESSION['add_product']['articul'] = $articul;
-		$_SESSION['add_product']['zakaz'] = $zakaz;
+//		$_SESSION['add_product']['zakaz'] = $zakaz;
+
         return false;
     }else{
         $name = clear_admin($name);
-        $keywords = clear_admin($keywords);
+//      $keywords = ' ';
         $description = clear_admin($description);
         $anons = clear_admin($anons);
         $content = clear_admin($content);
-		$material = clear_admin($material);
-	    $izgotovlenie = clear_admin($izgotovlenie);
+//		$material = clear_admin($material);
+//	    $izgotovlenie = clear_admin($izgotovlenie);
 		$articul = clear_admin($articul);
-        
-        $query = "INSERT INTO goods (name, keywords, description, goods_brandid, anons, content, price, price_1, price_2, price_3, price_4, price_5, price_6, date,  articul)
-                    VALUES ('$name', '$keywords', '$description', $goods_brandid, '$anons', '$content',, $price, $price_1, $price_2, $price_3, $price_4, $price_5, $price_6, '$date','$articul')";
+        $material_1 = '1';
+        $material_2 = '0';
+        $material_3 = '0';
+        $material_4 = '0';
+        $material_5 = '0';
+        $material_6 = '0';
+        $material_7 = '0';
+        $material_8 = '0';
+        $izgotovlenie_1 ='0';
+        $izgotovlenie_2 ='0';
+        $izgotovlenie_3 ='0';
+        $izgotovlenie_4 ='0';
+        $izgotovlenie_5 ='0';
+        $izgotovlenie_6 ='0';
+        $izgotovlenie_7 ='0';
+        $zakaz =0;
+        $visible=1;
+        $query = "INSERT INTO goods (name, keywords, description, goods_brandid, anons, content, hits, new, sale, price, price_1, price_2, price_3, price_4, price_5, price_6, date, visible, material_1, material_2, material_3, material_4, material_5, material_6, material_7, material_8, izgotovlenie_1,izgotovlenie_2, izgotovlenie_3, izgotovlenie_4, izgotovlenie_5, izgotovlenie_6, izgotovlenie_7,  zakaz, articul)
+                    VALUES ('$name', '$keywords', '$description', $goods_brandid, '$anons', '$content', '$hits', '$new', '$sale', $price, $price_1, $price_2, $price_3, $price_4, $price_5, $price_6, '$date', '$visible','$material_1', '$material_2', '$material_3', '$material_4', '$material_5', '$material_6', '$material_7', '$material_8', '$izgotovlenie_1', '$izgotovlenie_2', '$izgotovlenie_3', '$izgotovlenie_4', '$izgotovlenie_5', '$izgotovlenie_6', '$izgotovlenie_7','$zakaz','$articul')";
         $res = mysqli_query($con, $query) or die(mysqli_error());
         
-        if(mysqli_affected_rows() > 0){
-            $id = mysqli_insert_id(); // ID сохраненного товара
+        if(mysqli_affected_rows($con) > 0){
+            global $con;
+            $id = mysqli_insert_id($con); // ID сохраненного товара
             $types = array("image/gif", "image/png", "image/jpeg", "image/pjpeg", "image/x-png"); // массив допустимых расширений
             /* базовая картинка */
             if($_FILES['baseimg']['name']){
@@ -1341,7 +1410,8 @@ function add_product(){
                     }
                 }
                 if(isset($galleryfiles)){
-                    mysqli_query("UPDATE goods SET img_slide = '$galleryfiles' WHERE goods_id = $id");
+                    global $con;
+                    mysqli_query($con,"UPDATE goods SET img_slide = '$galleryfiles' WHERE goods_id = $id");
                 }
             }
             /* картинки галереи */

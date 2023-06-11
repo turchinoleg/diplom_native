@@ -5,7 +5,7 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'].'/config.php';
 
 if($_SESSION['auth']['admin']){
-    header("Location: ../");
+    header("Location: ../?view=orders");
     exit;
 }
 
@@ -19,7 +19,7 @@ if($_POST){
     if($row['password'] == md5($pass)){
         $_SESSION['auth']['admin'] = htmlspecialchars($row['name']);
         $_SESSION['auth']['user_id'] = $row['customer_id'];
-        header("Location: ../");
+        header("Location: ../?view=orders");
         exit;
     }else{
         $_SESSION['res'] = '<div class="error">Логин или пароль не совпадает!</div>';

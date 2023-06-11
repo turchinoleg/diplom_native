@@ -103,19 +103,19 @@ if(isset($_SESSION['edit_product']['res'])){
 </script>
 		</td>
 	  </tr>
-<!--      <tr>-->
-<!--        <td>Картинки галереи: <br />-->
-<!--        <span class="small">Для удаления картинки кликните по ней</span></td>-->
-<!--        <td class="slideimg">--><?//=$imgslide?><!--</td>-->
-<!--      </tr> -->
-<!--      <tr>-->
-<!--        <td>-->
-<!--            <div id="butUpload">Выбрать файл</div>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--            <div id="filesUpload"></div>-->
-<!--        </td>-->
-<!--      </tr>-->
+      <tr>
+        <td>Картинки галереи: <br />
+        <span class="small">Для удаления картинки кликните по ней</span></td>
+        <td class="slideimg"><?=$imgslide?></td>
+      </tr>
+      <tr>
+        <td>
+            <div id="butUpload">Выбрать файл</div>
+        </td>
+        <td>
+            <div id="filesUpload"></div>
+        </td>
+      </tr>
 <!--      <tr>-->
 <!--		<td class="add-edit-txt">Материал:</td>-->
 <!--        <td>-->
@@ -156,11 +156,11 @@ if(isset($_SESSION['edit_product']['res'])){
 <!--        <input type="radio" name="zakaz" value="1"--><?php //if($get_product['zakaz']==1) echo 'checked=""'; ?><!-- /> под заказ, 1-2 дня<br />-->
 <!--        <input type="radio" name="zakaz" value="2"--><?php //if($get_product['zakaz']==2) echo 'checked=""'; ?><!-- /> под заказ, 7-10 дней</td>-->
 <!--      </tr>-->
-<!--      <tr>-->
-<!--        <td>Показывать:</td>-->
-<!--        <td><input type="radio" name="visible" value="1" --><?php //if($get_product['visible']) echo 'checked=""'; ?><!-- /> Да <br />-->
-<!--        <input type="radio" name="visible" value="0" --><?php //if(!$get_product['visible']) echo 'checked=""'; ?><!-- /> Нет</td>-->
-<!--      </tr>  -->
+      <tr>
+        <td>Показывать:</td>
+        <td><input type="radio" name="visible" value="1" <?php if($get_product['visible']) echo 'checked=""'; ?> /> Да <br />
+        <input type="radio" name="visible" value="0" <?php if(!$get_product['visible']) echo 'checked=""'; ?> /> Нет</td>
+      </tr>
 	</table>
 	
 	<input type="image" src="<?=ADMIN_TEMPLATE?>images/save_btn.jpg" /> 
