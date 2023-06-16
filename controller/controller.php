@@ -203,12 +203,15 @@ switch($view){
 			$page = 1;
 		}
 		$count_rows = count_rows($category); // общее кол-во товаров
-		$pages_count = ceil($count_rows / $perpage); // кол-во страниц
+        $pages_count = ceil($count_rows / $perpage); // кол-во страниц
 		if(!$pages_count) $pages_count = 1; // минимум 1 страница
 		if($page > $pages_count) $page = $pages_count; // если запрошенная страница больше максимума
 		$start_pos = ($page - 1) * $perpage; // начальная позиция для запроса
 		
 		$brand_name = brand_name($category); // хлебные крохи
+        if (count($brand_name) == 0){
+            process404();
+        }
 		$products = products($category, $order_db, $start_pos, $perpage); // получаем массив из модели
 		$meta['title'] = $brand_name[0]['brand_name'];
 		if($brand_name[1]) $meta['title'] .= " - {$brand_name[1]['brand_name']}";

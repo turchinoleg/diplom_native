@@ -8,15 +8,15 @@ if(isset($_SESSION['answer'])){
 }
 ?>
 
-<a href="?view=add_brand"><img class="add_kategory" src="<?=ADMIN_TEMPLATE?>images/add_kategory.jpg" alt="добавить категорию" /></a>
-<div class="crosh">
-<?php if(count($brand_name) > 1): // если подкатегория (слайдер, моноблок...) ?>
-	<p class="crosh-left"><a href="?view=brands">Заготовки и сувениры</a> / <a href="?view=cat&amp;category=<?=$brand_name[0]['brand_id']?>"><?=$brand_name[0]['brand_name']?></a> / <?=$brand_name[1]['brand_name']?></p>
-<?php elseif(count($brand_name) == 1): // если не дочерняя категория ?>
-    <p class="crosh-left"><a href="?view=brands">Заготовки и сувениры</a> / <?=$brand_name[0]['brand_name']?></p>
-<?php endif; ?>
-    <p class="crosh-right"><a href="?view=edit_brand&amp;brand_id=<?=$category?>&amp;parent_id=<?=$brand_name[0]['brand_id']?>" class="edit">изменить категорию</a>&nbsp; | &nbsp;<a href="?view=del_brand&amp;brand_id=<?=$category?>" class="del">удалить категорию</a></p>
-</div>	
+<!--<a href="?view=add_brand"><img class="add_kategory" src="--><?//=ADMIN_TEMPLATE?><!--images/add_kategory.jpg" alt="добавить категорию" /></a>-->
+<!--<div class="crosh">-->
+<?php //if(count($brand_name) > 1): // если подкатегория (слайдер, моноблок...) ?>
+<!--	<p class="crosh-left"><a href="?view=brands">Заготовки и сувениры</a> / <a href="?view=cat&amp;category=--><?//=$brand_name[0]['brand_id']?><!--">--><?//=$brand_name[0]['brand_name']?><!--</a> / --><?//=$brand_name[1]['brand_name']?><!--</p>-->
+<?php //elseif(count($brand_name) == 1): // если не дочерняя категория ?>
+<!--    <p class="crosh-left"><a href="?view=brands">Заготовки и сувениры</a> / --><?//=$brand_name[0]['brand_name']?><!--</p>-->
+<?php //endif; ?>
+<!--    <p class="crosh-right"><a href="?view=edit_brand&amp;brand_id=--><?//=$category?><!--&amp;parent_id=--><?//=$brand_name[0]['brand_id']?><!--" class="edit">изменить категорию</a>&nbsp; | &nbsp;<a href="?view=del_brand&amp;brand_id=--><?//=$category?><!--" class="del">удалить категорию</a></p>-->
+<!--</div>	-->
 
 <a href="?view=add_product&amp;brand_id=<?=$category?>"><img class="add_some" src="<?=ADMIN_TEMPLATE?>images/add_product.jpg" alt="добавить продукт" /></a>
 

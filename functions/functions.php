@@ -10,6 +10,10 @@ function print_arr($arr){
 }
 /* ===Распечатка массива=== */
 
+function process404(){
+    header('Location: /page404.html');
+}
+
 /* ===Фильтрация входящих данных=== */
 function clear(string $var){
     global $con;

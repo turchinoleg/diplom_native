@@ -557,7 +557,7 @@ function registration(){
                         VALUES ('$name', '$email', '$phone', '$address', '$login', '$pass')";
             global $con;
 	$res = mysqli_query($con, $query)  or die(mysqli_error());
-            if(mysqli_affected_rows() > 0){
+            if(mysqli_affected_rows($con) > 0){
                 // если запись добавлена
                 $_SESSION['reg']['res'] = "<div class='success'>Регистрация прошла успешно.</div>";
                 $_SESSION['auth']['user'] = $_POST['name'];

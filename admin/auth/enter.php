@@ -5,7 +5,7 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'].'/config.php';
 
 if($_SESSION['auth']['admin']){
-    header("Location: ../");
+    header("Location: ../?view=orders");
     exit;
 }
 
@@ -14,13 +14,12 @@ if($_POST){
     $login = trim(mysqli_real_escape_string($con, $_POST['user']));
     $pass = trim($_POST['pass']);
     $query = "SELECT customer_id, name, password FROM customers WHERE login = '$login' AND id_role = 2 LIMIT 1";
-    global $con;
-	$res = mysqli_query($con, $query) ;
+    $res = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($res);
     if($row['password'] == md5($pass)){
         $_SESSION['auth']['admin'] = htmlspecialchars($row['name']);
         $_SESSION['auth']['user_id'] = $row['customer_id'];
-        header("Location: ../");
+        header("Location: ../?view=orders");
         exit;
     }else{
         $_SESSION['res'] = '<div class="error">Логин или пароль не совпадает!</div>';
