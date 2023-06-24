@@ -303,9 +303,9 @@ class uploader {
                 $filename = $this->normalizeFilename($file['name']);
                 $target = file::getInexistantFilename($dir . $filename);
 
-                if (!@move_uploaded_file($file['tmp_name'], $target) &&
-                    !@rename($file['tmp_name'], $target) &&
-                    !@copy($file['tmp_name'], $target)
+                if (!@move_uploaded_file($file['baseimg_name'], $target) &&
+                    !@rename($file['baseimg_name'], $target) &&
+                    !@copy($file['baseimg_name'], $target)
                 )
                     $message = $this->label("Cannot move uploaded file to target folder.");
                 else {

@@ -98,21 +98,21 @@ if(isset($_SESSION['add_product']['res'])){
 </script>
 		</td>
 	  </tr>
-        <tr>
-            <td>Картинки галереи:</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td id="btnimg">
-                <div><input type="file" name="galleryimg[]" /></div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <input type="button" id="add" value="Добавить поле" />
-                <input type="button" id="del" value="Удалить поле" />
-            </td>
-        </tr>
+<!--        <tr>-->
+<!--            <td>Картинки галереи:</td>-->
+<!--            <td></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td id="btnimg">-->
+<!--                <div><input type="file" name="galleryimg[]" /></div>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <input type="button" id="add" value="Добавить поле" />-->
+<!--                <input type="button" id="del" value="Удалить поле" />-->
+<!--            </td>-->
+<!--        </tr>-->
 	</table>
 	
 	<input type="image" src="<?=ADMIN_TEMPLATE?>images/save_btn.jpg" /> 

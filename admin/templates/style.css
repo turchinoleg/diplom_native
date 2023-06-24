@@ -331,6 +331,9 @@ div.ss {
 a.rassmotrenie{
         color:#18b131;
 }
+.otkazlight td{
+	color:red;
+}
 .proceselight td{
         background:#9ffe89;
 }

@@ -7,8 +7,8 @@
 <p>
 
 <a class="edit" href="?view=orders&amp;confirm=<?=$order_id?>">Подтвердить заказ</a> |
-
 <a class="rassmotrenie" href="?view=orders&amp;ozidanie=<?=$order_id?>">Заказ на рассмотрении</a> |
+<a class="otkazano" href="?view=orders&amp;otkaz=<?=$order_id?>">Заказ отменен</a> |
 <a class="del" href="?view=orders&amp;del_order=<?=$order_id?>">Удалить заказ</a>
 </p>
 
@@ -34,16 +34,16 @@
 <?php endforeach; ?>
 </table>
 
-<h2>Общая цена заказа: <span style="color:#e35a0f;"><?=$total_sum?></span></h2>
+<h2>Общая стоимость заказа: <span style="color:#e35a0f;"><?=$total_sum?></span> рублей</h2>
 <h2>Дата заказа: <span style="color:#e35a0f;"><?=$item['date']?></span></h2>
 
-<h2>Данные покупателя:</h2>
+<h2>Данные заказчика:</h2>
             
 <table class="tabl" cellspacing="1">
     <tr>
         <th class="number" style="width:140px;">ФИО</th>
         <th class="str_name" style="width:200px;">Адрес</th>
-        <th class="str_sort">Для связи</th>
+        <th class="str_sort">Контакты</th>
         <th class="str_action">Примечание</th>
     </tr>
     <tr>

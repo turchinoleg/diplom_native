@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 // запрет прямого обращения
 define('ISHOP', TRUE);
 
@@ -402,6 +402,14 @@ switch($view){
                 $_SESSION['answer'] = "<div class='error'>Статус заказа №{$order_id} не удалось изменить. Возможно, заказа с таким номером нет или он уже подтвержден.</div>";
             }
             redirect("?view=orders");
+        } elseif(isset($_GET['otkaz'])){
+            $order_id = (int)$_GET['otkaz'];
+            if(otkaz_order($order_id)){
+                 $_SESSION['answer'] = "<div class='success'>Статус заказа №{$order_id} успешно изменен.</div>";
+            }else{
+                $_SESSION['answer'] = "<div class='error'>Статус заказа №{$order_id} не удалось изменить. Возможно, заказа с таким номером нет или он уже подтвержден.</div>";
+            }
+            redirect("?view=orders");
         }
         
         // удаление заказа
@@ -445,6 +453,9 @@ switch($view){
         }
         elseif($show_order[0]['status']==2){
             $state = "на рассмотрении";
+        }
+        elseif($show_order[0]['status']==3){
+            $state = "Отменен";
         }else{
             $state = "не обработан";
         }

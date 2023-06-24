@@ -41,20 +41,20 @@ if($product['zakaz']==0){
 <!-- Табличный вид продуктов -->				
 <div class="product-table" id="<?=$product['goods_id']?>">
 	<h2><a href="<?=PATH?>product/<?=$product['goods_id']?>"><?=$product['name']?></a></h2>
-    <p>артикул: <?=$product['articul']?></p>
+    <p>Артикул: <?=$product['articul']?></p>
 <div class="product-table-img-main">
     <div class="product-table-img">
 		<a href="<?=PATH?>product/<?=$product['goods_id']?>"><img src="<?=PRODUCTIMG?><?=$product['img']?>" alt="" /></a>
-		<div> <!-- Иконки -->
-
-
-            <?php if($product['hits']) echo '<img src="' .TEMPLATE. 'images/ico-cat-lider.png" alt="лидеры продаж" />'; ?>
-            <?php if($product['new']) echo '<img src="' .TEMPLATE. 'images/ico-cat-new.png" alt="новинка" />'; ?>
-            <?php if($product['sale']) echo '<img src="' .TEMPLATE. 'images/ico-cat-sale.png" alt="распродажа" />'; ?>							
-		</div> <!-- Иконки -->
+<!--		<div> <!-- Иконки -->
+<!---->
+<!---->
+<!--            --><?php //if($product['hits']) echo '<img src="' .TEMPLATE. 'images/ico-cat-lider.png" alt="лидеры продаж" />'; ?>
+<!--            --><?php //if($product['new']) echo '<img src="' .TEMPLATE. 'images/ico-cat-new.png" alt="новинка" />'; ?>
+<!--            --><?php //if($product['sale']) echo '<img src="' .TEMPLATE. 'images/ico-cat-sale.png" alt="распродажа" />'; ?><!--							-->
+<!--		</div> <!-- Иконки -->
 	</div> <!-- .product-table-img -->
 </div> <!-- .product-table-img-main -->
-	<p class="cat-table-more"><a href="<?=PATH?>product/<?=$product['goods_id']?>">подробнее...</a></p>
+	<p class="cat-table-more"><a href="<?=PATH?>product/<?=$product['goods_id']?>">Подробнее...</a></p>
     <?=$product['zakaz']?>
 	<p>Цена : <span><?php if($product['price_6']>0) {echo($product['price_6']); echo(' -');}?></span> <span><?=$product['price']?></span> руб.</p>
     <form action="<?=PATH?>addtocart/<?=$product['goods_id']?>" method="post" >
@@ -71,19 +71,15 @@ if($product['zakaz']==0){
 		<a href="<?=PATH?>product/<?=$product['goods_id']?>"><img src="<?=PRODUCTIMG?><?=$product['img']?>" width="48" alt="" /></a>
 	</div>
 	<div class="product-line-price">
-    <p>артикул: <?=$product['articul']?></p>
+    <p>Артикул: <?=$product['articul']?></p>
 		<p>Цена : <span><?php if($product['price_6']>0) {echo($product['price_6']); echo(' -');}?></span> <span><?=$product['price']?></span> руб.</p>
 		<form action="<?=PATH?>addtocart/<?=$product['goods_id']?>" method="post" >
     <input name="goods_id" value="<?=$product['goods_id']?>" type="hidden"  />
     Кол-во: <input class="count-text" type="text" name="count" value="1" /> <br /><br />
     <input type="image" src="<?=TEMPLATE?>images/addcard-table.jpg" alt="Добавить в корзину"  />
     </form>
-		<div style="display: inline-flex;"> <!-- Иконки -->
-            <?php if($product['hits']) echo '<img src="' .TEMPLATE. 'images/ico-line-lider.jpg" alt="лидеры продаж" />'; ?>
-            <?php if($product['new']) echo '<img src="' .TEMPLATE. 'images/ico-line-new.jpg" alt="новинка" />'; ?>
-            <?php if($product['sale']) echo '<img src="' .TEMPLATE. 'images/ico-line-sale.jpg" alt="распродажа" />'; ?>					
-		</div> <!-- Иконки -->
-		<p class="cat-line-more"><a href="<?=PATH?>product/<?=$product['goods_id']?>">подробнее...</a></p>
+		F
+		<p class="cat-line-more"><a href="<?=PATH?>product/<?=$product['goods_id']?>">Подробнее...</a></p>
 	</div>	
 	<div class="product-line-opis">
 		<h2><a href="<?=PATH?>product/<?=$product['goods_id']?>"><?=$product['name']?></a></h2>

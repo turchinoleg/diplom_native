@@ -58,7 +58,7 @@
 	  <tr>
 		<td class="z_name">
 			<a href="<?=PATH?>product/<?=$key?>"><img src="<?=PRODUCTIMG?><?=$item['img']?>" width="32" title="" /></a> 
-			<a href="<?=PATH?>product/<?=$key?>"><?=$item['name']?></a>, артикул: <?=$item['articul']?>
+			<a href="<?=PATH?>product/<?=$key?>"><?=$item['name']?></a>, Артикул: <?=$item['articul']?>
 		</td>
 		<td class="z_kol"><input id="id<?=$key?>" class="kolvo" type="text" value="<?=$item['qty']?>" name="qty" /></td>
 		<td class="z_price"><?=$item['price']?> руб.</td>
@@ -81,7 +81,7 @@
 <!--	</div>		-->
 	
 	
-	<h3>Информация для доставки:</h3>
+
 <?php if(!$_SESSION['auth']['user']): // проверка авторизации ?>	
 	<table class="zakaz-data" border="0" cellspacing="0" cellpadding="0">
 	  <tr class="notauth">

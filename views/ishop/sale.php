@@ -12,7 +12,7 @@ if($eyestopper['zakaz']>0){
 ?>
     <div class="product-index">
 		<h2><a href="<?=PATH?>product/<?=$eyestopper['goods_id']?>"><?=$eyestopper['name']?></a></h2>
-        <p>артикул: <?=$eyestopper['articul']?></p>
+        <p>Артикул: <?=$eyestopper['articul']?></p>
 <div class="product-table-img">
         <a href="<?=PATH?>product/<?=$eyestopper['goods_id']?>"><img src="<?=PRODUCTIMG?><?=$eyestopper['img']?>" alt="" /></a>
 </div>

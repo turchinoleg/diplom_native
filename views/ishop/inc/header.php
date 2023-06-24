@@ -50,7 +50,7 @@ if ((!$_SESSION['auth']) && $view == 'personal'){
 					<?/*<p>address: <span itemprop="address">Чукотская, 31/1</span></p>*/?>
 					<p>ph: <span itemprop="telephone">+7(347) 243-26-54</span></p>
 					<p>ph: <span itemprop="telephone">+7(999) 622-53-79</span></p>
-					<p>e-mail: <a href="mailto:aversstyle@yandex.ru"> <span itemprop="email">aversstyle@yandex.ru</span></a></p>
+					<p>e-mail:  <span itemprop="email">AversStyle@yandex.ru</span></a></p>
 				</div>
 				<div class="newheaderblock">
 					<div class="newbasket">

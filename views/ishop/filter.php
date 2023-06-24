@@ -14,7 +14,7 @@ if($product['zakaz']>0){
 <!-- Табличный вид продуктов -->				
 <div class="product-table">
 	<h2><a href="?view=product&amp;goods_id=<?=$product['goods_id']?>"><?=$product['name']?></a></h2>
-    <p>артикул: <?=$product['articul']?></p>
+    <p>Артикул: <?=$product['articul']?></p>
 <div class="product-table-img-main">
     <div class="product-table-img">
 		<a href="?view=product&amp;goods_id=<?=$product['goods_id']?>"><img src="<?=PRODUCTIMG?><?=$product['img']?>" alt="" width="64" /></a>
@@ -25,7 +25,7 @@ if($product['zakaz']>0){
 		</div> <!-- Иконки -->
 	</div> <!-- .product-table-img -->
 </div> <!-- .product-table-img-main -->
-	<p class="cat-table-more"><a href="?view=product&amp;goods_id=<?=$product['goods_id']?>">подробнее...</a></p>
+	<p class="cat-table-more"><a href="?view=product&amp;goods_id=<?=$product['goods_id']?>">Подробнее...</a></p>
     <?=$product['zakaz']?>
 	<p>Цена : <span><?php if($product['price_6']>0) {echo($product['price_6']); echo(' -');}?></span> <span> <?=$product['price']?></span> руб.</p>
     <form action="?view=addtocart&amp;goods_id=<?=$product['goods_id']?>?>" method="post" >
