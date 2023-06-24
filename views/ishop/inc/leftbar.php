@@ -26,7 +26,7 @@
 					<span>+7 (347) 243-26-54</span><br />
 					<?/*<span>+7 (986) 703-31-03</span></p>*/?>
                     <p><strong>email:</strong><br />
-					<span><a href="mailto:aversstyle@yandex.ru">aversstyle@yandex.ru</a></span></p>
+					<span>AversStyle@yandex.ru</a></span></p>
                     <p><strong>WhatsApp:</strong><br />
 					<span>+7 (999) 622-53-79</span></p>
 					

@@ -21,49 +21,49 @@ function catalog(){
 }
 /* ====Каталог - получение массива=== */
 
-
-
 /* ===material=== */
 function material(){
-    $query = "SELECT * FROM material";
-    global $con;
+	$query = "SELECT * FROM material";
+	global $con;
 	$res = mysqli_query($con, $query) ;
-    
-    $material = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $material[] = $row;
-    }
-    return $material;
+
+	$material = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$material[] = $row;
+	}
+	return $material;
 }
 /* ===material=== */
 
 /* ===izgotovlenie=== */
 function izgotovlenie(){
-    $query = "SELECT * FROM izgotovlenie";
-    global $con;
+	$query = "SELECT * FROM izgotovlenie";
+	global $con;
 	$res = mysqli_query($con, $query) ;
-    
-    $izgotovlenie = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $izgotovlenie[] = $row;
-    }
-    return $izgotovlenie;
+
+	$izgotovlenie = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$izgotovlenie[] = $row;
+	}
+	return $izgotovlenie;
 }
 /* ===material=== */
 
-/* ===Страницы=== */
-function pages(){
-    $query = "SELECT page_id, title FROM pages ORDER BY position";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $pages = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $pages[] = $row;
-    }
-    return $pages;
+/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
+function eyestopper($eyestopper){
+	$query = "SELECT * FROM goods
+                WHERE visible='1' AND $eyestopper='1' ORDER BY date_modified DESC, date DESC";
+	global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+
+	$eyestoppers = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$eyestoppers[] = $row;
+	}
+
+	return $eyestoppers;
 }
-/* ===Страницы=== */
+/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
 
 /* ===Услуги=== */
 function services(){
@@ -79,21 +79,6 @@ function services(){
 }
 /* ===Услуги=== */
 
-/* ===Словарь для чайников=== */
-function dictionaries(){
-    $query = "SELECT * FROM dictionaries";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $dictionaries = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $dictionaries[] = $row;
-    }
-    return $dictionaries;
-}
-/* ===Словарь для чайников=== */
-
-
 /* ===Главная страница=== */
 
     $query = "SELECT title, keywords, description, text FROM pages WHERE page_id = 1";
@@ -104,18 +89,6 @@ function dictionaries(){
     return $boss_page;
 
 /* ===Главная страница=== */
-
-/* ===Отдельная страница=== */
-function get_page($page_id){
-    $query = "SELECT title, keywords, description, text FROM pages WHERE page_id = $page_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $get_page = array();
-    $get_page = mysqli_fetch_assoc($res);
-    return $get_page;
-}
-/* ===Отдельная страница=== */
 
 /* ===Отдельная услуга=== */
 function get_service($service_id){
@@ -129,124 +102,6 @@ function get_service($service_id){
     return $service;
 }
 /* ===Отдельная услуга=== */
-
-/* ===Отдельная страница для чайников=== */
-function get_dictionary($dictionary_id){
-    $query = "SELECT * FROM dictionaries WHERE dictionary_id = $dictionary_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $dictionary = array();
-    $dictionary = mysqli_fetch_assoc($res);
-    
-    return $dictionary;
-}
-/* ===Отдельная страница для чайников=== */
-
-
-/* ===Названия новостей=== */
-function get_title_news(){
-    $query = "SELECT news_id, title, date FROM news ORDER BY date DESC LIMIT 2";
-    global $con;
-    $res = mysqli_query($con, $query);
-    
-    $news = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $news[] = $row;
-    }
-    return $news;
-}
-/* ===Названия новостей=== */
-
-/* ===Отдельная новость=== */
-function get_news_text($news_id){
-    $query = "SELECT title, text, date FROM news WHERE news_id = $news_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $news_text = array();
-    $news_text = mysqlifetch_assoc($res);
-    return $news_text;
-}
-/* ===Отдельная новость=== */
-
-/* ===Архив новостей=== */
-function get_all_news($start_pos, $perpage){
-    $query = "SELECT news_id, title, anons, date FROM news ORDER BY date DESC LIMIT $start_pos, $perpage";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $all_news = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $all_news[] = $row;
-    }
-    return $all_news;
-}
-/* ===Архив новостей=== */
-
-/* ===Количество новостей=== */
-function count_news(){
-    $query = "SELECT COUNT(news_id) FROM news";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $count_news = mysqli_fetch_row($res);
-    return $count_news[0];
-}
-/* ===Количество новостей=== */
-
-/* ===Информеры - получение массива=== */
-function informer(){
-    $query = "SELECT * FROM links
-                INNER JOIN informers ON
-                    links.parent_informer = informers.informer_id
-                        ORDER BY informer_position, links_position";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_query());
-
-    $informers = array();
-    $name = ''; // флаг имени информера
-    while($row = mysqli_fetch_assoc($res)){
-        if($row['informer_name'] != $name){ // если такого информера в массиве еще нет
-            $informers[$row['informer_id']][] = $row['informer_name']; // добавляем информер в массив
-            $name = $row['informer_name'];
-        }
-        $informers[$row['parent_informer']]['sub'][$row['link_id']] = $row['link_name']; // заносим страницы в информер
-    }
-    return $informers;
-}
-/* ===Информеры - получение массива=== */
-
-/* ===Получение текста информера=== */
-function get_text_informer($informer_id){
-    $query = "SELECT link_id, link_name, text, informers.informer_id, informers.informer_name
-                FROM links
-                    LEFT JOIN informers ON informers.informer_id = links.parent_informer
-                        WHERE link_id = $informer_id";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $text_informer = array();
-    $text_informer = mysqli_fetch_assoc($res);
-    return $text_informer;
-}
-/* ===Получение текста информера=== */
-
-/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
-function eyestopper($eyestopper){
-    $query = "SELECT * FROM goods
-                WHERE visible='1' AND $eyestopper='1' ORDER BY date_modified DESC, date DESC";
-    global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-    
-    $eyestoppers = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $eyestoppers[] = $row;
-    }
-    
-    return $eyestoppers;
-}
-/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
 
 /* ===Получение кол-ва товаров для навигации=== */
 function count_rows($category){
@@ -294,53 +149,6 @@ function products($category, $order_db, $start_pos, $perpage){
 }
 /* ===Получение массива товаров по категории=== */
 
-/* ===Получение избранных товаров=== */
-function favorites(){
-    $user = isset($_SESSION['auth']['customer_id']) ? $_SESSION['auth']['customer_id'] : false;
-    if ($user){
-        $query = "SELECT goods_id FROM favorite_products WHERE customer_id = $user";
-        global $con;
-	$res = mysqli_query($con, $query)  or die($query);
-        $favorites = array();
-        while ($row = mysqli_fetch_assoc($res)){
-            $favorites[] = $row['goods_id'];
-        }
-
-        return $favorites;
-    }else{
-        return array();
-    }
-
-}
-/* ===Получение избранных товаров конец=== */
-
-/* ===Получение списка избранных товаров=== */
-function favorites_list($startpos, $perpage){
-    $user = isset($_SESSION['auth']['customer_id']) ? $_SESSION['auth']['customer_id'] : false;
-    if ($user){
-        if ($startpos == 0){
-            $query = "SELECT * FROM favorite_products INNER JOIN goods ON (favorite_products.goods_id = goods.goods_id AND customer_id = $user) WHERE visible = '1' LIMIT $perpage";
-        }else{
-            $query = "SELECT * FROM favorite_products INNER JOIN goods ON (favorite_products.goods_id = goods.goods_id AND customer_id = $user) WHERE visible = '1' LIMIT $startpos, $perpage";
-        }
-        #$query = "SELECT * FROM favorite_products,goods WHERE (favorite_products.goods_id = goods.goods_id AND favorite_products.customer_id = $user)";
-                #SELECT * FROM goods WHERE visible='1'";
-
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        $favorites = array();
-        while ($row = mysqli_fetch_assoc($res)){
-            $favorites[] = $row;
-        }
-
-        return $favorites;
-    }else{
-        return array();
-    }
-
-}
-/* ===Получение списка избранных товаров конец=== */
-
 /* ===Получение названий для хлебных крох=== */
 function brand_name($category){
     $query = "(SELECT brand_id, brand_name FROM brands
@@ -358,90 +166,6 @@ function brand_name($category){
     return $brand_name;
 }
 /* ===Получение названий для хлебных крох=== */
-
-/* ===Выбор по параметрам=== */
-function filter($material_1, $material_2, $material_3, $material_4, $material_5,$material_6,$material_7,$material_8,   $izgotovlenie_1, $izgotovlenie_2, $izgotovlenie_3, $izgotovlenie_4, $izgotovlenie_5, $izgotovlenie_6, $izgotovlenie_7, $startprice, $endprice){
-    $products = array();
-    if($material > 0 OR $endprice >0 OR $material_1> 0 OR $material_2> 0 OR $material_3>0 OR $material_4> 0 OR $material_5 > 0 OR $material_6 > 0 OR $material_7 >0 OR $material_8 > 0 OR $izgotovlenie_1 > 0 OR $izgotovlenie_2 > 0 OR $izgotovlenie_3 > 0 OR $izgotovlenie_4 > 0  OR $izgotovlenie_5 > 0 OR $izgotovlenie_6 > 0 OR $izgotovlenie_7 > 0){
-		
-        $predicat1 = "";
-		if($material_1 >0){
-            $predicat1 .= " or material_1 = $material_1";
-        }if($material_2> 0){
-            $predicat1 .= " or material_2 = $material_2";
-        }
-		if($material_3 > 0){
-            $predicat1 .= " or material_3 = $material_3";
-        }
-		if($material_4 >0){
-            $predicat1 .= " or material_4 = $material_4";
-        }
-		if($material_5>0){
-            $predicat1 .= " or material_5 = $material_5";
-        }
-		if($material_6>0){
-           $predicat1 .= " or material_6 = $material_6";
-		}
-		if($material_7>0){
-            $predicat1 .= " or material_7= $material_7";
-        }
-		if($material_8>0){
-            $predicat1 .= " or material_8 = $material_8";
-        }
-		if($izgotovlenie_1>0){
-            $predicat1 .= " or izgotovlenie_1 = $izgotovlenie_1";
-        }
-		if($izgotovlenie_2>0){
-            $predicat1 .= " or izgotovlenie_2 = $izgotovlenie_2";
-        }
-		if($izgotovlenie_3>0){
-            $predicat1 .= " or izgotovlenie_3 = $izgotovlenie_3";
-        }
-		if($izgotovlenie_4>0){
-            $predicat1 .= " or izgotovlenie_4 = $izgotovlenie_4";
-        }
-		if($izgotovlenie_5>0){
-            $predicat1 .= " or izgotovlenie_5 = $izgotovlenie_5";
-        }
-		if($izgotovlenie_6>0){
-            $predicat1 .= " or izgotovlenie_6 = $izgotovlenie_6";
-        }
-		if($izgotovlenie_7>0){
-            $predicat1 .= " or izgotovlenie_7 = $izgotovlenie_7";
-        }
-		if($endprice>0){
-		$predicat1 .= " AND price BETWEEN $startprice AND $endprice";
-		}
-		$pattern = "/^( or)/";
-		$contents ="";
-		$predicat1 = preg_replace("$pattern","", $predicat1);
-		
-		if($endprice > 0 AND $material_1 == 0 AND $material_2 == 0 AND $material_3 == 0 AND $material_4 == 0 AND $material_5 == 0 AND $material_6 == 0 AND $material_7 == 0 AND $material_8 == 0 AND $izgotovlenie_1 == 0 AND $izgotovlenie_2 == 0 AND $izgotovlenie_3 == 0 AND $izgotovlenie_4 == 0  AND $izgotovlenie_5 == 0 AND $izgotovlenie_6 == 0 AND $izgotovlenie_7 == 0){
-		$pattern = "/^( AND)/";
-		$contents ="";
-		$predicat1 = preg_replace("$pattern","", $predicat1);
-		}
-		
-	    $predicat1 .= " AND visible='1'";
-        $query = "SELECT *
-                    FROM goods
-                        WHERE $predicat1 ORDER BY name";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        if(mysqli_num_rows($res) > 0){
-            while($row = mysqli_fetch_assoc($res)){
-                $products[] = $row;
-				
-            }
-        }else{
-            $products['notfound'] = "<div class='error'>По указанным параметрам ничего не найдено</div>";
-        }       
-    }else{
-        $products['notfound'] = "<div class='error'>Вы не указали параметры подбора</div>";
-    }
-    return $products;
-}
-/* ===Выбор по параметрам=== */
 
 /* ===Сумма заказа в корзине + атрибуты товара===*/
 function total_sum($goods){
@@ -558,10 +282,11 @@ function registration(){
             global $con;
 	$res = mysqli_query($con, $query)  or die(mysqli_error());
             if(mysqli_affected_rows($con) > 0){
+                global $con;
                 // если запись добавлена
                 $_SESSION['reg']['res'] = "<div class='success'>Регистрация прошла успешно.</div>";
                 $_SESSION['auth']['user'] = $_POST['name'];
-                $_SESSION['auth']['customer_id'] = mysqli_insert_id();
+                $_SESSION['auth']['customer_id'] = mysqli_insert_id($con);
                 $_SESSION['auth']['email'] = $email;
                 $_SESSION['auth']['login'] = $login;
                 $_SESSION['auth']['address'] = $address;
@@ -638,81 +363,6 @@ function recovery(){
 }
 /* ===Восстановление пароля=== */
 
-/* ===Изменение данных пользователя=== */
-function auth_edit(){
-    $error = ''; // флаг проверки пустых полей
-    
-    #$login = trim($_POST['login']);
-    $pass = trim($_POST['pass']);
-    $password_again = trim($_POST['password_again']);
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $address = trim($_POST['address']);
-    
-    #if(empty($login)) $error .= '<li>Не указан логин</li>';
-    if(empty($pass)) $error .= '<li>Не указан пароль</li>';
-    if(empty($pass) || $pass!==$password_again) $error .= '<li>Пароли должны совпадать</li>';
-    if(empty($name)) $error .= '<li>Не указано ФИО</li>';
-    if(empty($email)) $error .= '<li>Не указан Email</li>';
-    if(empty($phone)) $error .= '<li>Не указан телефон</li>';
-    if(empty($address)) $error .= '<li>Не указан адрес</li>';
-    
-    if(empty($error)){
-        // если все поля заполнены
-        // проверяем нет ли такого юзера в БД
-        $query = "SELECT customer_id FROM customers WHERE login = '" .clear($login). "' LIMIT 1";
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        $row = mysqli_num_rows($res); // 1 - такой юзер есть, 0 - нет
-        /*
-        if($row){
-            // если такой логин уже есть
-            $_SESSION['auth_edit']['res'] = "<div class='error'>Пользователь с таким логином уже зарегистрирован на сайте. Введите другой логин.</div>";
-            $_SESSION['auth_edit']['name'] = $name;
-            $_SESSION['auth_edit']['email'] = $email;
-            $_SESSION['auth_edit']['phone'] = $phone;
-            $_SESSION['auth_edit']['addres'] = $address;
-        }else{*/
-            // если все ок - регистрируем
-            $login = clear($login);
-            $name = clear($name);
-            $email = clear($email);
-            $phone = clear($phone);
-            $address = clear($address);
-            $pass = md5($pass);
-
-            $query = "UPDATE customers SET name = '$name', password = '$pass', email = '$email', phone = '$phone', address = '$address' WHERE customer_id = '".$_SESSION['auth']['customer_id']."'";
-            global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-            if(mysqli_affected_rows() > 0){
-                // если запись добавлена
-                $_SESSION['auth_edit']['res'] = "<div class='success'>Вы успешно изменили свои данные.</div>";
-                $_SESSION['auth']['user'] = $_POST['name'];
-                $_SESSION['auth']['customer_id'] = mysqli_insert_id();
-                $_SESSION['auth']['email'] = $email;
-                $_SESSION['auth']['address'] = $address;
-                $_SESSION['auth']['name'] = $name;
-            }else{
-                $_SESSION['auth_edit']['res'] = "<div class='error'>Ошибка!</div>";
-                $_SESSION['auth_edit']['name'] = $name;
-                $_SESSION['auth_edit']['email'] = $email;
-                $_SESSION['auth_edit']['phone'] = $phone;
-                $_SESSION['auth_edit']['address'] = $address;
-            }
-        /*}*/
-    }else{
-        // если не заполнены обязательные поля
-        $_SESSION['auth_edit']['res'] = "<div class='error'>Не заполнены обязательные поля: <ul> $error </ul></div>";
-        $_SESSION['auth_edit']['login'] = $login;
-        $_SESSION['auth_edit']['name'] = $name;
-        $_SESSION['auth_edit']['email'] = $email;
-        $_SESSION['auth_edit']['phone'] = $phone;
-        $_SESSION['auth_edit']['addres'] = $address;
-    }
-}
-/* ===Изменение данных пользователя=== */
-
 /* ===Авторизация=== */
 function authorization(){
     global $con;
@@ -747,21 +397,6 @@ function authorization(){
     }
 }
 /* ===Авторизация=== */
-
-/* ===Способы доставки=== */
-function get_dostavka(){
-    $query = "SELECT * FROM dostavka";
-    global $con;
-	$res = mysqli_query($con, $query) ;
-    
-    $dostavka = array();
-    while($row = mysqli_fetch_assoc($res)){
-        $dostavka[] = $row;
-    }
-    
-    return $dostavka;
-}
-/* ===Способы доставки=== */
 
 /* ===Добавление заказа=== */
 function add_order(){
@@ -815,6 +450,7 @@ function add_order(){
 
 /* ===Добавление заказчика-гостя=== */
 function add_customer($name, $email, $phone, $address){
+    global $con;
     $name = clear($_POST['name']);
     $email = clear($_POST['email']);
     $phone = clear($_POST['phone']);
@@ -823,9 +459,9 @@ function add_customer($name, $email, $phone, $address){
                 VALUES ('$name', '$email', '$phone', '$address')";
     global $con;
 	$res = mysqli_query($con, $query) ;
-    if(mysqli_affected_rows() > 0){
+    if(mysqli_affected_rows($con) > 0){
         // если гость добавлен в заказчики - получаем его ID
-        return mysqli_insert_id();
+        return mysqli_insert_id($con);
     }else{
         // если произошла ошибка при добавлении
         $_SESSION['order']['res'] = "<div class='error'>Произошла ошибка при регистрации заказа</div>";
@@ -908,7 +544,6 @@ function save_order($customer_id, $dostavka_id, $prim){
     
     if($_SESSION['auth']['email']) $email = $_SESSION['auth']['email'];
         else $email = $_SESSION['order']['email'];
-    mail_order($order_id, $email);
     
     // если заказ выгрузился
     unset($_SESSION['cart']);
@@ -918,62 +553,6 @@ function save_order($customer_id, $dostavka_id, $prim){
     return true;
 }
 /* ===Сохранение заказа=== */
-
-/* ===Отправка уведомлений о заказе на email=== */
-function mail_order($order_id, $email){
-     //mail(to, subject, body, header);
-    // тема письма
-    $emaks = "a@xn----7sbgmqs6aibk6i.xn--p1ai";
-    $subject = "Заказ в интернет-магазине";
-    // заголовки
-    $headers .= "Content-type: text/plain; charset=utf-8\r\n";
-    $headers .= "From:аверс-стиль.рф <turchina-style@mail.ru>\r\n"; 
-    $headers .= "Bcc: turchina-style@mail.ru\r\n";
-    // тело письма
-    $mail_body = "Благодарим Вас за заказ!\r\nНомер Вашего заказа - {$order_id}
-    \r\n\r\nЗаказанные товары:\r\n";
-    // атрибуты товара
-    foreach($_SESSION['cart'] as $goods_id => $value){
-        $mail_body .= "Наименование: {$value['name']}, Артикул:{$value['articul']}, Цена: {$value['price']}, Количество: {$value['qty']} шт.\r\n";
-    }
-    $mail_body .= "\r\nИтого: {$_SESSION['total_quantity']} на сумму: {$_SESSION['total_sum']}";
-
-    // отправка писем
-    mail($email, $subject, $mail_body, $headers);
-    mail($emaks, $subject, $mail_body, $headers);
-    
-}
-/* ===Отправка уведомлений о заказе на email=== */
-
-/* ===Поиск=== */
-function search(){
-
-    $search = clear($_REQUEST['search']);
-    $result_search = array(); //результат поиска
-    
-    if(mb_strlen($search, 'UTF-8') < 4){
-        $result_search['notfound'] = "<div class='error'>Поисковый запрос должен содержать не менее 4-х символов</div>";
-    }else{
-        $query = "SELECT goods_id, name, img, price, hits, new, sale, articul
-                    FROM goods
-                        WHERE (name LIKE '%".$search."%' OR MATCH(name) AGAINST('*{$search}*' IN BOOLEAN MODE)) AND visible='1' AND articul != ''";
-       # echo $query;
-        global $con;
-	$res = mysqli_query($con, $query)  or die(mysqli_error());
-        
-        if(mysqli_num_rows($res) > 0){
-            while($row_search = mysqli_fetch_assoc($res)){
-                $result_search[] = $row_search;
-            }
-        }else{
-            $result_search['notfound'] = "<div class='error'>По Вашему запросу ничего не найдено</div>";
-        }
-    }
-    
-    return $result_search;
-}
-/* ===Поиск=== */
-
 /* ===Отдельный товар=== */
 function get_goods($goods_id){
     $query = "SELECT * FROM goods WHERE goods_id = $goods_id";
@@ -1033,23 +612,11 @@ function count_orders($status){
 
 /* ===Количество избранных товаров=== */
 function count_favorites($user){
-    $query = "SELECT COUNT(distinct(goods_id)) FROM favorite_products WHERE customer_id = '$user'";
-    global $con;
+	$query = "SELECT COUNT(distinct(goods_id)) FROM favorite_products WHERE customer_id = '$user'";
+	global $con;
 	$res = mysqli_query($con, $query) ;
-    
-    $count_favorites = mysqli_fetch_row($res);
-    return $count_favorites[0];
+
+	$count_favorites = mysqli_fetch_row($res);
+	return $count_favorites[0];
 }
 /* ===Количество избранных товаров=== */
-
-
-
-
-
-
-
-
-
-
-
-

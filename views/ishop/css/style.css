@@ -1466,3 +1466,7 @@ a:hover{
 	display: inline;
 }
 /****** ИЗБРАННОЕ КОНЕЦ ******/
+.out_pers{
+	display: flex;
+	justify-content: right;
+}

@@ -74,15 +74,15 @@
 
 <div class="clr"></div>
 
-<?php if($goods['img_slide']): // если есть картинки галереи ?>
-<div class="item_gallery">
-   <div class="item_thumbs">
-   <?php foreach($goods['img_slide'] as $item): ?>
-       <a rel="gallery" title="<?=$goods['name']?>" href="<?=GALLERYIMG?>photos/<?=$item?>"><img src="<?=GALLERYIMG?>thumbs/<?=$item?>" /></a>
-   <?php endforeach; ?>
-   </div> <!-- .item_thumbs -->
-</div> <!-- .item_gallery -->
-<?php endif; ?>
+<?php //if($goods['img_slide']): // если есть картинки галереи ?>
+<!--<div class="item_gallery">-->
+<!--   <div class="item_thumbs">-->
+<!--   --><?php //foreach($goods['img_slide'] as $item): ?>
+<!--       <a rel="gallery" title="--><?//=$goods['name']?><!--" href="--><?//=GALLERYIMG?><!--photos/--><?//=$item?><!--"><img src="--><?//=GALLERYIMG?><!--thumbs/--><?//=$item?><!--" /></a>-->
+<!--   --><?php //endforeach; ?>
+<!--   </div> <!-- .item_thumbs -->
+<!--</div> <!-- .item_gallery -->
+<?php //endif; ?>
 
 <div class="long-opais">
 <?=$goods['content']?>				

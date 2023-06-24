@@ -1,6 +1,6 @@
 <?php defined('ISHOP') or die('Access denied'); ?>
 <?
-// если нашлось точное совпадение по артикулу - выводить его
+// если нашлось точное совпадение по Артикулу - выводить его
 $found = false;
 $foundelem = '';
 foreach ($result_search as $elem => $result_search_array) {
@@ -27,7 +27,7 @@ foreach ($result_search as $elem => $result_search_array) {
 					</div> <!-- Иконки -->
 				</div>
 			</div>
-			<p class="cat-table-more"><a href="<?=PATH?>product/<?=$result_search[$foundelem]['goods_id']?>">подробнее...</a></p>
+			<p class="cat-table-more"><a href="<?=PATH?>product/<?=$result_search[$foundelem]['goods_id']?>">Подробнее...</a></p>
 			<p>Цена :  <span><?=$result_search[$foundelem]['price']?></span></p>
 			<a href="<?=PATH?>addtocart/<?=$result_search[$foundelem]['goods_id']?>"><img class="addtocard-index" src="<?=TEMPLATE?>images/addcard-table.jpg" alt="Добавить в корзину" /></a>
 		</div>
@@ -46,7 +46,7 @@ foreach ($result_search as $elem => $result_search_array) {
 				</div> <!-- Иконки -->
 			</div> <!-- .product-table-img -->
 		</div> <!-- .product-table-img-main -->
-		<p class="cat-table-more"><a href="<?=PATH?>product/<?=$result_search[$i]['goods_id']?>">подробнее...</a></p>
+		<p class="cat-table-more"><a href="<?=PATH?>product/<?=$result_search[$i]['goods_id']?>">Подробнее...</a></p>
 		<p>Цена :  <span><?=$result_search[$i]['price']?></span></p>
 		<a href="<?=PATH?>addtocart/<?=$result_search[$i]['goods_id']?>"><img class="addtocard-index" src="<?=TEMPLATE?>images/addcard-table.jpg" alt="Добавить в корзину" /></a>
 	</div> <!-- .product-table -->

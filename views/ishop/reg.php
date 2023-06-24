@@ -34,9 +34,9 @@
                 <td class="zakaz-inpt"><input type="text" name="address" value="" /></td>
                 <td class="zakaz-prim">Пример: г. Москва, пр. Мира, ул. Петра Великого д.19, кв 51.</td>
             </tr> 
-            <tr>                
-                <td colspan="3"><input type="checkbox" name="agreed_checkbox" /> Я согласен с <a href="/policy.pdf" target="_blank">политикой конфиденциальности</a> сайта</td>                
-            </tr>                
+<!--            <tr>                -->
+<!--                <td colspan="3"><input type="checkbox" name="agreed_checkbox" /> Я согласен с <a href="/policy.pdf" target="_blank">политикой конфиденциальности</a> сайта</td>                -->
+<!--            </tr>                -->
 		</table>
         <input type="submit" name="reg" value="Зарегистрироваться" />
     </form>	

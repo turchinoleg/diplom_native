@@ -103,19 +103,30 @@ if(isset($_SESSION['edit_product']['res'])){
 </script>
 		</td>
 	  </tr>
-      <tr>
-        <td>Картинки галереи: <br />
-        <span class="small">Для удаления картинки кликните по ней</span></td>
-        <td class="slideimg"><?=$imgslide?></td>
-      </tr>
-      <tr>
-        <td>
-            <div id="butUpload">Выбрать файл</div>
-        </td>
-        <td>
-            <div id="filesUpload"></div>
-        </td>
-      </tr>
+<!--      <tr>-->
+<!--        <td>Картинки галереи: <br />-->
+<!--        <tr>-->
+<!--            <td id="btnimg">-->
+<!--                <div><input type="file" name="galleryimg[]" /></div>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <input type="button" id="add" value="Добавить поле" />-->
+<!--                <input type="button" id="del" value="Удалить поле" />-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <span class="small">Для удаления картинки кликните по ней</span></td>-->
+<!--        <td class="slideimg">--><?//=$imgslide?><!--</td>-->
+<!--      </tr>-->
+<!--      <tr>-->
+<!--        <td>-->
+<!--            <div id="butUpload">Выбрать файл</div>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <div id="filesUpload"></div>-->
+<!--        </td>-->
+<!--      </tr>-->
 <!--      <tr>-->
 <!--		<td class="add-edit-txt">Материал:</td>-->
 <!--        <td>-->

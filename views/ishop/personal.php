@@ -6,7 +6,7 @@
 <div class="content-txt personal">
     <div class="personal-headings">
         <h1>Личный кабинет</h1>
-        <h2><a href="/?do=logout&personal=yes">Выход</a></h2>
+        <h2><a class="out_pers" href="/?do=logout&personal=yes">Выход</a></h2>
     </div>
     <div class="personal-container">
         <div class="personal-head">
@@ -27,9 +27,10 @@
                             </tr>
                             <tr>
                                 <td>Название</td>
+                                <td>Артикул</td>
                                 <td>Количество</td>
                                 <td>Цена</td>
-                                <td>Артикул</td>
+
                             </tr>
                             </thead>
                             <tbody>
@@ -42,16 +43,16 @@
                                             <? foreach ($order['goods'] as $good): ?>
                                                 <tr>
                                                     <td><?= $good['name'] ?></td>
+                                                    <td><?= $good['articul'] ?></td>
                                                     <td><?= $good['quantity'] ?></td>
                                                     <td><?= $good['price'] ?></td>
-                                                    <td><?= $good['articul'] ?></td>
                                                 </tr>
                                             <? endforeach; ?>
                                         </table>
                                     </td>
                                     <? switch ($order['status']) {
                                         case '0':
-                                            echo "<td>Ожидает подтверждения</td>";
+                                            echo "<td>Ожидает рассмотрения</td>";
                                             break;
                                         case '1':
                                             echo "<td>На рассмотрении</td>";
@@ -60,7 +61,7 @@
                                             echo "<td>Подтвержден</td>";
                                             break;
                                         case '3':
-                                            echo "<td>Отказан</td>";
+                                            echo "<td>Отменен</td>";
                                             break;
 
                                     } ?>
@@ -84,16 +85,16 @@
                                        placeholder="<?= htmlspecialchars($_SESSION['auth']['login']) ?>"
                                        value="<?= htmlspecialchars($_SESSION['auth']['login']) ?>" disabled="disabled">
                             </div>
-                            <div class="field">
-                                <label for="pwd">Пароль:</label>
-                                <input type="password" name="pass" id="pwd" placeholder="*********"
-                                       value="<?= htmlspecialchars($_SESSION['auth']['pass']) ?>">
-                            </div>
-                            <div class="field">
-                                <label for="pwd_copy">Ещё раз пароль:</label>
-                                <input type="password" name="password_again" id="pwd_copy" placeholder="*********"
-                                       value="<?= htmlspecialchars($_SESSION['auth']['pass']) ?>">
-                            </div>
+<!--                            <div class="field">-->
+<!--                                <label for="pwd">Пароль:</label>-->
+<!--                                <input type="password" name="pass" id="pwd" placeholder="*********"-->
+<!--                                       value="--><?//= htmlspecialchars($_SESSION['auth']['pass']) ?><!--">-->
+<!--                            </div>-->
+<!--                            <div class="field">-->
+<!--                                <label for="pwd_copy">Ещё раз пароль:</label>-->
+<!--                                <input type="password" name="password_again" id="pwd_copy" placeholder="*********"-->
+<!--                                       value="--><?//= htmlspecialchars($_SESSION['auth']['pass']) ?><!--">-->
+<!--                            </div>-->
                             <div class="field">
                                 <label for="phone">Телефон:</label>
                                 <input type="text" name="phone" id="phone"

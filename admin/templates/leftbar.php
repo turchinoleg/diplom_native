@@ -1,7 +1,7 @@
 <?php defined('ISHOP') or die('Access denied'); ?>
 	<div class="content-main">
 <?php if($count_new_orders > 0): ?>
-<p class="new_orders"><a href="?view=orders&amp;status=0">Есть новые заказы (<?=$count_new_orders?>)</a></p>
+<p class="new_orders"><a href="?view=orders&amp;status=0">Новые заказы (<?=$count_new_orders?>)</a></p>
 <?php endif; ?>
 		<div class="leftBar">
 			<ul class="nav-left">
@@ -28,7 +28,16 @@
     <?php endforeach; ?>
 </ul>
 <!-- Аккордеон -->
-
+<!--                <ul class="nav-catalog" id="accordion">-->
+<!--                            <h3><li><a style="font-size: 13px;" href="#">Заказы</a></li></h3>-->
+<!--                            <ul>-->
+<!--                                <li>- <a  href="?view=orders&amp;status=1">Подтвержденные заказы (--><?//=$count_view_orders?><!--)</a></li>-->
+<!--                                <li>- <a  href="?view=orders&amp;status=2">Заказы на рассмотрении (--><?//=$count_conf_orders?><!--)</a></li>-->
+<!--                                <li>- <a  href="?view=orders&amp;status=3">Отмененные заказы (--><?//=$count_cancel_orders?><!--)</a></li>-->
+<!---->
+<!--                            </ul>-->
+<!---->
+<!--                </ul>-->
 <!--				<li><a --><?//=active_url("view=news")?><!-- href="?view=news">Новости</a></li>-->
                 <li><a <?=active_url("view=orders")?> href="?view=orders">Заказы</a></li>
 <!--				<li><a --><?//=active_url("view=users")?><!-- href="?view=users">Пользователи</a></li>-->

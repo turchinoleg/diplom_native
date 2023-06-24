@@ -1,4 +1,6 @@
-<?php defined('ISHOP') or die('Access denied'); ?>
+<?php defined('ISHOP') or die('Access denied');
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -10,7 +12,7 @@
 <script type="text/javascript" src="<?=ADMIN_TEMPLATE;?>js/workscripts.js"></script>
 <script type="text/javascript" src="<?=ADMIN_TEMPLATE;?>js/ckeditor1/ckeditor.js"></script>
 <script type="text/javascript" src="<?=ADMIN_TEMPLATE;?>js/ajaxupload.js"></script>
-<title>Список страниц</title>
+
 </head>
 
 <body>
