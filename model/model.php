@@ -21,6 +21,50 @@ function catalog(){
 }
 /* ====Каталог - получение массива=== */
 
+/* ===material=== */
+function material(){
+	$query = "SELECT * FROM material";
+	global $con;
+	$res = mysqli_query($con, $query) ;
+
+	$material = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$material[] = $row;
+	}
+	return $material;
+}
+/* ===material=== */
+
+/* ===izgotovlenie=== */
+function izgotovlenie(){
+	$query = "SELECT * FROM izgotovlenie";
+	global $con;
+	$res = mysqli_query($con, $query) ;
+
+	$izgotovlenie = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$izgotovlenie[] = $row;
+	}
+	return $izgotovlenie;
+}
+/* ===material=== */
+
+/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
+function eyestopper($eyestopper){
+	$query = "SELECT * FROM goods
+                WHERE visible='1' AND $eyestopper='1' ORDER BY date_modified DESC, date DESC";
+	global $con;
+	$res = mysqli_query($con, $query)  or die(mysqli_error());
+
+	$eyestoppers = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$eyestoppers[] = $row;
+	}
+
+	return $eyestoppers;
+}
+/* ===Айстопперы - новинки, лидеры продаж, распродажа=== */
+
 /* ===Услуги=== */
 function services(){
     $query = "SELECT service_id, title FROM services ORDER BY position";
@@ -500,7 +544,6 @@ function save_order($customer_id, $dostavka_id, $prim){
     
     if($_SESSION['auth']['email']) $email = $_SESSION['auth']['email'];
         else $email = $_SESSION['order']['email'];
-    mail_order($order_id, $email);
     
     // если заказ выгрузился
     unset($_SESSION['cart']);
@@ -567,15 +610,13 @@ function count_orders($status){
 }
 /* ===Количество заказов=== */
 
+/* ===Количество избранных товаров=== */
+function count_favorites($user){
+	$query = "SELECT COUNT(distinct(goods_id)) FROM favorite_products WHERE customer_id = '$user'";
+	global $con;
+	$res = mysqli_query($con, $query) ;
 
-
-
-
-
-
-
-
-
-
-
-
+	$count_favorites = mysqli_fetch_row($res);
+	return $count_favorites[0];
+}
+/* ===Количество избранных товаров=== */

@@ -99,8 +99,6 @@ switch($view){
 	
 	case('cart'):
 		/* корзина */
-		// получение способов доставки
-		$dostavka = get_dostavka();
 		
 		// пересчет товаров в корзине
 		if(isset($_GET['id'], $_GET['qty'])){
@@ -155,15 +153,6 @@ switch($view){
 		}else{
 			$page = 1;
 		}
-		$count_rows = count_favorites($_SESSION['auth']['customer_id']); // общее кол-во заказов
-		$pages_count = ceil($count_rows / $perpage); // кол-во страниц
-		if(!$pages_count) $pages_count = 1; // минимум 1 страница
-		if($page > $pages_count) $page = $pages_count; // если запрошенная страница больше максимума
-		$start_pos = ($page - 1) * $perpage; // начальная позиция для запроса
-		
-		$orders = orders($status, $start_pos, $perpage, $_SESSION['auth']['customer_id']);
-		$favorites = favorites();
-		$favorites_list = favorites_list($start_pos, $perpage);
 	break;
 	
 	case('product'):

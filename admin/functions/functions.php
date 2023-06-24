@@ -21,6 +21,21 @@ function active_url($str = 'view=pages'){
 }
 /* ===Подсвечивание активного пункта меню=== */
 
+/* ===Материалы=== */
+function material(){
+	global $con;
+
+	$query = "SELECT * FROM material";
+	$res = mysqli_query($con, $query);
+
+	$material = array();
+	while($row = mysqli_fetch_assoc($res)){
+		$material[] = $row;
+	}
+	return $material;
+}
+/* ===Материалы=== */
+
 /* ====Каталог - получение массива=== */
 function catalog(){
     global $con;
